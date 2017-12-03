@@ -45,7 +45,9 @@ class Authentication extends CI_Controller
                 if (is_array($data) && isset($data['memberinactive'])) {
                     set_alert('danger', _l('admin_auth_inactive_account'));
                     redirect(site_url('authentication/admin'));
-                } elseif(is_array($data) && isset($data['two_factor_auth'])){
+                }  // end if
+
+                elseif(is_array($data) && isset($data['two_factor_auth'])){
 
                     $this->Authentication_model->set_two_factor_auth_code($data['user']->staffid);
 
@@ -64,15 +66,25 @@ class Authentication extends CI_Controller
                     }
                     redirect(site_url('authentication/two_factor'));
 
-                } elseif ($data == false) {
+                } // end elseif
+
+                elseif ($data == false) {
                     set_alert('danger', _l('admin_auth_invalid_email_or_password'));
                     redirect(site_url('authentication/admin'));
-                } else {
+                } // end elseif
+
+                else {
                     // is logged in
                     $this->_url_redirect_after_login();
                 }
                 do_action('after_staff_login');
-                redirect(admin_url());
+                //redirect(admin_url());
+
+                $roleid=$this->Authentication_model->get_current_user_role($_SESSION['staff_user_id']);
+                $aside_menu_items=$this->Authentication_model->get_staff_side_menu_items($_SESSION['staff_user_id']);
+                $_SESSION['roleid']=$roleid;
+                $_SESSION['aside_menu_items']=$aside_menu_items;
+                redirect(site_url('admin/clients'));
             }
         }
 

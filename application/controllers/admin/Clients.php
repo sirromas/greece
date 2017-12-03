@@ -48,6 +48,10 @@ class Clients extends Admin_controller
         $this->load->view('admin/clients/manage', $data);
     }
 
+    public function regions () {
+
+    }
+
     public function table()
     {
         if (!has_permission('customers', '', 'view')) {
@@ -1052,9 +1056,12 @@ class Clients extends Admin_controller
 
     public function groups()
     {
+        /*
         if (!is_admin()) {
             access_denied('Customer Groups');
         }
+        */
+
         if ($this->input->is_ajax_request()) {
             $this->perfex_base->get_table_data('customers_groups');
         }

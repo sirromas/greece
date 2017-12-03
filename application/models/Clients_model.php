@@ -1492,6 +1492,8 @@ class Clients_model extends CRM_Model
         $this->db->where('id', $data['id']);
         $this->db->update('tblcustomersgroups', array(
             'name' => $data['name'],
+            'color'=>$data['color'],
+            'description'=>$data['description']
         ));
         if ($this->db->affected_rows() > 0) {
             logActivity('Customer Group Updated [ID:' . $data['id'] . ']');

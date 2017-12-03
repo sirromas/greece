@@ -2,6 +2,7 @@
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
+
 class Authentication_model extends CRM_Model
 {
     public function __construct()
@@ -9,6 +10,28 @@ class Authentication_model extends CRM_Model
         parent::__construct();
         $this->load->model('user_autologin');
         $this->autologin();
+    }
+
+    function get_current_user_role($staffid)
+    {
+        $query = "select * from tblstaff WHERE  staffid=$staffid";
+        $result = $this->db->query($query);
+        foreach ($result->result() as $row) {
+            $roleid = $row->role;
+        }
+        return $roleid;
+    }
+
+    function get_staff_side_menu_items($staffid)
+    {
+        $roleid = $this->get_current_user_role($staffid);
+        if ($roleid > 0) {
+            $items = array('customers', 'regions', 'tasks', 'calendar');
+        } // end if
+        else {
+            $items = array('all');
+        }
+        return $items;
     }
 
     /**
@@ -22,10 +45,10 @@ class Authentication_model extends CRM_Model
     {
         if ((!empty($email)) and (!empty($password))) {
             $table = 'tblcontacts';
-            $_id   = 'id';
+            $_id = 'id';
             if ($staff == true) {
                 $table = 'tblstaff';
-                $_id   = 'staffid';
+                $_id = 'staffid';
             }
             $this->db->where('email', $email);
             $user = $this->db->get($table)->row();
@@ -65,7 +88,7 @@ class Authentication_model extends CRM_Model
                     );
                 } else {
                     $user_data = array();
-                    if($remember){
+                    if ($remember) {
                         $user_data['tfa_remember'] = true;
                     }
                 }
@@ -92,7 +115,7 @@ class Authentication_model extends CRM_Model
 
                 $this->update_login_info($user->$_id, $staff);
             } else {
-                return array('two_factor_auth'=>true, 'user'=>$user);
+                return array('two_factor_auth' => true, 'user' => $user);
             }
 
             return true;
@@ -217,10 +240,10 @@ class Authentication_model extends CRM_Model
     private function update_login_info($user_id, $staff)
     {
         $table = 'tblcontacts';
-        $_id   = 'id';
+        $_id = 'id';
         if ($staff == true) {
             $table = 'tblstaff';
-            $_id   = 'staffid';
+            $_id = 'staffid';
         }
         $this->db->set('last_ip', $this->input->ip_address());
         $this->db->set('last_login', date('Y-m-d H:i:s'));
@@ -236,10 +259,10 @@ class Authentication_model extends CRM_Model
     public function set_password_email($email, $staff)
     {
         $table = 'tblcontacts';
-        $_id   = 'id';
+        $_id = 'id';
         if ($staff == true) {
             $table = 'tblstaff';
-            $_id   = 'staffid';
+            $_id = 'staffid';
         }
         $this->db->where('email', $email);
         $user = $this->db->get($table)->row();
@@ -258,9 +281,9 @@ class Authentication_model extends CRM_Model
             if ($this->db->affected_rows() > 0) {
                 $this->load->model('emails_model');
                 $data['new_pass_key'] = $new_pass_key;
-                $data['staff']        = $staff;
-                $data['userid']       = $user->$_id;
-                $data['email']        = $email;
+                $data['staff'] = $staff;
+                $data['userid'] = $user->$_id;
+                $data['email'] = $email;
 
                 $merge_fields = array();
                 if ($staff == false) {
@@ -269,7 +292,7 @@ class Authentication_model extends CRM_Model
                     $merge_fields = array_merge($merge_fields, get_staff_merge_fields($user->$_id));
                 }
                 $merge_fields = array_merge($merge_fields, get_password_merge_field($data, $staff, 'set'));
-                $send         = $this->emails_model->send_email_template('contact-set-password', $user->email, $merge_fields);
+                $send = $this->emails_model->send_email_template('contact-set-password', $user->email, $merge_fields);
 
                 if ($send) {
                     return true;
@@ -293,10 +316,10 @@ class Authentication_model extends CRM_Model
     public function forgot_password($email, $staff = false)
     {
         $table = 'tblcontacts';
-        $_id   = 'id';
+        $_id = 'id';
         if ($staff == true) {
             $table = 'tblstaff';
-            $_id   = 'staffid';
+            $_id = 'staffid';
         }
         $this->db->where('email', $email);
         $user = $this->db->get($table)->row();
@@ -318,18 +341,18 @@ class Authentication_model extends CRM_Model
             if ($this->db->affected_rows() > 0) {
                 $this->load->model('emails_model');
                 $data['new_pass_key'] = $new_pass_key;
-                $data['staff']        = $staff;
-                $data['userid']       = $user->$_id;
+                $data['staff'] = $staff;
+                $data['userid'] = $user->$_id;
                 $merge_fields = array();
                 if ($staff == false) {
-                    $template     = 'contact-forgot-password';
+                    $template = 'contact-forgot-password';
                     $merge_fields = array_merge($merge_fields, get_client_contact_merge_fields($user->userid, $user->$_id));
                 } else {
-                    $template     = 'staff-forgot-password';
+                    $template = 'staff-forgot-password';
                     $merge_fields = array_merge($merge_fields, get_staff_merge_fields($user->$_id));
                 }
                 $merge_fields = array_merge($merge_fields, get_password_merge_field($data, $staff, 'forgot'));
-                $send         = $this->emails_model->send_email_template($template, $user->email, $merge_fields);
+                $send = $this->emails_model->send_email_template($template, $user->email, $merge_fields);
                 if ($send) {
                     return true;
                 }
@@ -345,10 +368,10 @@ class Authentication_model extends CRM_Model
 
     /**
      * Update user password from forgot password feature or set password
-     * @param boolean $staff        is staff or contact
+     * @param boolean $staff is staff or contact
      * @param mixed $userid
      * @param string $new_pass_key the password generate key
-     * @param string $password     new password
+     * @param string $password new password
      */
     public function set_password($staff, $userid, $new_pass_key, $password)
     {
@@ -358,13 +381,13 @@ class Authentication_model extends CRM_Model
             );
         }
         $this->load->helper('phpass');
-        $hasher   = new PasswordHash(PHPASS_HASH_STRENGTH, PHPASS_HASH_PORTABLE);
+        $hasher = new PasswordHash(PHPASS_HASH_STRENGTH, PHPASS_HASH_PORTABLE);
         $password = $hasher->HashPassword($password);
-        $table    = 'tblcontacts';
-        $_id      = 'id';
+        $table = 'tblcontacts';
+        $_id = 'id';
         if ($staff == true) {
             $table = 'tblstaff';
-            $_id   = 'staffid';
+            $_id = 'staffid';
         }
         $this->db->where($_id, $userid);
         $this->db->where('new_pass_key', $new_pass_key);
@@ -402,13 +425,13 @@ class Authentication_model extends CRM_Model
             );
         }
         $this->load->helper('phpass');
-        $hasher   = new PasswordHash(PHPASS_HASH_STRENGTH, PHPASS_HASH_PORTABLE);
+        $hasher = new PasswordHash(PHPASS_HASH_STRENGTH, PHPASS_HASH_PORTABLE);
         $password = $hasher->HashPassword($password);
-        $table    = 'tblcontacts';
-        $_id      = 'id';
+        $table = 'tblcontacts';
+        $_id = 'id';
         if ($staff == true) {
             $table = 'tblstaff';
-            $_id   = 'staffid';
+            $_id = 'staffid';
         }
 
         $this->db->where($_id, $userid);
@@ -426,15 +449,15 @@ class Authentication_model extends CRM_Model
             $this->db->update($table);
             $this->load->model('emails_model');
             $this->db->where($_id, $userid);
-            $user          = $this->db->get($table)->row();
+            $user = $this->db->get($table)->row();
             $data['email'] = $user->email;
 
             $merge_fields = array();
             if ($staff == false) {
-                $template     = 'contact-password-reseted';
+                $template = 'contact-password-reseted';
                 $merge_fields = array_merge($merge_fields, get_client_contact_merge_fields($user->userid, $user->$_id));
             } else {
-                $template     = 'staff-password-reseted';
+                $template = 'staff-password-reseted';
                 $merge_fields = array_merge($merge_fields, get_staff_merge_fields($user->$_id));
             }
             $this->emails_model->send_email_template($template, $user->email, $merge_fields);
@@ -455,10 +478,10 @@ class Authentication_model extends CRM_Model
     public function can_reset_password($staff, $userid, $new_pass_key)
     {
         $table = 'tblcontacts';
-        $_id   = 'id';
+        $_id = 'id';
         if ($staff == true) {
             $table = 'tblstaff';
-            $_id   = 'staffid';
+            $_id = 'staffid';
         }
 
         $this->db->where($_id, $userid);
@@ -466,7 +489,7 @@ class Authentication_model extends CRM_Model
         $user = $this->db->get($table)->row();
         if ($user) {
             $timestamp_now_minus_1_hour = time() - (60 * 60);
-            $new_pass_key_requested     = strtotime($user->new_pass_key_requested);
+            $new_pass_key_requested = strtotime($user->new_pass_key_requested);
             if ($timestamp_now_minus_1_hour > $new_pass_key_requested) {
                 return false;
             }
@@ -487,17 +510,17 @@ class Authentication_model extends CRM_Model
     public function can_set_password($staff, $userid, $new_pass_key)
     {
         $table = 'tblcontacts';
-        $_id   = 'id';
+        $_id = 'id';
         if ($staff == true) {
             $table = 'tblstaff';
-            $_id   = 'staffid';
+            $_id = 'staffid';
         }
         $this->db->where($_id, $userid);
         $this->db->where('new_pass_key', $new_pass_key);
         $user = $this->db->get($table)->row();
         if ($user) {
             $timestamp_now_minus_48_hour = time() - (3600 * 48);
-            $new_pass_key_requested      = strtotime($user->new_pass_key_requested);
+            $new_pass_key_requested = strtotime($user->new_pass_key_requested);
             if ($timestamp_now_minus_48_hour > $new_pass_key_requested) {
                 return false;
             }
@@ -521,7 +544,7 @@ class Authentication_model extends CRM_Model
             array(
                 'email' => $user->email,
                 'userid' => $user->staffid
-                ));
+            ));
 
         $this->session->set_userdata(
             array(
@@ -530,7 +553,7 @@ class Authentication_model extends CRM_Model
             ));
 
         $remember = null;
-        if($this->session->has_userdata('tfa_remember')){
+        if ($this->session->has_userdata('tfa_remember')) {
             $remember = true;
             $this->session->unset_userdata('tfa_remember');
         }
@@ -549,12 +572,12 @@ class Authentication_model extends CRM_Model
         $user = $this->db->get('tblstaff')->row();
 
         // Code not exists because no user is found
-        if(!$user){
+        if (!$user) {
             return false;
         }
 
         $timestamp_minus_1_hour = time() - (60 * 60);
-        $new_code_key_requested     = strtotime($user->two_factor_auth_code_requested);
+        $new_code_key_requested = strtotime($user->two_factor_auth_code_requested);
         // The code is older then 1 hour and its not valid
         if ($timestamp_minus_1_hour > $new_code_key_requested) {
             return false;
@@ -567,7 +590,7 @@ class Authentication_model extends CRM_Model
     {
         $this->db->where('staffid', $id);
         $this->db->update('tblstaff', array(
-            'two_factor_auth_code'=>null
+            'two_factor_auth_code' => null
         ));
 
         return true;
@@ -580,8 +603,8 @@ class Authentication_model extends CRM_Model
 
         $this->db->where('staffid', $id);
         $this->db->update('tblstaff', array(
-            'two_factor_auth_code'=>$code,
-            'two_factor_auth_code_requested'=>date('Y-m-d H:i:s')
+            'two_factor_auth_code' => $code,
+            'two_factor_auth_code_requested' => date('Y-m-d H:i:s')
         ));
 
         return $code;

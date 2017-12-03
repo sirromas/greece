@@ -537,6 +537,8 @@ $lang['wd_sunday']    = 'Sunday';
 # Admin Left Sidebar
 $lang['als_dashboard'] = 'Dashboard';
 $lang['als_clients']   = 'Customers';
+$lang['als_regions']   = 'Regions';
+$lang['als_calendar']   = 'Calendar';
 $lang['als_leads']     = 'Leads';
 $lang['als_contracts'] = 'Contracts';
 $lang['als_sales']       = 'Sales';
@@ -1849,10 +1851,19 @@ $lang['task_view_attachments']                = 'Attachments';
 $lang['task_view_description']                = 'Description';
 
 # Customer Groups
-$lang['customer_group_add_heading']  = 'Add New Customer Group';
-$lang['customer_group_edit_heading'] = 'Edit Customer Group';
-$lang['new_customer_group']          = 'New Customer Group';
+//$lang['customer_group_add_heading']  = 'Add New Customer Group';
+$lang['customer_group_add_heading']  = 'Add New Region';
+
+
+//$lang['customer_group_edit_heading'] = 'Edit Customer Group';
+$lang['customer_group_edit_heading'] = 'Edit Region';
+
+//$lang['new_customer_group']          = 'New Customer Group';
+$lang['new_customer_group']          = 'New Region';
+
 $lang['customer_group_name']         = 'Name';
+$lang['customer_group_color']         = 'Color';
+$lang['customer_group_description']   = 'Description';
 $lang['customer_groups']             = 'Groups';
 $lang['customer_group']              = 'Customer Group';
 $lang['customer_group_lowercase']    = 'customer group';

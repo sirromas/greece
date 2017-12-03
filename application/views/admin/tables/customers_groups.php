@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-$aColumns = array('name');
-
+$aColumns = array('name','color','description');
+$roleid=$_SESSION['roleid'];
 $sIndexColumn = "id";
 $sTable = 'tblcustomersgroups';
 
@@ -14,12 +14,22 @@ foreach ( $rResult as $aRow )
     $row = array();
     for ( $i=0 ; $i<count($aColumns) ; $i++ )
     {
-        $_data = '<a href="#" data-toggle="modal" data-target="#customer_group_modal" data-id="'.$aRow['id'].'">'.$aRow[$aColumns[$i]].'</a>';
-
+        if ($roleid==0) {
+            $_data = '<a href="#" data-toggle="modal" data-target="#customer_group_modal" data-id="' . $aRow['id'] . '">' . $aRow[$aColumns[$i]] . '</a>';
+        } // end if
+        else {
+            $_data =  $aRow[$aColumns[$i]];
+        } // end else
         $row[] = $_data;
     }
-    $options = icon_btn('#','pencil-square-o','btn-default',array('data-toggle'=>'modal','data-target'=>'#customer_group_modal','data-id'=>$aRow['id']));
-    $row[]  = $options .= icon_btn('clients/delete_group/'.$aRow['id'],'remove','btn-danger _delete');
 
+    if ($roleid==0) {
+        $options = icon_btn('#', 'pencil-square-o', 'btn-default', array('data-toggle' => 'modal', 'data-target' => '#customer_group_modal', 'data-id' => $aRow['id']));
+        $row[] = $options .= icon_btn('clients/delete_group/' . $aRow['id'], 'remove', 'btn-danger _delete');
+    } // end if
+    else {
+        $options = '';
+        $row[] = $options .= '';
+    }
     $output['aaData'][] = $row;
 }

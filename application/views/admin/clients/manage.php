@@ -1,4 +1,8 @@
-<?php init_head(); ?>
+<?php init_head();
+
+$roleid=$_SESSION['roleid'];
+
+?>
 <div id="wrapper">
     <div class="content">
         <div class="row">
@@ -9,6 +13,7 @@
                     foreach($groups as $group){
                        echo form_hidden('customer_group_'.$group['id']);
                    }
+
                    foreach($contract_types as $type){
                        echo form_hidden('contract_type_'.$type['id']);
                    }
@@ -27,6 +32,7 @@
                 foreach($customer_admins as $cadmin){
                     echo form_hidden('responsible_admin_'.$cadmin['staff_id']);
                 }
+
                 ?>
             </div>
             <div class="panel_s">
@@ -35,11 +41,13 @@
                         <?php if (has_permission('customers','','create')) { ?>
                         <a href="<?php echo admin_url('clients/client'); ?>" class="btn btn-info mright5 test pull-left display-block">
                             <?php echo _l('new_client'); ?></a>
-                            <a href="<?php echo admin_url('clients/import'); ?>" class="btn btn-info pull-left display-block mright5 hidden-xs">
+                               <!--
+                               <a href="<?php echo admin_url('clients/import'); ?>" class="btn btn-info pull-left display-block mright5 hidden-xs">
                                 <?php echo _l('import_customers'); ?></a>
                                 <?php } ?>
                                 <a href="<?php echo admin_url('clients/all_contacts'); ?>" class="btn btn-info pull-left display-block mright5">
                                     <?php echo _l('customer_contacts'); ?></a>
+                                -->
                                     <div class="visible-xs">
                                         <div class="clearfix"></div>
                                     </div>
@@ -69,6 +77,8 @@
                                             <div class="clearfix"></div>
                                             <li class="divider"></li>
                                             <?php } ?>
+
+                                            <!--
                                             <li class="dropdown-submenu pull-left invoice">
                                                 <a href="#" tabindex="-1"><?php echo _l('invoices'); ?></a>
                                                 <ul class="dropdown-menu dropdown-menu-left">
@@ -81,6 +91,8 @@
                                             </li>
                                             <div class="clearfix"></div>
                                             <li class="divider"></li>
+
+
                                             <li class="dropdown-submenu pull-left estimate">
                                                 <a href="#" tabindex="-1"><?php echo _l('estimates'); ?></a>
                                                 <ul class="dropdown-menu dropdown-menu-left">
@@ -95,6 +107,8 @@
                                             </li>
                                             <div class="clearfix"></div>
                                             <li class="divider"></li>
+
+
                                             <li class="dropdown-submenu pull-left project">
                                                 <a href="#" tabindex="-1"><?php echo _l('projects'); ?></a>
                                                 <ul class="dropdown-menu dropdown-menu-left">
@@ -109,6 +123,8 @@
                                             </li>
                                             <div class="clearfix"></div>
                                             <li class="divider"></li>
+
+
                                             <li class="dropdown-submenu pull-left proposal">
                                                 <a href="#" tabindex="-1"><?php echo _l('proposals'); ?></a>
                                                 <ul class="dropdown-menu dropdown-menu-left">
@@ -122,6 +138,8 @@
                                                 </ul>
                                             </li>
                                             <div class="clearfix"></div>
+                                            -->
+
                                             <?php if(count($contract_types) > 0) { ?>
                                             <li class="divider"></li>
                                             <li class="dropdown-submenu pull-left contract_types">
@@ -140,6 +158,8 @@
                                             <?php if(count($customer_admins) > 0 && (has_permission('customers','','create') || has_permission('customers','','edit'))){ ?>
                                             <div class="clearfix"></div>
                                             <li class="divider"></li>
+
+
                                             <li class="dropdown-submenu pull-left responsible_admin">
                                                 <a href="#" tabindex="-1"><?php echo _l('responsible_admin'); ?></a>
                                                 <ul class="dropdown-menu dropdown-menu-left">
@@ -163,6 +183,8 @@
                                         $where_summary = ' AND userid IN (SELECT customer_id FROM tblcustomeradmins WHERE staff_id='.get_staff_user_id().')';
                                     }
                                     ?>
+
+                                    <!--
                                     <hr class="hr-panel-heading" />
                                     <div class="row mbot15">
                                         <div class="col-md-12">
@@ -209,6 +231,8 @@
                                         </div>
                                         <?php } ?>
                                         <hr class="hr-panel-heading" />
+                                        -->
+
                                         <a href="#" data-toggle="modal" data-target="#customers_bulk_action" class="bulk-actions-btn hide" data-table=".table-clients"><?php echo _l('bulk_actions'); ?></a>
                                         <div class="modal fade bulk_actions" id="customers_bulk_action" tabindex="-1" role="dialog">
                                             <div class="modal-dialog" role="document">
@@ -237,10 +261,14 @@
                                    </div><!-- /.modal-content -->
                                </div><!-- /.modal-dialog -->
                            </div><!-- /.modal -->
+
+                            <!--
                            <div class="checkbox">
                                 <input type="checkbox" checked id="exclude_inactive" name="exclude_inactive">
                                 <label for="exclude_inactive"><?php echo _l('exclude_inactive'); ?> <?php echo _l('clients'); ?></label>
                             </div>
+                            -->
+
                            <div class="clearfix mtop20"></div>
                            <?php
                            $table_data = array();
@@ -323,6 +351,12 @@
           },50);
         }
     }
+
+    <?php if ($roleid==1) { ?>
+
+    $("#DataTables_Table_0_wrapper > div:nth-child(2) > div.col-md-7 > div.dt-buttons.btn-group > a.btn.btn-default.buttons-collection.btn-default-dt-options").css("display", "none");
+
+    <?php } ?>
 
 
 </script>

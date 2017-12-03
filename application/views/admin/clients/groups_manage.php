@@ -5,14 +5,22 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                     <div class="_buttons">
+                        <?php
+                        $roleid=$_SESSION['roleid'];
+                        if ($roleid==0) {
+                        ?>
+                        <div class="_buttons">
                         <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#customer_group_modal"><?php echo _l('new_customer_group'); ?></a>
-                    </div>
+                        </div>
+                        <?php } ?>
+
                     <div class="clearfix"></div>
                     <hr class="hr-panel-heading" />
                     <div class="clearfix"></div>
                     <?php render_datatable(array(
                         _l('customer_group_name'),
+                        _l('customer_group_color'),
+                        _l('customer_group_description'),
                         _l('options'),
                         ),'customer-groups'); ?>
                     </div>
@@ -36,6 +44,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <?php echo render_input('name','customer_group_name'); ?>
+                        <?php echo render_input('color','customer_group_color'); ?>
+                        <?php echo render_textarea('description','customer_group_description'); ?>
                         <?php echo form_hidden('id'); ?>
                     </div>
                 </div>
@@ -72,6 +82,9 @@
 
     $('#customer_group_modal').on('show.bs.modal', function(e) {
         var invoker = $(e.relatedTarget);
+
+        console.log('Invoker: '+JSON.stringify(invoker));
+
         var group_id = $(invoker).data('id');
         $('#customer_group_modal .add-title').removeClass('hide');
         $('#customer_group_modal .edit-title').addClass('hide');
@@ -83,8 +96,17 @@
             $('#customer_group_modal .add-title').addClass('hide');
             $('#customer_group_modal .edit-title').removeClass('hide');
             $('#customer_group_modal input[name="name"]').val($(invoker).parents('tr').find('td').eq(0).text());
+            $('#customer_group_modal input[name="color"]').val($(invoker).parents('tr').find('td').eq(1).text());
+            $('#description').val($(invoker).parents('tr').find('td').eq(2).text());
         }
     });
+
+    <?php if ($roleid>0) { ?>
+
+    $("#DataTables_Table_0_wrapper > div:nth-child(2) > div.col-md-7 > div.dt-buttons.btn-group > a.btn.btn-default.buttons-collection.btn-default-dt-options").css("display", "none");
+
+    <?php } ?>
+
 </script>
 </body>
 </html>

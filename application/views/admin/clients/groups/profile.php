@@ -4,34 +4,47 @@
    <div class="additional"></div>
    <div class="col-md-12">
       <ul class="nav nav-tabs profile-tabs row customer-profile-tabs" role="tablist">
-         <li role="presentation" class="<?php if(!$this->input->get('tab')){echo 'active';}; ?>">
+          <!--
+          <li role="presentation" class="<?php if(!$this->input->get('tab')){echo 'active';}; ?>">
             <a href="#contact_info" aria-controls="contact_info" role="tab" data-toggle="tab">
                <?php echo _l( 'customer_profile_details'); ?>
             </a>
          </li>
+
+
          <li role="presentation">
             <a href="#billing_and_shipping" aria-controls="billing_and_shipping" role="tab" data-toggle="tab">
                <?php echo _l( 'billing_shipping'); ?>
             </a>
          </li>
+           -->
+
          <?php do_action('after_customer_billing_and_shipping_tab',isset($client) ? $client : false); ?>
          <?php if(isset($client)){ ?>
-         <li role="presentation<?php if($this->input->get('tab') && $this->input->get('tab') == 'contacts'){echo ' active';}; ?>">
+         <li role="presentation active">
             <a href="#contacts" aria-controls="contacts" role="tab" data-toggle="tab">
                <?php echo _l( 'customer_contacts'); ?>
             </a>
          </li>
+
+         <!--
          <li role="presentation">
             <a href="#customer_admins" aria-controls=customer_admins" role="tab" data-toggle="tab">
                <?php echo _l( 'customer_admins'); ?>
             </a>
          </li>
+          -->
+
+
          <?php do_action('after_customer_admins_tab',$client); ?>
          <?php } ?>
       </ul>
       <div class="tab-content">
          <?php do_action('after_custom_profile_tab_content',isset($client) ? $client : false); ?>
-         <div role="tabpanel" class="tab-pane<?php if(!$this->input->get('tab')){echo ' active';}; ?>" id="contact_info">
+
+
+          <!--
+          <div role="tabpanel" class="tab-pane<?php if(!$this->input->get('tab')){echo ' active';}; ?>" id="contact_info">
             <div class="row">
                <div class="col-md-12<?php if(isset($client) && (!is_empty_customer_company($client->userid) && total_rows('tblcontacts',array('userid'=>$client->userid,'is_primary'=>1)) > 0)) { echo ''; } else {echo ' hide';} ?>" id="client-show-primary-contact-wrapper">
                   <div class="checkbox checkbox-info mbot20 no-mtop">
@@ -142,8 +155,10 @@
             </div>
          </div>
       </div>
+          -->
+
       <?php if(isset($client)){ ?>
-      <div role="tabpanel" class="tab-pane<?php if($this->input->get('tab') && $this->input->get('tab') == 'contacts'){echo ' active';}; ?>" id="contacts">
+      <div role="tabpanel" class="tab-pane active" id="contacts">
          <?php if(has_permission('customers','','create') || is_customer_admin($client->userid)){
             $disable_new_contacts = false;
             if(is_empty_customer_company($client->userid) && total_rows('tblcontacts',array('userid'=>$client->userid)) == 1){
