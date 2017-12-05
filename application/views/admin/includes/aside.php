@@ -66,7 +66,6 @@
 
              foreach($menu_active->aside_menu_active as $item){
 
-
                  if($item->id == 'tickets' && (get_option('access_tickets_to_none_staff_members') == 0 && !is_staff_member())){
                      continue;
                  } // end if
@@ -282,7 +281,7 @@
                      <li class="menu-item-<?php echo $item->id; ?>">
                          <a href="<?php echo $url; ?>" aria-expanded="false"><i
                                      class="<?php echo $item->icon; ?> menu-icon"></i>
-                             <?php echo _l($item->name); ?>
+                             <?php  echo _l($item->name); ?>
                              <?php if ($submenu == true) { ?>
                                  <span class="fa arrow"></span>
                              <?php } ?>

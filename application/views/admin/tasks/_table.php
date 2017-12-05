@@ -4,10 +4,9 @@ $table_data = array(
     _l('tasks_dt_name'),
     _l('tasks_dt_datestart'),
     _l('task_duedate'),
-    _l('tags'),
-    _l('task_assigned'),
-    _l('tasks_list_priority'),
-    _l('task_status')
+    _l('Contact'),
+   // _l('tasks_list_priority'),
+   // _l('task_status')
     );
 
 if(isset($bulk_actions)){
@@ -18,9 +17,11 @@ $custom_fields = get_custom_fields('tasks', array(
     'show_on_table' => 1
     ));
 
+/*
 foreach ($custom_fields as $field) {
     array_push($table_data, $field['name']);
 }
+*/
 
 $table_data = do_action('tasks_table_columns',$table_data);
 

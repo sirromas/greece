@@ -15,6 +15,10 @@ if (("Notification" in window) && app_desktop_notifications == '1') {
     Notification.requestPermission();
 }
 
+$("*").click(function(event){
+    console.log('Item clicked: '+event);
+});
+
 // Jquery validate set default options
 $.validator.setDefaults({
     highlight: function(element) {
@@ -894,6 +898,7 @@ $(function() {
                 }
             },
             dayClick: function(date, jsEvent, view) {
+                //console.log('JS Event: '+JSON.stringify(jsEvent));
                 var d = date.format();
                 if (!$.fullCalendar.moment(d).hasTime()) {
                     d += ' 00:00';

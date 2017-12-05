@@ -53,11 +53,24 @@
 </div>
 </div>
 <?php init_tail(); ?>
-<script>
-   taskid = '<?php echo $taskid; ?>';
-   $(function(){
-    tasks_kanban();
- });
+<script type="text/javascript">
+
+    $( document ).ready(function() {
+
+        taskid = '<?php echo $taskid; ?>';
+        $(function () {
+            tasks_kanban();
+        });
+
+        <?php if ($_SESSION['roleid'] == 1) { ?>
+        var el=$("#DataTables_Table_0_wrapper > div:nth-child(2) > div.col-md-7 > div.dt-buttons.btn-group");
+        el.css("display", "none");
+        <?php } ?>
+
+    });
+
+
+
 </script>
 </body>
 </html>

@@ -87,7 +87,7 @@ class Clients extends Admin_controller
                     access_denied('customers');
                 }
 
-                $data                 = $this->input->post();
+                $data= $this->input->post();
 
                 $save_and_add_contact = false;
                 if (isset($data['save_and_add_contact'])) {
@@ -107,8 +107,9 @@ class Clients extends Admin_controller
                     } else {
                         redirect(admin_url('clients/client/' . $id . '?new_contact=true&tab=contacts'));
                     }
-                }
-            } else {
+                } // end if $id
+            } // end if $id == ''
+            else {
                 if (!has_permission('customers', '', 'edit')) {
                     if (!is_customer_admin($id)) {
                         access_denied('customers');
@@ -124,7 +125,8 @@ class Clients extends Admin_controller
 
         if (!$this->input->get('group')) {
             $group = 'profile';
-        } else {
+        } // end if
+        else {
             $group = $this->input->get('group');
         }
         // View group
@@ -134,41 +136,50 @@ class Clients extends Admin_controller
 
         if ($id == '') {
             $title = _l('add_new', _l('client_lowercase'));
-        } else {
+        } // end if
+        else {
             $client = $this->clients_model->get($id);
             if (!$client) {
                 blank_page('Client Not Found');
             }
-
             $data['contacts']         = $this->clients_model->get_contacts($id);
 
             // Fetch data based on groups
             if ($group == 'profile') {
                 $data['customer_groups'] = $this->clients_model->get_customer_groups($id);
                 $data['customer_admins'] = $this->clients_model->get_admins($id);
-            } elseif ($group == 'attachments') {
+            } // end if
+            elseif ($group == 'attachments') {
                 $data['attachments']   = $this->clients_model->get_all_customer_attachments($id);
-            } elseif ($group == 'vault') {
+            } // end elseif
+            elseif ($group == 'vault') {
                 $data['vault_entries'] = do_action('check_vault_entries_visibility', $this->clients_model->get_vault_entries($id));
-            } elseif ($group == 'estimates') {
+            } // end else if
+            elseif ($group == 'estimates') {
                 $this->load->model('estimates_model');
                 $data['estimate_statuses'] = $this->estimates_model->get_statuses();
-            } elseif ($group == 'invoices') {
+            } // end elseif
+            elseif ($group == 'invoices') {
                 $this->load->model('invoices_model');
                 $data['invoice_statuses'] = $this->invoices_model->get_statuses();
-            } elseif ($group == 'credit_notes') {
+            } // end elseif
+            elseif ($group == 'credit_notes') {
                 $this->load->model('credit_notes_model');
                 $data['credit_notes_statuses'] = $this->credit_notes_model->get_statuses();
                 $data['credits_available'] = $this->credit_notes_model->total_remaining_credits_by_customer($id);
-            } elseif ($group == 'payments') {
+            } // end elseif
+            elseif ($group == 'payments') {
                 $this->load->model('payment_modes_model');
                 $data['payment_modes'] = $this->payment_modes_model->get();
-            } elseif ($group == 'notes') {
+            } // end elseif
+            elseif ($group == 'notes') {
                 $data['user_notes'] = $this->misc_model->get_notes($id, 'customer');
-            } elseif ($group == 'projects') {
+            } // end elseif
+            elseif ($group == 'projects') {
                 $this->load->model('projects_model');
                 $data['project_statuses'] = $this->projects_model->get_project_statuses();
-            } elseif ($group == 'statement') {
+            } // end elseif
+            elseif ($group == 'statement') {
                 if (!has_permission('invoices', '', 'view') && !has_permission('payments', '', 'view')) {
                     set_alert('danger', _l('access_denied'));
                     redirect(admin_url('clients/client/'.$id));
@@ -194,7 +205,7 @@ class Clients extends Admin_controller
                 if (total_rows('tblemailtemplates', array('slug'=>$data['template_name'], 'active'=>0)) > 0) {
                     $data['template_disabled'] = true;
                 }
-            }
+            } // end elseif
 
             $data['staff']           = $this->staff_model->get('', 1);
 

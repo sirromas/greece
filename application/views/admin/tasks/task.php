@@ -82,14 +82,13 @@
          </div>
              <?php } ?>
              <div class="checkbox checkbox-primary no-mtop checkbox-inline">
-              <input type="checkbox" id="task_is_public" name="is_public" <?php if(isset($task)){if($task->is_public == 1){echo 'checked';}}; ?>>
+              <input type="checkbox" id="task_is_public" name="is_public" checked disabled>
               <label for="task_is_public" data-toggle="tooltip" data-placement="bottom" title="<?php echo _l('task_public_help'); ?>"><?php echo _l('task_public'); ?></label>
             </div>
 
-            <div class="checkbox checkbox-primary checkbox-inline">
-              <input type="checkbox" id="task_is_billable" name="billable"
-              <?php if((isset($task) && $task->billable == 1) || (!isset($task) && get_option('task_biillable_checked_on_creation') == 1)) {echo ' checked'; }?>>
-              <label for="task_is_billable"><?php echo _l('task_billable'); ?></label>
+            <div class="checkbox checkbox-primary checkbox-inline" style="display: none;">
+              <input type="checkbox" id="task_is_billable" name="billable">
+             <label for="task_is_billable"><?php echo _l('task_billable'); ?></label>
             </div>
             <div class="task-visible-to-customer checkbox checkbox-inline checkbox-primary<?php if((isset($task) && $task->rel_type != 'project') || !isset($task) || (isset($task) && $task->rel_type == 'project' && total_rows('tblprojectsettings',array('project_id'=>$task->rel_id,'name'=>'view_tasks','value'=>0)) > 0)){echo ' hide';} ?>">
               <input type="checkbox" id="task_visible_to_client" name="visible_to_client" <?php if(isset($task)){if($task->visible_to_client == 1){echo 'checked';}} ?>>
@@ -121,10 +120,15 @@
             <hr />
             <?php $value = (isset($task) ? $task->name : ''); ?>
             <?php echo render_input('name','task_add_edit_subject',$value); ?>
+
+            <!--
             <div class="task-hours<?php if(isset($task) && $task->rel_type == 'project' && total_rows('tblprojects',array('id'=>$task->rel_id,'billing_type'=>3)) == 0){echo ' hide';} ?>">
               <?php $value = (isset($task) ? $task->hourly_rate : 0); ?>
               <?php echo render_input('hourly_rate','task_hourly_rate',$value); ?>
             </div>
+            -->
+
+
             <div class="project-details<?php if($rel_type != 'project'){echo ' hide';} ?>">
               <div class="form-group">
                 <label for="milestone"><?php echo _l('task_milestone'); ?></label>
@@ -180,6 +184,7 @@
               </select>
             </div>
           </div>
+
         </div>
         <div class="recurring_custom <?php if((isset($task) && $task->custom_recurring != 1) || (!isset($task))){echo 'hide';} ?>">
          <div class="row">
@@ -207,33 +212,47 @@
           <label for="rel_type" class="control-label"><?php echo _l('task_related_to'); ?></label>
           <select name="rel_type" class="selectpicker" id="rel_type" data-width="100%" data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
             <option value=""></option>
-            <option value="project"
-            <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'project'){echo 'selected';}} ?>><?php echo _l('project'); ?></option>
-            <option value="invoice" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'invoice'){echo 'selected';}} ?>>
+
+              <!--
+              <option value="project"
+              <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'project'){echo 'selected';}} ?>><?php echo _l('project'); ?></option>
+              <option value="invoice" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'invoice'){echo 'selected';}} ?>>
               <?php echo _l('invoice'); ?>
-            </option>
+              </option>
+              -->
+
             <option value="customer"
             <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'customer'){echo 'selected';}} ?>>
               <?php echo _l('client'); ?>
             </option>
+
+            <!--
             <option value="estimate" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'estimate'){echo 'selected';}} ?>>
               <?php echo _l('estimate'); ?>
             </option>
+
             <option value="contract" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'contract'){echo 'selected';}} ?>>
              <?php echo _l('contract'); ?>
             </option>
+
             <option value="ticket" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'ticket'){echo 'selected';}} ?>>
               <?php echo _l('ticket'); ?>
             </option>
+
             <option value="expense" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'expense'){echo 'selected';}} ?>>
              <?php echo _l('expense'); ?>
             </option>
+
             <option value="lead" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'lead'){echo 'selected';}} ?>>
               <?php echo _l('lead'); ?>
             </option>
+
             <option value="proposal" <?php if(isset($task) || $this->input->get('rel_type')){if($rel_type == 'proposal'){echo 'selected';}} ?>>
               <?php echo _l('proposal'); ?>
             </option>
+            -->
+
+
           </select>
         </div>
       </div>
@@ -250,6 +269,8 @@
             </select>
           </div>
         </div>
+
+
       </div>
     </div>
     <?php if(isset($task) && $task->status == 5 && (has_permission('create') || has_permission('edit'))){
@@ -267,12 +288,16 @@
            <?php } ?>
          </select>
        </div>
+
+     <!--
     <div class="form-group">
       <div id="inputTagsWrapper">
         <label for="tags" class="control-label"><i class="fa fa-tag" aria-hidden="true"></i> <?php echo _l('tags'); ?></label>
         <input type="text" class="tagsinput" id="tags" name="tags" value="<?php echo (isset($task) ? prep_tags_input(get_tags_in($task->id,'task')) : ''); ?>" data-role="tagsinput">
       </div>
     </div>
+     -->
+
     <?php $rel_id_custom_field = (isset($task) ? $task->id : false); ?>
     <?php echo render_custom_fields('tasks',$rel_id_custom_field); ?>
     <hr />

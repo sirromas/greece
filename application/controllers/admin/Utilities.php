@@ -14,7 +14,21 @@ class Utilities extends Admin_controller
         $this->load->model('utilities_model');
     }
 
+    /**
+     *
+     */
+    public function add_task_from_calendar()
+    {
+        $data = $_POST;
+        $result = $this->utilities_model->add_task_from_calendar(json_decode($data['item']));
+        echo $result;
+
+    }
+
     /* All perfex activity log */
+    /**
+     *
+     */
     public function activity_log()
     {
         // Only full admin have permission to activity log
@@ -29,6 +43,9 @@ class Utilities extends Admin_controller
     }
 
     /* All perfex activity log */
+    /**
+     *
+     */
     public function pipe_log()
     {
         // Only full admin have permission to activity log
@@ -42,6 +59,9 @@ class Utilities extends Admin_controller
         $this->load->view('admin/utilities/ticket_pipe_log', $data);
     }
 
+    /**
+     *
+     */
     public function clear_activity_log()
     {
         if (!is_admin()) {
@@ -51,6 +71,9 @@ class Utilities extends Admin_controller
         redirect(admin_url('utilities/activity_log'));
     }
 
+    /**
+     *
+     */
     public function clear_pipe_log()
     {
         if (!is_admin()) {
@@ -61,33 +84,40 @@ class Utilities extends Admin_controller
     }
 
     /* Calendar functions */
+    /**
+     *
+     */
     public function calendar()
     {
         if ($this->input->post() && $this->input->is_ajax_request()) {
-            $data    = $this->input->post();
+            $data = $this->input->post();
             $success = $this->utilities_model->event($data);
             $message = '';
             if ($success) {
                 if (isset($data['eventid'])) {
                     $message = _l('event_updated');
-                } else {
+                } // end if
+                else {
                     $message = _l('utility_calendar_event_added_successfully');
-                }
-            }
+                } // end else
+            } // end if
             echo json_encode(array(
                 'success' => $success,
                 'message' => $message
             ));
             die();
-        }
+        } // end if it was AJAX post
         $data['google_ids_calendars'] = $this->misc_model->get_google_calendar_ids();
-        $data['google_calendar_api']  = get_option('google_calendar_api_key');
-        $data['title']                = _l('calendar');
+        $data['google_calendar_api'] = get_option('google_calendar_api_key');
+        $data['title'] = _l('calendar');
         // To load js files
-        $data['calendar_assets']      = true;
+        $data['calendar_assets'] = true;
         $this->load->view('admin/utilities/calendar', $data);
     }
 
+    /**
+     *
+     */
     public function get_calendar_data()
     {
         if ($this->input->is_ajax_request()) {
@@ -102,12 +132,18 @@ class Utilities extends Admin_controller
         }
     }
 
+    /**
+     * @param $id
+     */
     public function view_event($id)
     {
         $data['event'] = $this->utilities_model->get_event($id);
         $this->load->view('admin/utilities/event', $data);
     }
 
+    /**
+     * @param $id
+     */
     public function delete_event($id)
     {
         if ($this->input->is_ajax_request()) {
@@ -132,13 +168,20 @@ class Utilities extends Admin_controller
     }
 
     // Moved here from version 1.0.5
+
+    /**
+     *
+     */
     public function media()
     {
         $data['media_assets'] = true;
-        $data['title']        = _l('media_files');
+        $data['title'] = _l('media_files');
         $this->load->view('admin/utilities/media', $data);
     }
 
+    /**
+     *
+     */
     public function elfinder_init()
     {
         $media_folder = $this->perfex_base->get_media_folder();
@@ -161,7 +204,7 @@ class Utilities extends Admin_controller
             //'debug'=>true,
             'uploadMaxSize' => get_option('media_max_file_size_upload') . 'M',
             'accessControl' => 'access_control_media',
-            'uploadDeny'=>array(
+            'uploadDeny' => array(
                 'application/x-httpd-php',
                 'application/php',
                 'application/x-php',
@@ -177,7 +220,7 @@ class Utilities extends Admin_controller
                 'application/x-python-code',
                 'wwwserver/shellcgi', // CGI
             ),
-            'uploadAllow'=>array(),
+            'uploadAllow' => array(),
             'uploadOrder' => array(
                 'deny',
                 'allow'
@@ -199,8 +242,8 @@ class Utilities extends Admin_controller
         );
         if (!is_admin()) {
             $this->db->select('media_path_slug,staffid,firstname,lastname')
-            ->from('tblstaff')
-            ->where('staffid', get_staff_user_id());
+                ->from('tblstaff')
+                ->where('staffid', get_staff_user_id());
             $user = $this->db->get()->row();
             $path = set_realpath($media_folder . '/' . $user->media_path_slug);
             if (empty($user->media_path_slug)) {
@@ -210,7 +253,7 @@ class Utilities extends Admin_controller
                     'media_path_slug' => $slug
                 ));
                 $user->media_path_slug = $slug;
-                $path                  = set_realpath($media_folder . '/' . $user->media_path_slug);
+                $path = set_realpath($media_folder . '/' . $user->media_path_slug);
             }
             if (!is_dir($path)) {
                 mkdir($path);
@@ -225,10 +268,10 @@ class Utilities extends Admin_controller
                 'locked' => true
             ));
             $root_options['path'] = $path;
-            $root_options['URL']  = site_url($media_folder . '/' . $user->media_path_slug) . '/';
+            $root_options['URL'] = site_url($media_folder . '/' . $user->media_path_slug) . '/';
         }
 
-        $publicRootPath = $media_folder.'/public';
+        $publicRootPath = $media_folder . '/public';
         $public_root = $root_options;
         $public_root['path'] = set_realpath($publicRootPath);
 
@@ -254,6 +297,9 @@ class Utilities extends Admin_controller
         $this->load->library('elfinder_lib', $opts);
     }
 
+    /**
+     *
+     */
     public function bulk_pdf_exporter()
     {
         if (!has_permission('bulk_pdf_exporter', '', 'view')) {
@@ -261,10 +307,10 @@ class Utilities extends Admin_controller
         }
 
         $has_permission_estimates_view = has_permission('estimates', '', 'view');
-        $has_permission_invoices_view  = has_permission('invoices', '', 'view');
+        $has_permission_invoices_view = has_permission('invoices', '', 'view');
         $has_permission_proposals_view = has_permission('proposals', '', 'view');
-        $has_permission_payments_view  = has_permission('payments', '', 'view');
-        $has_permission_credit_notes_view  = has_permission('credit_notes', '', 'view');
+        $has_permission_payments_view = has_permission('payments', '', 'view');
+        $has_permission_credit_notes_view = has_permission('credit_notes', '', 'view');
 
         if ($this->input->post()) {
             if (!is_really_writable(TEMP_FOLDER)) {
@@ -342,8 +388,8 @@ class Utilities extends Admin_controller
                 die('No Export Type Selected');
             }
             if ($this->input->post('date-to') && $this->input->post('date-from')) {
-                $from_date  = to_sql_date($this->input->post('date-from'));
-                $to_date    = to_sql_date($this->input->post('date-to'));
+                $from_date = to_sql_date($this->input->post('date-from'));
+                $to_date = to_sql_date($this->input->post('date-to'));
                 $date_field = 'date';
                 // Column date is ambiguous in payments
                 if ($type == 'payments') {
@@ -369,38 +415,38 @@ class Utilities extends Admin_controller
             if ($type == 'invoices') {
                 $this->load->model('invoices_model');
                 foreach ($data as $invoice) {
-                    $invoice_data    = $this->invoices_model->get($invoice['id']);
-                    $this->pdf_zip   = invoice_pdf($invoice_data, $this->input->post('tag'));
+                    $invoice_data = $this->invoices_model->get($invoice['id']);
+                    $this->pdf_zip = invoice_pdf($invoice_data, $this->input->post('tag'));
                     $_temp_file_name = slug_it(format_invoice_number($invoice_data->id));
-                    $file_name       = $dir . '/' . strtoupper($_temp_file_name);
+                    $file_name = $dir . '/' . strtoupper($_temp_file_name);
                     $this->pdf_zip->Output($file_name . '.pdf', 'F');
                 }
-            } elseif($type == 'credit_notes') {
+            } elseif ($type == 'credit_notes') {
                 $this->load->model('credit_notes_model');
                 foreach ($data as $credit_note) {
-                    $credit_note_data    = $this->credit_notes_model->get($credit_note['id']);
-                    $this->pdf_zip   = credit_note_pdf($credit_note_data, $this->input->post('tag'));
+                    $credit_note_data = $this->credit_notes_model->get($credit_note['id']);
+                    $this->pdf_zip = credit_note_pdf($credit_note_data, $this->input->post('tag'));
                     $_temp_file_name = slug_it(format_credit_note_number($credit_note_data->id));
-                    $file_name       = $dir . '/' . strtoupper($_temp_file_name);
+                    $file_name = $dir . '/' . strtoupper($_temp_file_name);
                     $this->pdf_zip->Output($file_name . '.pdf', 'F');
                 }
             } elseif ($type == 'estimates') {
                 foreach ($data as $estimate) {
                     $this->load->model('estimates_model');
-                    $estimate_data   = $this->estimates_model->get($estimate['id']);
-                    $this->pdf_zip   = estimate_pdf($estimate_data, $this->input->post('tag'));
+                    $estimate_data = $this->estimates_model->get($estimate['id']);
+                    $this->pdf_zip = estimate_pdf($estimate_data, $this->input->post('tag'));
                     $_temp_file_name = slug_it(format_estimate_number($estimate_data->id));
-                    $file_name       = $dir . '/' . strtoupper($_temp_file_name);
+                    $file_name = $dir . '/' . strtoupper($_temp_file_name);
                     $this->pdf_zip->Output($file_name . '.pdf', 'F');
                 }
             } elseif ($type == 'payments') {
                 $this->load->model('payments_model');
                 $this->load->model('invoices_model');
                 foreach ($data as $payment) {
-                    $payment_data               = $this->payments_model->get($payment['paymentid']);
+                    $payment_data = $this->payments_model->get($payment['paymentid']);
                     $payment_data->invoice_data = $this->invoices_model->get($payment_data->invoiceid);
-                    $this->pdf_zip              = payment_pdf($payment_data, $this->input->post('tag'));
-                    $file_name                  = $dir;
+                    $this->pdf_zip = payment_pdf($payment_data, $this->input->post('tag'));
+                    $file_name = $dir;
                     $file_name .= '/' . strtoupper(_l('payment'));
                     $file_name .= '-' . strtoupper($payment_data->paymentid) . '.pdf';
                     $this->pdf_zip->Output($file_name, 'F');
@@ -408,10 +454,10 @@ class Utilities extends Admin_controller
             } else {
                 $this->load->model('proposals_model');
                 foreach ($data as $proposal) {
-                    $proposal        = $this->proposals_model->get($proposal['id']);
-                    $this->pdf_zip   = proposal_pdf($proposal, $this->input->post('tag'));
+                    $proposal = $this->proposals_model->get($proposal['id']);
+                    $this->pdf_zip = proposal_pdf($proposal, $this->input->post('tag'));
                     $_temp_file_name = slug_it($proposal->subject);
-                    $file_name       = $dir . '/' . strtoupper($_temp_file_name);
+                    $file_name = $dir . '/' . strtoupper($_temp_file_name);
                     $this->pdf_zip->Output($file_name . '.pdf', 'F');
                 }
             }
@@ -442,6 +488,9 @@ class Utilities extends Admin_controller
     }
 
     /* Database back up functions */
+    /**
+     *
+     */
     public function backup()
     {
         if (!is_admin()) {
@@ -451,6 +500,9 @@ class Utilities extends Admin_controller
         $this->load->view('admin/utilities/backup', $data);
     }
 
+    /**
+     *
+     */
     public function make_backup_db()
     {
         do_action('before_make_backup');
@@ -469,6 +521,9 @@ class Utilities extends Admin_controller
         redirect(admin_url('utilities/backup'));
     }
 
+    /**
+     *
+     */
     public function update_auto_backup_options()
     {
         do_action('before_update_backup_options');
@@ -476,7 +531,7 @@ class Utilities extends Admin_controller
             access_denied('databaseBackup');
         }
         if ($this->input->post()) {
-            $_post     = $this->input->post();
+            $_post = $this->input->post();
             $updated_1 = update_option('auto_backup_enabled', $_post['settings']['auto_backup_enabled']);
             $updated_2 = update_option('auto_backup_every', $this->input->post('auto_backup_every'));
             $updated_3 = update_option('delete_backups_older_then', $this->input->post('delete_backups_older_then'));
@@ -487,6 +542,9 @@ class Utilities extends Admin_controller
         redirect(admin_url('utilities/backup'));
     }
 
+    /**
+     * @param $backup
+     */
     public function delete_backup($backup)
     {
         if (!is_admin()) {
@@ -498,12 +556,18 @@ class Utilities extends Admin_controller
         redirect(admin_url('utilities/backup'));
     }
 
+    /**
+     *
+     */
     public function theme_style()
     {
         $data['title'] = _l('theme_style');
         $this->load->view('admin/utilities/theme_style', $data);
     }
 
+    /**
+     *
+     */
     public function save_theme_style()
     {
         do_action('before_save_theme_style');
@@ -517,12 +581,15 @@ class Utilities extends Admin_controller
         update_option('theme_style', $data);
     }
 
+    /**
+     *
+     */
     public function main_menu()
     {
         if (!is_admin()) {
             access_denied('Edit Main Menu');
         }
-        $data['permissions']   = $this->roles_model->get_permissions();
+        $data['permissions'] = $this->roles_model->get_permissions();
         $data['permissions'][] = array(
             'shortname' => 'is_admin',
             'name' => 'Admin'
@@ -532,10 +599,13 @@ class Utilities extends Admin_controller
             'name' => _l('is_not_staff_member')
         );
 
-        $data['title']                 = _l('main_menu');
+        $data['title'] = _l('main_menu');
         $this->load->view('admin/utilities/main_menu', $data);
     }
 
+    /**
+     *
+     */
     public function update_aside_menu()
     {
         do_action('before_update_aside_menu');
@@ -558,24 +628,30 @@ class Utilities extends Admin_controller
         )));
     }
 
+    /**
+     *
+     */
     public function setup_menu()
     {
         if (!is_admin()) {
             access_denied('Edit Setup Menu');
         }
-        $data['permissions']           = $this->roles_model->get_permissions();
-        $data['permissions'][]         = array(
+        $data['permissions'] = $this->roles_model->get_permissions();
+        $data['permissions'][] = array(
             'shortname' => 'is_admin',
             'name' => 'Admin'
         );
-        $data['permissions'][]         = array(
+        $data['permissions'][] = array(
             'shortname' => 'is_not_staff',
             'name' => _l('is_not_staff_member')
         );
-        $data['title']                 = _l('setup_menu');
+        $data['title'] = _l('setup_menu');
         $this->load->view('admin/utilities/setup_menu', $data);
     }
 
+    /**
+     *
+     */
     public function update_setup_menu()
     {
         do_action('before_update_setup_menu');

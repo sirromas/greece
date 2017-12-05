@@ -4,78 +4,68 @@
    <div class="additional"></div>
    <div class="col-md-12">
       <ul class="nav nav-tabs profile-tabs row customer-profile-tabs" role="tablist">
-         <li role="presentation" class="<?php if(!$this->input->get('tab')){echo 'active';}; ?>">
+
+          <li role="presentation" class="<?php if(!$this->input->get('tab')){echo 'active';}; ?>">
             <a href="#contact_info" aria-controls="contact_info" role="tab" data-toggle="tab">
                <?php echo _l( 'customer_profile_details'); ?>
             </a>
          </li>
 
-         <!--
+
          <li role="presentation">
             <a href="#billing_and_shipping" aria-controls="billing_and_shipping" role="tab" data-toggle="tab">
                <?php echo _l( 'billing_shipping'); ?>
             </a>
          </li>
+
+
          <?php do_action('after_customer_billing_and_shipping_tab',isset($client) ? $client : false); ?>
          <?php if(isset($client)){ ?>
-         <li role="presentation<?php if($this->input->get('tab') && $this->input->get('tab') == 'contacts'){echo ' active';}; ?>">
+         <li role="presentation active">
             <a href="#contacts" aria-controls="contacts" role="tab" data-toggle="tab">
                <?php echo _l( 'customer_contacts'); ?>
             </a>
          </li>
+
+
          <li role="presentation">
             <a href="#customer_admins" aria-controls=customer_admins" role="tab" data-toggle="tab">
                <?php echo _l( 'customer_admins'); ?>
             </a>
          </li>
-          -->
+
+
 
          <?php do_action('after_customer_admins_tab',$client); ?>
          <?php } ?>
       </ul>
       <div class="tab-content">
          <?php do_action('after_custom_profile_tab_content',isset($client) ? $client : false); ?>
-         <div role="tabpanel" class="tab-pane<?php if(!$this->input->get('tab')){echo ' active';}; ?>" id="contact_info">
+
+
+          <div role="tabpanel" class="tab-pane<?php if(!$this->input->get('tab')){echo ' active';}; ?>" id="contact_info">
             <div class="row">
                <div class="col-md-12<?php if(isset($client) && (!is_empty_customer_company($client->userid) && total_rows('tblcontacts',array('userid'=>$client->userid,'is_primary'=>1)) > 0)) { echo ''; } else {echo ' hide';} ?>" id="client-show-primary-contact-wrapper">
-                   <!--
-                   <div class="checkbox checkbox-info mbot20 no-mtop">
+                  <div class="checkbox checkbox-info mbot20 no-mtop">
                      <input type="checkbox" name="show_primary_contact"<?php if(isset($client) && $client->show_primary_contact == 1){echo ' checked';}?> value="1" id="show_primary_contact">
                      <label for="show_primary_contact"><?php echo _l('show_primary_contact',_l('invoices').', '._l('estimates').', '._l('payments').', '._l('credit_notes')); ?></label>
                   </div>
-                   -->
                </div>
-
-                <div class="col-md-12">
-                    <?php $rel_id=( isset($client) ? $client->userid : false); ?>
-                    <?php echo render_custom_fields( 'customers',$rel_id); ?>
-                </div>
-
-               <!-- Original profile fields -->
                <div class="col-md-6">
-
-                   <!-- Put company field into custom fields container -->
-                   <?php $value=( isset($client) ? $client->company : ''); ?>
-                   <?php $attrs = (isset($client) ? array() : array('autofocus'=>true)); ?>
-                   <?php echo render_input( 'company', 'client_company',$value,'text',$attrs); ?>
-
-                   <!--
-                   <?php if(get_option('company_requires_vat_number_field') == 1){
+                  <?php $value=( isset($client) ? $client->company : ''); ?>
+                  <?php $attrs = (isset($client) ? array() : array('autofocus'=>true)); ?>
+                  <?php echo render_input( 'company', 'client_company',$value,'text',$attrs); ?>
+                  <?php if(get_option('company_requires_vat_number_field') == 1){
                     $value=( isset($client) ? $client->vat : '');
-                    //echo render_input( 'vat', 'client_vat_number',$value);
-                   } ?>
-                   -->
-
-                   <?php $value=( isset($client) ? $client->phonenumber : ''); ?>
-                   <?php echo render_input( 'phonenumber', 'client_phonenumber',$value); ?>
-
-                   <?php if((isset($client) && empty($client->website)) || !isset($client)){
+                    echo render_input( 'vat', 'client_vat_number',$value);
+                 } ?>
+                 <?php $value=( isset($client) ? $client->phonenumber : ''); ?>
+                 <?php echo render_input( 'phonenumber', 'client_phonenumber',$value); ?>
+                 <?php if((isset($client) && empty($client->website)) || !isset($client)){
                    $value=( isset($client) ? $client->website : '');
-                   //echo render_input( 'website', 'client_website',$value);
-                   }
-
-                  else { ?>
-                  <div class="form-group">
+                   echo render_input( 'website', 'client_website',$value);
+                } else { ?>
+                <div class="form-group">
                   <label for="website"><?php echo _l('client_website'); ?></label>
                   <div class="input-group">
                      <input type="text" name="website" id="website" value="<?php echo $client->website; ?>" class="form-control">
@@ -83,8 +73,7 @@
                         <span><a href="<?php echo maybe_add_http($client->website); ?>" target="_blank" tabindex="-1"><i class="fa fa-globe"></i></a></span>
                      </div>
                   </div>
-                  </div>
-
+               </div>
                <?php }
 
                $selected = array();
@@ -95,8 +84,6 @@
               }
               echo render_select('groups_in[]',$groups,array('id','name'),'customer_groups',$selected,array('multiple'=>true),array(),'','',false);
               ?>
-
-
               <?php if(!isset($client)){ ?>
               <i class="fa fa-question-circle pull-left" data-toggle="tooltip" data-title="<?php echo _l('customer_currency_change_notice'); ?>"></i>
               <?php }
@@ -112,11 +99,9 @@
                   }
                }
             }
-            // Do not remove the currency field from the customer profile!
+                     // Do not remove the currency field from the customer profile!
             echo render_select('default_currency',$currencies,array('id','name','symbol'),'invoice_add_edit_currency',$selected,$s_attrs); ?>
             <?php if(get_option('disable_language') == 0){ ?>
-
-             <!--
             <div class="form-group">
                <label for="default_language" class="control-label"><?php echo _l('localization_default_language'); ?>
                </label>
@@ -134,8 +119,6 @@
                      <?php } ?>
                   </select>
                </div>
-                -->
-
                <?php } ?>
                <?php $value=( isset($client) ? $client->latitude : ''); ?>
                <div class="form-group">
@@ -147,41 +130,33 @@
                      </div>
                   </div>
                </div>
+               <?php $value=( isset($client) ? $client->longitude : ''); ?>
+               <?php echo render_input( 'longitude', 'customer_longitude',$value); ?>
             </div>
-
-
             <div class="col-md-6">
-
-                <?php $value=( isset($client) ? $client->address : ''); ?>
-               <?php //echo render_textarea( 'address', 'client_address',$value); ?>
-
+               <?php $value=( isset($client) ? $client->address : ''); ?>
+               <?php echo render_textarea( 'address', 'client_address',$value); ?>
                <?php $value=( isset($client) ? $client->city : ''); ?>
                <?php echo render_input( 'city', 'client_city',$value); ?>
-
                <?php $value=( isset($client) ? $client->state : ''); ?>
                <?php echo render_input( 'state', 'client_state',$value); ?>
-
                <?php $value=( isset($client) ? $client->zip : ''); ?>
-
                <?php echo render_input( 'zip', 'client_postal_code',$value); ?>
                <?php $countries= get_all_countries();
                $customer_default_country = get_option('customer_default_country');
                $selected =( isset($client) ? $client->country : $customer_default_country);
                echo render_select( 'country',$countries,array( 'country_id',array( 'short_name')), 'clients_country',$selected,array('data-none-selected-text'=>_l('dropdown_non_selected_tex')));
                ?>
-               <?php $value=( isset($client) ? $client->longitude : ''); ?>
-               <?php echo render_input( 'longitude', 'customer_longitude',$value); ?>
-
             </div>
-
+            <div class="col-md-12">
+               <?php $rel_id=( isset($client) ? $client->userid : false); ?>
+               <?php echo render_custom_fields( 'customers',$rel_id); ?>
+            </div>
          </div>
       </div>
-       <!-- End of contact info tab -->
 
       <?php if(isset($client)){ ?>
-
-      <!--
-      <div role="tabpanel" class="tab-pane<?php if($this->input->get('tab') && $this->input->get('tab') == 'contacts'){echo ' active';}; ?>" id="contacts">
+      <div role="tabpanel" class="tab-pane active" id="contacts">
          <?php if(has_permission('customers','','create') || is_customer_admin($client->userid)){
             $disable_new_contacts = false;
             if(is_empty_customer_company($client->userid) && total_rows('tblcontacts',array('userid'=>$client->userid)) == 1){
@@ -201,8 +176,6 @@
             array_push($table_data,_l('options'));
             echo render_datatable($table_data,'contacts'); ?>
          </div>
-
-
          <div role="tabpanel" class="tab-pane" id="customer_admins">
             <?php if (has_permission('customers', '', 'create') || has_permission('customers', '', 'edit')) { ?>
             <a href="#" data-toggle="modal" data-target="#customer_admins_assign" class="btn btn-info mbot30"><?php echo _l('assign_admin'); ?></a>
@@ -238,12 +211,8 @@
                </tbody>
             </table>
          </div>
-          -->
-
          <?php } ?>
-
-          <!--
-          <div role="tabpanel" class="tab-pane" id="billing_and_shipping">
+         <div role="tabpanel" class="tab-pane" id="billing_and_shipping">
             <div class="row">
                <div class="col-md-12">
                   <div class="row">
@@ -302,7 +271,6 @@
                </div>
             </div>
          </div>
-          <!-- End of Billing & Shipping div -->
       </div>
    </div>
    <?php echo form_close(); ?>

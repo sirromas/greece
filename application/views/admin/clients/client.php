@@ -27,9 +27,11 @@
                <?php echo _l( 'submit'); ?>
             </button>
             <?php if(!isset($client)){ ?>
-            <button class="btn btn-info save-and-add-contact customer-form-submiter">
-               <?php echo _l( 'save_customer_and_add_contact'); ?>
-            </button>
+                <!--
+                <button class="btn btn-info save-and-add-contact customer-form-submiter">
+               <?php  echo _l( 'save_customer_and_add_contact'); ?>
+                </button>
+                -->
             <?php } ?>
          </div>
          <?php } ?>

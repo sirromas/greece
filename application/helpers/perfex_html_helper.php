@@ -237,33 +237,28 @@ function init_relation_tasks_table($table_attributes = array())
             'th_attrs'=>array(
                 'style'=>'min-width:75px'
                 )
-            ),
-        _l('tags'),
-         array(
-            'name'=>_l('task_assigned'),
-            'th_attrs'=>array(
-                'style'=>'min-width:75px'
-                )
-            ),
-        _l('tasks_list_priority'),
-        _l('task_status')
+            )
+
     );
 
     if($table_attributes['data-new-rel-type'] == 'project'){
         array_unshift($table_data,'<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="rel-tasks"><label></label></div>');
     }
 
+
     $custom_fields = get_custom_fields('tasks', array(
         'show_on_table' => 1
     ));
 
+    /*
     foreach ($custom_fields as $field) {
         array_push($table_data, $field['name']);
     }
+    */
 
     $table_data = do_action('tasks_related_table_columns',$table_data);
 
-    array_push($table_data, array('name'=>_l('options'),'th_attrs'=>array('class'=>'table-tasks-options')));
+    //array_push($table_data, array('name'=>_l('options'),'th_attrs'=>array('class'=>'table-tasks-options')));
 
     $name = 'rel-tasks';
     if ($table_attributes['data-new-rel-type'] == 'lead') {
@@ -309,41 +304,6 @@ function init_relation_tasks_table($table_attributes = array())
         echo '<div class="checkbox checkbox-inline mbot25">
         <input type="checkbox" checked value="customer" disabled id="ts_rel_to_customer" name="tasks_related_to[]">
         <label for="ts_rel_to_customer">'._l('client').'</label>
-        </div>
-
-        <div class="checkbox checkbox-inline mbot25">
-        <input type="checkbox" value="project" id="ts_rel_to_project" name="tasks_related_to[]">
-        <label for="ts_rel_to_project">'._l('projects').'</label>
-        </div>
-
-        <div class="checkbox checkbox-inline mbot25">
-        <input type="checkbox" value="invoice" id="ts_rel_to_invoice" name="tasks_related_to[]">
-        <label for="ts_rel_to_invoice">'._l('invoices').'</label>
-        </div>
-
-        <div class="checkbox checkbox-inline mbot25">
-        <input type="checkbox" value="estimate" id="ts_rel_to_estimate" name="tasks_related_to[]">
-        <label for="ts_rel_to_estimate">'._l('estimates').'</label>
-        </div>
-
-        <div class="checkbox checkbox-inline mbot25">
-        <input type="checkbox" value="contract" id="ts_rel_to_contract" name="tasks_related_to[]">
-        <label for="ts_rel_to_contract">'._l('contracts').'</label>
-        </div>
-
-        <div class="checkbox checkbox-inline mbot25">
-        <input type="checkbox" value="ticket" id="ts_rel_to_ticket" name="tasks_related_to[]">
-        <label for="ts_rel_to_ticket">'._l('tickets').'</label>
-        </div>
-
-        <div class="checkbox checkbox-inline mbot25">
-        <input type="checkbox" value="expense" id="ts_rel_to_expense" name="tasks_related_to[]">
-        <label for="ts_rel_to_expense">'._l('expenses').'</label>
-        </div>
-
-        <div class="checkbox checkbox-inline mbot25">
-        <input type="checkbox" value="proposal" id="ts_rel_to_proposal" name="tasks_related_to[]">
-        <label for="ts_rel_to_proposal">'._l('proposals').'</label>
         </div>';
 
         echo '</div>';

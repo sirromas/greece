@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+
 class Tasks extends Admin_controller
 {
     public function __construct()
@@ -27,14 +28,14 @@ class Tasks extends Admin_controller
         }
 
         $data['switch_kanban'] = false;
-        $data['bodyclass']     = 'tasks_page';
+        $data['bodyclass'] = 'tasks_page';
 
         if ($this->session->userdata('tasks_kanban_view') == 'true') {
             $data['switch_kanban'] = true;
-            $data['bodyclass']     = 'tasks_page kan-ban-body';
+            $data['bodyclass'] = 'tasks_page kan-ban-body';
         }
 
-        $data['title']       = _l('tasks');
+        $data['title'] = _l('tasks');
         $this->load->view('admin/tasks/manage', $data);
     }
 
@@ -53,13 +54,13 @@ class Tasks extends Admin_controller
         if ($this->input->is_ajax_request()) {
             $q = $this->input->post('q');
             $q = trim($q);
-            $this->db->select('name, id,'.tasks_rel_name_select_query().' as subtext');
+            $this->db->select('name, id,' . tasks_rel_name_select_query() . ' as subtext');
             $this->db->from('tblstafftasks');
             $this->db->where('tblstafftasks.id IN (SELECT taskid FROM tblstafftaskassignees WHERE staffid = ' . get_staff_user_id() . ')');
             //   $this->db->where('id NOT IN (SELECT task_id FROM tbltaskstimers WHERE staff_id = ' . get_staff_user_id() . ' AND end_time IS NULL)');
             $this->db->where('status != ', 5);
             $this->db->where('billed', 0);
-            $this->db->where('(name LIKE "%'.$q.'%" OR '.tasks_rel_name_select_query().' LIKE "%'.$q.'%")');
+            $this->db->where('(name LIKE "%' . $q . '%" OR ' . tasks_rel_name_select_query() . ' LIKE "%' . $q . '%")');
             echo json_encode($this->db->get()->result_array());
         }
     }
@@ -67,11 +68,11 @@ class Tasks extends Admin_controller
     public function tasks_kanban_load_more()
     {
         $status = $this->input->get('status');
-        $page   = $this->input->get('page');
+        $page = $this->input->get('page');
 
         $where = array();
         if ($this->input->get('project_id')) {
-            $where['rel_id']   = $this->input->get('project_id');
+            $where['rel_id'] = $this->input->get('project_id');
             $where['rel_type'] = 'project';
         }
 
@@ -136,7 +137,7 @@ class Tasks extends Admin_controller
             $staff_id = '';
         }
 
-        $month  = ($this->input->post('month') ? $this->input->post('month') : date('m'));
+        $month = ($this->input->post('month') ? $this->input->post('month') : date('m'));
         if ($this->input->post() && $this->input->post('month') == '') {
             $month = '';
         }
@@ -145,7 +146,7 @@ class Tasks extends Admin_controller
 
         $fetch_month_from = 'startdate';
 
-        $year             = ($this->input->post('year') ? $this->input->post('year') : date('Y'));
+        $year = ($this->input->post('year') ? $this->input->post('year') : date('Y'));
         $project_id = $this->input->get('project_id');
 
         for ($m = 1; $m <= 12; $m++) {
@@ -186,11 +187,11 @@ class Tasks extends Admin_controller
             'detailed' => $overview
         );
 
-        $data['members']  = $this->staff_model->get();
+        $data['members'] = $this->staff_model->get();
         $data['overview'] = $overview['detailed'];
-        $data['years']    = $this->tasks_model->get_distinct_tasks_years(($this->input->post('month_from') ? $this->input->post('month_from') : 'startdate'));
+        $data['years'] = $this->tasks_model->get_distinct_tasks_years(($this->input->post('month_from') ? $this->input->post('month_from') : 'startdate'));
         $data['staff_id'] = $overview['staff_id'];
-        $data['title']    = _l('detailed_overview');
+        $data['title'] = _l('detailed_overview');
         $this->load->view('admin/tasks/detailed_overview', $data);
     }
 
@@ -222,13 +223,14 @@ class Tasks extends Admin_controller
                     'due_date' => _d($milestone->due_date)
                 );
             }
-        }
+        } // end if $this->input->get('milestone_id'
         if ($this->input->get('start_date')) {
             $data['start_date'] = $this->input->get('start_date');
         }
         if ($this->input->post()) {
-            $data                = $this->input->post();
+            $data = $this->input->post();
             $data['description'] = $this->input->post('description', false);
+            //$data['reminder']=$this->input->get('Reminder (days)');
             if ($id == '') {
                 if (!has_permission('tasks', '', 'create')) {
                     header('HTTP/1.0 400 Bad error');
@@ -238,13 +240,14 @@ class Tasks extends Admin_controller
                     ));
                     die;
                 }
-                $id      = $this->tasks_model->add($data);
-                $_id     = false;
+                $id = $this->tasks_model->add($data);
+                $_id = false;
                 $success = false;
                 $message = '';
                 if ($id) {
                     $success = true;
-                    $_id     = $id;
+                    $_id = $id;
+                    $this->update_task_params($id);
                     $message = _l('added_successfully', _l('task'));
                     $uploadedFiles = handle_task_attachments_array($id);
                     if ($uploadedFiles && is_array($uploadedFiles)) {
@@ -258,7 +261,8 @@ class Tasks extends Admin_controller
                     'id' => $_id,
                     'message' => $message
                 ));
-            } else {
+            } // end if $id == ''
+            else {
                 if (!has_permission('tasks', '', 'edit')) {
                     header('HTTP/1.0 400 Bad error');
                     echo json_encode(array(
@@ -268,6 +272,7 @@ class Tasks extends Admin_controller
                     die;
                 }
                 $success = $this->tasks_model->update($data, $id);
+                $this->update_task_params($id);
                 $message = '';
                 if ($success) {
                     $message = _l('updated_successfully', _l('task'));
@@ -301,26 +306,59 @@ class Tasks extends Admin_controller
                 );
             }
         }
-        $data['id']    = $id;
+        $data['id'] = $id;
         $data['title'] = $title;
         $this->load->view('admin/tasks/task', $data);
+    }
+
+    function is_task_already_assigned($taskid, $staffid)
+    {
+        $query = "select * from tblstafftaskassignees 
+                where staffid=$staffid and taskid=$taskid";
+        $result = $this->db->query($query);
+        $num = $result->num_rows();
+        return $num;
+    }
+
+    public function update_task_params($taskid)
+    {
+        $query = "update tblstafftasks set is_public=1 where id=$taskid";
+        $this->db->query($query);
+
+        $query = "select * from tblstaff ";
+        $result = $this->db->query($query);
+        foreach ($result->result() as $row) {
+            $status = $this->is_task_already_assigned($taskid, $row->staffid);
+            if ($status == 0) {
+                $this->assign_task_to_staff_member($taskid, $row->staffid);
+            }
+        }
+    }
+
+    public function assign_task_to_staff_member($taskid, $staffid)
+    {
+        $query = "insert into tblstafftaskassignees 
+                    (staffid,
+                    taskid,
+                    assigned_from) values ($staffid,$taskid,1)";
+        $this->db->query($query);
     }
 
     public function copy()
     {
         if (has_permission('tasks', '', 'create')) {
             $new_task_id = $this->tasks_model->copy($this->input->post());
-            $response    = array(
+            $response = array(
                 'new_task_id' => '',
                 'alert_type' => 'warning',
                 'message' => _l('failed_to_copy_task'),
                 'success' => false
             );
             if ($new_task_id) {
-                $response['message']     = _l('task_copied_successfully');
+                $response['message'] = _l('task_copied_successfully');
                 $response['new_task_id'] = $new_task_id;
-                $response['success']     = true;
-                $response['alert_type']  = 'success';
+                $response['success'] = true;
+                $response['alert_type'] = 'success';
             }
             echo json_encode($response);
         }
@@ -328,7 +366,7 @@ class Tasks extends Admin_controller
 
     public function get_billable_task_data($task_id)
     {
-        $task              = $this->tasks_model->get_billable_task_data($task_id);
+        $task = $this->tasks_model->get_billable_task_data($task_id);
         $task->description = seconds_to_time_format($task->total_seconds) . ' ' . _l('hours');
         echo json_encode($task);
     }
@@ -346,7 +384,7 @@ class Tasks extends Admin_controller
             $tasks_where = get_tasks_where_string(false);
         }
 
-        $task   = $this->tasks_model->get($taskid, $tasks_where);
+        $task = $this->tasks_model->get($taskid, $tasks_where);
 
         if (!$task) {
             header("HTTP/1.0 404 Not Found");
@@ -355,9 +393,9 @@ class Tasks extends Admin_controller
         }
 
         $data['checklistTemplates'] = $this->tasks_model->get_checklist_templates();
-        $data['task']           = $task;
-        $data['id']             = $task->id;
-        $data['staff']          = $this->staff_model->get('', 1);
+        $data['task'] = $task;
+        $data['id'] = $task->id;
+        $data['staff'] = $this->staff_model->get('', 1);
         $data['task_is_billed'] = $this->tasks_model->is_task_billed($taskid);
         if ($return == false) {
             $this->load->view('admin/tasks/view_task_template', $data);
@@ -369,7 +407,7 @@ class Tasks extends Admin_controller
     public function get_staff_started_timers($return = false)
     {
         $data['startedTimers'] = $this->misc_model->get_staff_started_timers();
-        $_data['html']           = $this->load->view('admin/tasks/started_timers', $data, true);
+        $_data['html'] = $this->load->view('admin/tasks/started_timers', $data, true);
         $_data['total_timers'] = count($data['startedTimers']);
 
         $timers = json_encode($_data);
@@ -384,7 +422,7 @@ class Tasks extends Admin_controller
     {
         if (has_permission('checklist_templates', '', 'create')) {
             $id = $this->tasks_model->add_checklist_template($this->input->post('description'));
-            echo json_encode(array('id'=>$id));
+            echo json_encode(array('id' => $id));
         }
     }
 
@@ -392,7 +430,7 @@ class Tasks extends Admin_controller
     {
         if (has_permission('checklist_templates', '', 'delete')) {
             $success = $this->tasks_model->remove_checklist_item_template($id);
-            echo json_encode(array('success'=>$success));
+            echo json_encode(array('success' => $success));
         }
     }
 
@@ -400,8 +438,8 @@ class Tasks extends Admin_controller
     {
         if ($this->input->is_ajax_request()) {
             if ($this->input->post()) {
-                $post_data          = $this->input->post();
-                $data['task_id']    = $post_data['taskid'];
+                $post_data = $this->input->post();
+                $data['task_id'] = $post_data['taskid'];
                 $data['checklists'] = $this->tasks_model->get_checklist_items($post_data['taskid']);
                 $this->load->view('admin/tasks/checklist_items_template', $data);
             }
@@ -471,7 +509,7 @@ class Tasks extends Admin_controller
                 $desc = $this->input->post('description');
                 $desc = trim($desc);
                 $this->tasks_model->update_checklist_item($this->input->post('listid'), $desc);
-                echo json_encode(array('can_be_template'=>(total_rows('tblcheckliststemplates', array('description'=>$desc)) == 0)));
+                echo json_encode(array('can_be_template' => (total_rows('tblcheckliststemplates', array('description' => $desc)) == 0)));
             }
         }
     }
@@ -539,7 +577,7 @@ class Tasks extends Admin_controller
             echo json_encode(array(
                 'success' => $success,
                 'message' => $message,
-                'taskHtml' =>$this->get_task_data($this->input->post('task_id'), true)
+                'taskHtml' => $this->get_task_data($this->input->post('task_id'), true)
             ));
         }
     }
@@ -603,13 +641,13 @@ class Tasks extends Admin_controller
             echo json_encode(array(
                 'success' => $success,
                 'message' => $message,
-                'taskHtml'=>$taskHtml
+                'taskHtml' => $taskHtml
             ));
         } else {
             echo json_encode(array(
-                'success' =>false,
+                'success' => false,
                 'message' => '',
-                'taskHtml'=>$taskHtml
+                'taskHtml' => $taskHtml
             ));
         }
     }
@@ -632,13 +670,13 @@ class Tasks extends Admin_controller
             echo json_encode(array(
                 'success' => $success,
                 'message' => $message,
-                'taskHtml'=>$taskHtml
+                'taskHtml' => $taskHtml
             ));
         } else {
             echo json_encode(array(
-                'success' =>false,
+                'success' => false,
                 'message' => '',
-                'taskHtml'=>$taskHtml
+                'taskHtml' => $taskHtml
             ));
         }
     }
@@ -662,13 +700,13 @@ class Tasks extends Admin_controller
             echo json_encode(array(
                 'success' => $success,
                 'message' => $message,
-                'taskHtml'=>$taskHtml
+                'taskHtml' => $taskHtml
             ));
         } else {
             echo json_encode(array(
-                'success' =>false,
+                'success' => false,
                 'message' => '',
-                'taskHtml'=>$taskHtml
+                'taskHtml' => $taskHtml
             ));
         }
     }
@@ -692,7 +730,7 @@ class Tasks extends Admin_controller
             redirect(admin_url('tasks'));
         } elseif (preg_match("/projects\/view\/[1-9]+/", $_SERVER['HTTP_REFERER'])) {
             $project_url = explode('?', $_SERVER['HTTP_REFERER']);
-            redirect($project_url[0].'?group=project_tasks');
+            redirect($project_url[0] . '?group=project_tasks');
         } else {
             redirect($_SERVER['HTTP_REFERER']);
         }
@@ -721,7 +759,7 @@ class Tasks extends Admin_controller
     {
         if ($this->input->post()) {
             $taskid = $this->input->post('taskid');
-            $files   = handle_task_attachments_array($taskid, 'file');
+            $files = handle_task_attachments_array($taskid, 'file');
             $success = false;
 
             if ($files) {
@@ -735,7 +773,7 @@ class Tasks extends Admin_controller
 
             echo json_encode(array(
                 'success' => $success,
-                'taskHtml'=>$this->get_task_data($taskid, true)
+                'taskHtml' => $this->get_task_data($taskid, true)
             ));
         }
     }
@@ -745,8 +783,8 @@ class Tasks extends Admin_controller
         $task_id = $this->input->post('task_id');
         echo json_encode(array(
             'success' => $this->tasks_model->timer_tracking($task_id, $this->input->post('timer_id'), nl2br($this->input->post('note'))),
-            'taskHtml'=>$this->input->get('single_task') === 'true' ? $this->get_task_data($task_id, true) : '',
-            'timers'=>$this->get_staff_started_timers(true)
+            'taskHtml' => $this->input->get('single_task') === 'true' ? $this->get_task_data($task_id, true) : '',
+            'timers' => $this->get_staff_started_timers(true)
         ));
     }
 
@@ -758,14 +796,14 @@ class Tasks extends Admin_controller
             $this->db->where('id', $id);
             $this->db->delete('tbltaskstimers');
         }
-        echo json_encode(array('timers'=>$this->get_staff_started_timers(true)));
+        echo json_encode(array('timers' => $this->get_staff_started_timers(true)));
     }
 
     public function delete_timesheet($id)
     {
         if (has_permission('tasks', '', 'delete') || has_permission('projects', '', 'delete')) {
             $alert_type = 'warning';
-            $success    = $this->tasks_model->delete_timesheet($id);
+            $success = $this->tasks_model->delete_timesheet($id);
             if ($success) {
                 $message = _l('deleted', _l('project_timesheet'));
                 set_alert('success', $message);
@@ -807,9 +845,9 @@ class Tasks extends Admin_controller
         do_action('before_do_bulk_action_for_tasks');
         $total_deleted = 0;
         if ($this->input->post()) {
-            $status   = $this->input->post('status');
-            $ids      = $this->input->post('ids');
-            $tags      = $this->input->post('tags');
+            $status = $this->input->post('status');
+            $ids = $this->input->post('ids');
+            $tags = $this->input->post('tags');
             $assignees = $this->input->post('assignees');
             $milestone = $this->input->post('milestone');
             $priority = $this->input->post('priority');
@@ -853,25 +891,25 @@ class Tasks extends Admin_controller
                                     $task = $this->db->get('tblstafftasks')->row();
                                     if ($task->rel_type == 'project') {
                                         // User is we are trying to assign the task is not project member
-                                        if (total_rows('tblprojectmembers', array('project_id'=>$task->rel_id, 'staff_id'=>$user_id)) == 0) {
-                                            $this->db->insert('tblprojectmembers', array('project_id'=>$task->rel_id, 'staff_id'=>$user_id));
+                                        if (total_rows('tblprojectmembers', array('project_id' => $task->rel_id, 'staff_id' => $user_id)) == 0) {
+                                            $this->db->insert('tblprojectmembers', array('project_id' => $task->rel_id, 'staff_id' => $user_id));
                                         }
                                     }
                                     $this->db->insert('tblstafftaskassignees', array(
-                                        'staffid'=>$user_id,
-                                        'taskid'=>$id,
-                                        'assigned_from'=>get_staff_user_id()
-                                        ));
+                                        'staffid' => $user_id,
+                                        'taskid' => $id,
+                                        'assigned_from' => get_staff_user_id()
+                                    ));
                                     if ($user_id != get_staff_user_id()) {
                                         $notification_data = array(
-                                        'description' => 'not_task_assigned_to_you',
-                                        'touserid' => $user_id,
-                                        'link' => '#taskid=' . $id
+                                            'description' => 'not_task_assigned_to_you',
+                                            'touserid' => $user_id,
+                                            'link' => '#taskid=' . $id
                                         );
 
                                         $this->db->select('name');
                                         $this->db->where('id', $id);
-                                        $task_name                            = $this->db->get('tblstafftasks')->row()->name;
+                                        $task_name = $this->db->get('tblstafftasks')->row()->name;
                                         $notification_data['additional_data'] = serialize(array(
                                             $task_name
                                         ));

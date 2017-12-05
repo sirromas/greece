@@ -73,3 +73,23 @@
 </table>
 </div>
 <?php } ?>
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript">
+
+        $(document ).ready(function() {
+
+            <?php $roleid=$_SESSION['roleid'];
+
+            if ($roleid==1) { ?>
+
+            var el=$("#DataTables_Table_0_wrapper > div:nth-child(2) > div:nth-child(1)");
+            console.log('Element: '+JSON.stringify(el));
+            el.css('display','none');
+
+            <?php } ?>
+
+        }) // end of document ready..
+
+    </script>

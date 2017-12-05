@@ -5,6 +5,8 @@ $hasPermissionDelete = has_permission('customers', '', 'delete');
 
 $custom_fields = get_table_custom_fields('customers');
 
+
+/*
 $aColumns = array(
     '1',
     'tblclients.userid as userid',
@@ -15,6 +17,15 @@ $aColumns = array(
     'tblclients.active',
     '(SELECT GROUP_CONCAT(name ORDER BY name ASC) FROM tblcustomersgroups LEFT JOIN tblcustomergroups_in ON tblcustomergroups_in.groupid = tblcustomersgroups.id WHERE customer_id = tblclients.userid) as groups'
     );
+*/
+
+
+$aColumns = array(
+    '1',
+    'tblclients.userid as userid',
+    'company',
+    '(SELECT GROUP_CONCAT(name ORDER BY name ASC) FROM tblcustomersgroups LEFT JOIN tblcustomergroups_in ON tblcustomergroups_in.groupid = tblcustomersgroups.id WHERE customer_id = tblclients.userid) as groups'
+);
 
 $sIndexColumn = "userid";
 $sTable       = 'tblclients';
@@ -23,6 +34,7 @@ $where   = array();
 $filter  = array();
 
 $join = array('LEFT JOIN tblcontacts ON tblcontacts.userid=tblclients.userid AND tblcontacts.is_primary=1');
+//$join=array();
 
 foreach ($custom_fields as $key => $field) {
     $selectAs = (is_cf_date($field) ? 'date_picker_cvalue_' . $key : 'cvalue_'.$key);
@@ -30,6 +42,7 @@ foreach ($custom_fields as $key => $field) {
     array_push($aColumns, 'ctable_' . $key . '.value as ' . $selectAs);
     array_push($join, 'LEFT JOIN tblcustomfieldsvalues as ctable_' . $key . ' ON tblclients.userid = ctable_' . $key . '.relid AND ctable_' . $key . '.fieldto="' . $field['fieldto'] . '" AND ctable_' . $key . '.fieldid=' . $field['id']);
 }
+
 // Filter by custom groups
 $groups  = $this->_instance->clients_model->get_groups();
 $groupIds = array();
@@ -42,8 +55,8 @@ if (count($groupIds) > 0) {
     array_push($filter, 'AND tblclients.userid IN (SELECT customer_id FROM tblcustomergroups_in WHERE groupid IN (' . implode(', ', $groupIds) . '))');
 }
 
-$this->_instance->load->model('invoices_model');
 // Filter by invoices
+$this->_instance->load->model('invoices_model');
 $invoiceStatusIds = array();
 foreach ($this->_instance->invoices_model->get_statuses() as $status) {
     if ($this->_instance->input->post('invoices_' . $status)) {
@@ -147,12 +160,20 @@ $result  = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, ar
 $output  = $result['output'];
 $rResult = $result['rResult'];
 
+/*
+echo '<pre>';
+print_r($rResult);
+echo "</pre><br>-------------------------------------------------<br>";
+die();
+*/
+
 foreach ($rResult as $aRow) {
 
     $row = array();
 
     // Bulk actions
     $row[] = '<div class="checkbox"><input type="checkbox" value="' . $aRow['userid'] . '"><label></label></div>';
+
     // User id
     $row[] = $aRow['userid'];
 
@@ -163,16 +184,16 @@ foreach ($rResult as $aRow) {
         $company = _l('no_company_view_profile');
     }
 
-    $row[] = '<a href="' . admin_url('clients/client/' . $aRow['userid']) . '">' . $company . '</a>';
+    //$row[] = '<a href="' . admin_url('clients/client/' . $aRow['userid']) . '">' . $company . '</a>';
 
     // Primary contact
-    $row[] = ($aRow['contact_id'] ? '<a href="' . admin_url('clients/client/' . $aRow['userid'] . '?contactid=' . $aRow['contact_id']) . '" target="_blank">' . $aRow['contact_fullname'] . '</a>' : '');
+    //$row[] = ($aRow['contact_id'] ? '<a href="' . admin_url('clients/client/' . $aRow['userid'] . '?contactid=' . $aRow['contact_id']) . '" target="_blank">' . $aRow['contact_fullname'] . '</a>' : '');
 
     // Primary contact email
-    $row[] = ($aRow['email'] ? '<a href="mailto:' . $aRow['email'] . '">' . $aRow['email'] . '</a>' : '');
+    //$row[] = ($aRow['email'] ? '<a href="mailto:' . $aRow['email'] . '">' . $aRow['email'] . '</a>' : '');
 
     // Primary contact phone
-    $row[] = ($aRow['phonenumber'] ? '<a href="tel:' . $aRow['phonenumber'] . '">' . $aRow['phonenumber'] . '</a>' : '');
+    //$row[] = ($aRow['phonenumber'] ? '<a href="tel:' . $aRow['phonenumber'] . '">' . $aRow['phonenumber'] . '</a>' : '');
 
     // Toggle active/inactive customer
     $toggleActive = '<div class="onoffswitch" data-toggle="tooltip" data-title="' . _l('customer_active_inactive_help') . '">
@@ -180,10 +201,11 @@ foreach ($rResult as $aRow) {
         <label class="onoffswitch-label" for="' . $aRow['userid'] . '"></label>
     </div>';
 
+
     // For exporting
     $toggleActive .= '<span class="hide">' . ($aRow['tblclients.active'] == 1 ? _l('is_active_export') : _l('is_not_active_export')) . '</span>';
 
-    $row[] = $toggleActive;
+    //$row[] = $toggleActive;
 
     // Customer groups parsing
     $groupsRow  = '';
@@ -194,7 +216,7 @@ foreach ($rResult as $aRow) {
         }
     }
 
-    $row[] = $groupsRow;
+    //$row[] = $groupsRow;
 
     // Custom fields add values
     foreach($customFieldsColumns as $customFieldColumn){
@@ -207,6 +229,8 @@ foreach ($rResult as $aRow) {
     ));
 
     $row = $hook['output'];
+
+    $row[] = $groupsRow;
 
     // Table options
     $options = icon_btn('clients/client/' . $aRow['userid'], 'pencil-square-o');

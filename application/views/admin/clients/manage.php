@@ -275,22 +275,24 @@ $roleid=$_SESSION['roleid'];
                            $_table_data = array(
                             '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="clients"><label></label></div>',
                             '#',
-                            _l('clients_list_company'),
-                            _l('contact_primary'),
-                            _l('company_primary_email'),
-                            _l('clients_list_phone'),
-                            _l('customer_active'),
-                            _l('customer_groups'),
+                            //_l('clients_list_company'),
+                            //_l('contact_primary'),
+                            //_l('company_primary_email'),
+                            //_l('clients_list_phone'),
+                            //_l('customer_active'),
+                            //_l('customer_groups'),
                             );
 
                            foreach($_table_data as $_t){
                             array_push($table_data,$_t);
-                        }
+                           } // end foreach
 
                         $custom_fields = get_custom_fields('customers',array('show_on_table'=>1));
                         foreach($custom_fields as $field){
                             array_push($table_data,$field['name']);
                         }
+
+                           array_push($table_data, _l('customer_groups'));
 
                         $table_data = do_action('customers_table_columns',$table_data);
 
@@ -306,58 +308,70 @@ $roleid=$_SESSION['roleid'];
     </div>
 </div>
 <?php init_tail(); ?>
-<script>
-    var CustomersServerParams = {};
-    $.each($('._hidden_inputs._filters input'),function(){
-       CustomersServerParams[$(this).attr('name')] = '[name="'+$(this).attr('name')+'"]';
-   });
-    CustomersServerParams['exclude_inactive'] = '[name="exclude_inactive"]:checked';
+<script type="text/javascript">
 
-    var headers_clients = $('.table-clients').find('th');
-    var not_sortable_clients = (headers_clients.length - 1);
-    var tAPI = initDataTable('.table-clients', admin_url+'clients/table', [not_sortable_clients,0], [not_sortable_clients,0], CustomersServerParams,<?php echo do_action('customers_table_default_order',json_encode(array(2,'ASC'))); ?>);
-    $('input[name="exclude_inactive"]').on('change',function(){
-        tAPI.ajax.reload();
-    });
-    function customers_bulk_action(event) {
-        var r = confirm(appLang.confirm_action_prompt);
-        if (r == false) {
-            return false;
-        } else {
-            var mass_delete = $('#mass_delete').prop('checked');
-            var ids = [];
-            var data = {};
-            if(mass_delete == false || typeof(mass_delete) == 'undefined'){
-                data.groups = $('select[name="move_to_groups_customers_bulk[]"]').selectpicker('val');
-                if (data.groups.length == 0) {
-                    data.groups = 'remove_all';
-                }
+    $( document ).ready(function() {
+
+        var CustomersServerParams = {};
+        $.each($('._hidden_inputs._filters input'), function () {
+            CustomersServerParams[$(this).attr('name')] = '[name="' + $(this).attr('name') + '"]';
+        });
+        CustomersServerParams['exclude_inactive'] = '[name="exclude_inactive"]:checked';
+
+        var headers_clients = $('.table-clients').find('th');
+        var not_sortable_clients = (headers_clients.length - 1);
+        var tAPI = initDataTable('.table-clients', admin_url + 'clients/table', [not_sortable_clients, 0], [not_sortable_clients, 0], CustomersServerParams,<?php echo do_action('customers_table_default_order', json_encode(array(2, 'ASC'))); ?>);
+        $('input[name="exclude_inactive"]').on('change', function () {
+            tAPI.ajax.reload();
+        });
+
+        function customers_bulk_action(event) {
+            var r = confirm(appLang.confirm_action_prompt);
+            if (r == false) {
+                return false;
             } else {
-                data.mass_delete = true;
-            }
-            var rows = $('.table-clients').find('tbody tr');
-            $.each(rows, function() {
-                var checkbox = $($(this).find('td').eq(0)).find('input');
-                if (checkbox.prop('checked') == true) {
-                    ids.push(checkbox.val());
+                var mass_delete = $('#mass_delete').prop('checked');
+                var ids = [];
+                var data = {};
+                if (mass_delete == false || typeof(mass_delete) == 'undefined') {
+                    data.groups = $('select[name="move_to_groups_customers_bulk[]"]').selectpicker('val');
+                    if (data.groups.length == 0) {
+                        data.groups = 'remove_all';
+                    }
+                } else {
+                    data.mass_delete = true;
                 }
-            });
-            data.ids = ids;
-            $(event).addClass('disabled');
-            setTimeout(function(){
-              $.post(admin_url + 'clients/bulk_action', data).done(function() {
-               window.location.reload();
-           });
-          },50);
+                var rows = $('.table-clients').find('tbody tr');
+                $.each(rows, function () {
+                    var checkbox = $($(this).find('td').eq(0)).find('input');
+                    if (checkbox.prop('checked') == true) {
+                        ids.push(checkbox.val());
+                    }
+                });
+                data.ids = ids;
+                $(event).addClass('disabled');
+                setTimeout(function () {
+                    $.post(admin_url + 'clients/bulk_action', data).done(function () {
+                        window.location.reload();
+                    });
+                }, 50);
+            }
         }
-    }
 
-    <?php if ($roleid==1) { ?>
+        /*
+        $("#DataTables_Table_0 > thead > tr > th:nth-child(3)").css("display", "none");
+        $("#DataTables_Table_0 > thead > tr > th:nth-child(4)").css("display", "none");
+        $("#DataTables_Table_0 > thead > tr > th:nth-child(5)").css("display", "none");
+        */
 
-    $("#DataTables_Table_0_wrapper > div:nth-child(2) > div.col-md-7 > div.dt-buttons.btn-group > a.btn.btn-default.buttons-collection.btn-default-dt-options").css("display", "none");
 
-    <?php } ?>
+        <?php if ($roleid == 1) { ?>
 
+        $("#DataTables_Table_0_wrapper > div:nth-child(2) > div.col-md-7 > div.dt-buttons.btn-group > a.btn.btn-default.buttons-collection.btn-default-dt-options").css("display", "none");
+
+        <?php } ?>
+
+    });
 
 </script>
 </body>

@@ -458,13 +458,15 @@ class Tasks_model extends CRM_Model
                 $data['repeat_every']     = $data['repeat_every_custom'];
                 $data['recurring_type']   = $data['repeat_type_custom'];
                 $data['custom_recurring'] = 1;
-            } else {
+            } // end if
+            else {
                 $_temp                    = explode('-', $data['repeat_every']);
                 $data['recurring_type']   = $_temp[1];
                 $data['repeat_every']     = $_temp[0];
                 $data['custom_recurring'] = 0;
             }
-        } else {
+         } // end if
+        else {
             $data['recurring'] = 0;
         }
 
