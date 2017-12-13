@@ -20,9 +20,11 @@
       <?php if($total_qa_removed != count($quickActions)){ ?>
       <li class="quick-links">
          <div class="dropdown dropdown-quick-links">
-            <a href="#" class="dropdown-toggle" id="dropdownQuickLinks" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+             <!--
+             <a href="#" class="dropdown-toggle" id="dropdownQuickLinks" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             <i class="fa fa-gavel" aria-hidden="true"></i>
             </a>
+            -->
             <ul class="dropdown-menu" aria-labelledby="dropdownQuickLinks">
                <?php
                   foreach($quickActions as $key => $item){

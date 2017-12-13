@@ -3,8 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $hasPermissionEdit = has_permission('tasks', '', 'edit');
 $bulkActions = $this->_instance->input->get('bulk_actions');
 
-
-/*
 $aColumns = array(
     'name',
     'startdate',
@@ -14,17 +12,6 @@ $aColumns = array(
     'priority',
     'status'
 );
-*/
-
-$aColumns = array(
-    'name',
-    'startdate',
-    'duedate',
-    '(SELECT GROUP_CONCAT(CONCAT(firstname, \' \', lastname) SEPARATOR ",") FROM tblstafftaskassignees JOIN tblstaff ON tblstaff.staffid = tblstafftaskassignees.staffid WHERE taskid=tblstafftasks.id ORDER BY tblstafftaskassignees.staffid) as assignees',
-    'priority',
-    'status'
-);
-
 
 if ($bulkActions) {
     array_unshift($aColumns, '1');
@@ -80,9 +67,13 @@ foreach ($rResult as $aRow) {
 
     $outputName = '<a href="'.admin_url('tasks/view/'.$aRow['id']).'" class="display-block main-tasks-table-href-name'.(!empty($aRow['rel_id']) ? ' mbot5' : '').'" onclick="init_task_modal(' . $aRow['id'] . '); return false;">' . $aRow['name'] . '</a>';
     if ($aRow['rel_name']) {
+
          $relName = task_rel_name($aRow['rel_name'], $aRow['rel_id'], $aRow['rel_type']);
+
          $link = task_rel_link($aRow['rel_id'], $aRow['rel_type']);
-         //$outputName .= '<span class="hide"> - </span><a class="text-muted task-table-related" data-toggle="tooltip" title="' . _l('task_related_to') . '" href="' . $link . '">' . $relName . '</a>';
+
+         $outputName .= '<span class="hide"> - </span><a class="text-muted task-table-related" data-toggle="tooltip" title="' . _l('task_related_to') . '" href="' . $link . '">' . $relName . '</a>';
+
     }
 
     $row[] = $outputName;
@@ -91,7 +82,7 @@ foreach ($rResult as $aRow) {
 
     $row[] = _d($aRow['duedate']);
 
-    //$row[] = render_tags($aRow['tags']);
+    $row[] = render_tags($aRow['tags']);
 
     $outputAssignees = '';
 
@@ -116,28 +107,24 @@ foreach ($rResult as $aRow) {
         $outputAssignees .= '<span class="hide">' . mb_substr($export_assignees, 0, -2) . '</span>';
     }
 
-    //$row[] = $outputAssignees;
+    $row[] = $outputAssignees;
 
-    $row[] =$relName;
-
-    //$row[] = '<span class="text-' . get_task_priority_class($aRow['priority']) . ' inline-block">' . task_priority($aRow['priority']) . '</span>';
+    $row[] = '<span class="text-' . get_task_priority_class($aRow['priority']) . ' inline-block">' . task_priority($aRow['priority']) . '</span>';
 
     $status = get_task_status_by_id($aRow['status']);
     $outputStatus = '<span class="inline-block label" style="color:'.$status['color'].';border:1px solid '.$status['color'].'" task-status-table="'.$aRow['status'].'">' . $status['name'];
 
     if ($aRow['status'] == 5) {
         $outputStatus .= '<a href="#" onclick="unmark_complete(' . $aRow['id'] . '); return false;"><i class="fa fa-check task-icon task-finished-icon" data-toggle="tooltip" title="' . _l('task_unmark_as_complete') . '"></i></a>';
-    } // end if
-    else {
+    } else {
         $outputStatus .= '<a href="#" onclick="mark_complete(' . $aRow['id'] . '); return false;"><i class="fa fa-check task-icon task-unfinished-icon" data-toggle="tooltip" title="' . _l('task_single_mark_as_complete') . '"></i></a>';
-    } // end else
+    }
 
     $outputStatus .= '</span>';
 
-    //$row[] = $outputStatus;
+    $row[] = $outputStatus;
 
     // Custom fields add values
-    /*
     foreach ($customFieldsColumns as $customFieldColumn) {
         $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _d($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
     }
@@ -148,17 +135,12 @@ foreach ($rResult as $aRow) {
     ));
 
     $row = $hook_data['output'];
-    */
 
     $options = '';
 
     if ($hasPermissionEdit) {
-        $options .= icon_btn('#', 'pencil-square-o', 'btn-default pull-center mleft5', array(
+        $options .= icon_btn('#', 'pencil-square-o', 'btn-default pull-right mleft5', array(
             'onclick' => 'edit_task(' . $aRow['id'] . '); return false'
-        ));
-
-        $options .= icon_btn('#', 'pencil-square-o', 'btn-danger pull-center mleft5', array(
-            'onclick' => 'delete_task(' . $aRow['id'] . '); return false'
         ));
     }
 
@@ -169,20 +151,21 @@ foreach ($rResult as $aRow) {
         $class = 'btn-default disabled';
         if ($aRow['status'] == 5) {
             $tooltip = ' data-toggle="tooltip" data-title="' . format_task_status($aRow['status'], false, true) . '"';
-        } // end if
-        elseif ($aRow['billed'] == 1) {
+        } elseif ($aRow['billed'] == 1) {
             $tooltip = ' data-toggle="tooltip" data-title="' . _l('task_billed_cant_start_timer') . '"';
-        } // end elseif
-        elseif (!$aRow['is_assigned']) {
+        } elseif (!$aRow['is_assigned']) {
             $tooltip = ' data-toggle="tooltip" data-title="' . _l('task_start_timer_only_assignee') . '"';
-        } // end elseif
-    } // end if
+        }
+    }
 
     if ($aRow['not_finished_timer_by_current_staff']) {
-
-    } // end if
-    else {
-
+        $options .= icon_btn('#', 'clock-o', 'btn-danger pull-right no-margin', array(
+            'onclick' => 'timer_action(this,' . $aRow['id'] . ',' . $aRow['not_finished_timer_by_current_staff'] . '); return false'
+        ));
+    } else {
+        $options .= '<span' . $tooltip . ' class="pull-right">' . icon_btn('#', 'clock-o', $class . ' no-margin', array(
+             'onclick' => 'timer_action(this,' . $aRow['id'] . '); return false'
+         )) . '</span>';
     }
 
     $row[]              = $options;

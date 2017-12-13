@@ -5,6 +5,10 @@ $hasPermissionDelete = has_permission('customers', '', 'delete');
 
 $custom_fields = get_table_custom_fields('customers');
 
+$ci = &get_instance();
+$ci->load->model('clients_model');
+
+
 
 /*
 $aColumns = array(
@@ -176,6 +180,7 @@ foreach ($rResult as $aRow) {
 
     // User id
     $row[] = $aRow['userid'];
+    $color=$ci->clients_model->get_customer_link_color($aRow['userid']);
 
     // Company
     $company = $aRow['company'];
@@ -184,7 +189,7 @@ foreach ($rResult as $aRow) {
         $company = _l('no_company_view_profile');
     }
 
-    //$row[] = '<a href="' . admin_url('clients/client/' . $aRow['userid']) . '">' . $company . '</a>';
+    $row[] = '<a href="' . admin_url('clients/client/' . $aRow['userid']) . '">' . $company . '</a>';
 
     // Primary contact
     //$row[] = ($aRow['contact_id'] ? '<a href="' . admin_url('clients/client/' . $aRow['userid'] . '?contactid=' . $aRow['contact_id']) . '" target="_blank">' . $aRow['contact_fullname'] . '</a>' : '');
@@ -212,16 +217,29 @@ foreach ($rResult as $aRow) {
     if ($aRow['groups']) {
         $groups = explode(',', $aRow['groups']);
         foreach ($groups as $group) {
-            $groupsRow .= '<span class="label label-default mleft5 inline-block customer-group-list pointer">' . $group . '</span>';
+            $groupsRow .= '<span style="color: '.$color.';" class="label label-default mleft5 inline-block customer-group-list pointer">' .$group . '</span>';
         }
     }
 
     //$row[] = $groupsRow;
 
+    $prohibited_columns=array('cvalue_4','cvalue_5','cvalue_6');
+
     // Custom fields add values
     foreach($customFieldsColumns as $customFieldColumn){
-        $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _d($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
+
+        /*
+        echo "<pre>";
+        print_r($customFieldColumn);
+        echo "</pre><br>";
+        */
+
+        if (!in_array($customFieldColumn, $prohibited_columns)) {
+            $row[] = (strpos($customFieldColumn, 'date_picker_') !== false ? _d($aRow[$customFieldColumn]) : $aRow[$customFieldColumn]);
+        }
     }
+
+    $colored_custom_fields_row="<span style='color: $color;'>$row</span>";
 
     $hook = do_action('customers_table_row_data', array(
         'output' => $row,

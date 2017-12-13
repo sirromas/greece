@@ -79,7 +79,7 @@ class Authentication extends CI_Controller
                 }
                 do_action('after_staff_login');
                 //redirect(admin_url());
-
+                $this->Authentication_model->finish_due_date_tasks();
                 $roleid=$this->Authentication_model->get_current_user_role($_SESSION['staff_user_id']);
                 $aside_menu_items=$this->Authentication_model->get_staff_side_menu_items($_SESSION['staff_user_id']);
                 $_SESSION['roleid']=$roleid;

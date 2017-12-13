@@ -43,9 +43,11 @@
                   <?php $this->load->view('admin/tasks/started_timers',array('startedTimers'=>$startedTimers)); ?>
                </ul>
                <?php if(is_staff_member()){ ?>
+            <!--
             <li class="header-newsfeed">
                <a href="#" class="open_newsfeed"><i class="fa fa-share fa-fw fa-lg" aria-hidden="true"></i></a>
             </li>
+            -->
             <?php } ?>
             </li>
             <?php } ?>
@@ -94,16 +96,21 @@
             </ul>
          </li>
          <?php if(is_staff_member()){ ?>
+
+         <!--
          <li class="icon header-newsfeed">
             <a href="#" class="open_newsfeed" data-toggle="tooltip" title="<?php echo _l('whats_on_your_mind'); ?>" data-placement="bottom"><i class="fa fa-share fa-fw fa-lg" aria-hidden="true"></i></a>
          </li>
+         -->
          <?php } ?>
-         <li class="icon header-todo">
+         <!--
+          <li class="icon header-todo">
             <a href="<?php echo admin_url('todo'); ?>" data-toggle="tooltip" title="<?php echo _l('nav_todo_items'); ?>" data-placement="bottom"><i class="fa fa-check-square-o fa-fw fa-lg"></i>
             <?php $_unfinished_todos = total_rows('tbltodoitems',array('finished'=>0,'staffid'=>get_staff_user_id())); ?>
             <span class="label bg-warning icon-total-indicator nav-total-todos<?php if($_unfinished_todos == 0){echo ' hide';} ?>"><?php echo $_unfinished_todos; ?></span>
             </a>
          </li>
+
          <li class="icon header-timers timer-button" data-placement="bottom" data-toggle="tooltip" data-title="<?php echo _l('my_timesheets'); ?>">
             <a href="#" id="top-timers" class="dropdown-toggle top-timers" data-toggle="dropdown">
             <i class="fa fa-clock-o fa-fw fa-lg" aria-hidden="true"></i>
@@ -115,6 +122,7 @@
                <?php $this->load->view('admin/tasks/started_timers',array('startedTimers'=>$startedTimers)); ?>
             </ul>
          </li>
+         -->
          <li class="dropdown notifications-wrapper header-notifications" data-toggle="tooltip" title="<?php echo _l('nav_notifications'); ?>" data-placement="bottom">
             <?php $this->load->view('admin/includes/notifications'); ?>
          </li>

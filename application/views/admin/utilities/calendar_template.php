@@ -25,41 +25,54 @@ $ci->load->model('utilities_model');
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <?php $value = _d(date('Y-m-d')); ?>
-                                <?php echo render_date_input('startdate', '<small class="req text-danger">* </small>Start Date', $value); ?>
+                                <?php $value = _d(date('Y-m-d h:i:s')); ?>
+                                <?php echo render_datetime_input('startdate', '<small class="req text-danger">* </small>Start Date', $value); ?>
                             </div>
                             <div class="col-md-6">
-                                <?php $value = _d(date('Y-m-d')); ?>
+                                <?php $value = _d(date('Y-m-d h:i:s')); ?>
                                 <?php $value = (isset($task) ? _d($task->duedate) : ''); ?>
-                                <?php echo render_date_input('duedate', 'task_add_edit_due_date', $value, $project_end_date_attrs); ?>
+                                <?php echo render_datetime_input('duedate', '<small class="req text-danger">* </small>Due Date', $value, $project_end_date_attrs); ?>
                             </div>
-                        </div>
-                        <!-- End of div row -->
+                        </div> <!-- End of div row -->
+
 
                         <div class="row">
+
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="priority"
-                                           class="control-label"><?php echo _l('task_add_edit_priority'); ?></label>
-                                    <select name="priority" class="selectpicker" id="priority" data-width="100%"
-                                            data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                        <option value="1" <?php if (isset($task) && $task->priority == 1 || !isset($task) && get_option('default_task_priority') == 1) {
-                                            echo 'selected';
-                                        } ?>><?php echo _l('task_priority_low'); ?></option>
-                                        <option value="2" <?php if (isset($task) && $task->priority == 2 || !isset($task) && get_option('default_task_priority') == 2) {
-                                            echo 'selected';
-                                        } ?>><?php echo _l('task_priority_medium'); ?></option>
-                                        <option value="3" <?php if (isset($task) && $task->priority == 3 || !isset($task) && get_option('default_task_priority') == 3) {
-                                            echo 'selected';
-                                        } ?>><?php echo _l('task_priority_high'); ?></option>
-                                        <option value="4" <?php if (isset($task) && $task->priority == 4 || !isset($task) && get_option('default_task_priority') == 4) {
-                                            echo 'selected';
-                                        } ?>><?php echo _l('task_priority_urgent'); ?></option>
-                                        <?php do_action('task_priorities_select', (isset($task) ? $task : 0)); ?>
-                                    </select>
-                                </div>
+                                <label for="customerid" class="control-label">
+                                    <small class="req text-danger">*</small>
+                                    Contact</label>
+                                <select name="customerid" id="customerid" class="selectpicker" data-width="100%"
+                                        data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                    <?php
+                                    $customers = $ci->utilities_model->get_customers_list();
+                                    echo "<option value='0' selected>Please select</option>";
+                                    foreach ($customers as $customerid) {
+                                        $name = $ci->utilities_model->get_customer_name_by_id($customerid);
+                                        echo "<option value='$customerid'>$name</option>";
+                                    }
+                                    ?>
+                                </select>
                             </div>
+
                             <div class="col-md-6">
+                                <label for="remind" class="control-label">Remind me (days)</label>
+                                <select name="remind" id="remind" class="selectpicker" data-width="100%"
+                                        data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
+                                    <?php
+                                    $options = $ci->utilities_model->get_remider_options();
+                                    echo "<option value='0' selected>Please select</option>";
+                                    foreach ($options as $op) {
+                                        echo "<option value='$op'>$op</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                        </div> <!-- End of div row -->
+
+                        <div class="row" style="margin-top:15px;">
+                            <div class="col-md-12" >
                                 <div class="form-group">
                                     <label for="repeat_every"
                                            class="control-label"><?php echo _l('task_repeat_every'); ?></label>
@@ -87,65 +100,26 @@ $ci->load->model('utilities_model');
                                         <option value="1-year" <?php if (isset($task) && $task->repeat_every == 1 && $task->recurring_type == 'year') {
                                             echo 'selected';
                                         } ?>>1 <?php echo _l('year'); ?></option>
-                                        <option value="custom" <?php if (isset($task) && $task->custom_recurring == 1) {
-                                            echo 'selected';
-                                        } ?>><?php echo _l('recurring_custom'); ?></option>
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <!-- End of div row -->
+                        </div> <!-- End of div row -->
 
-                        <div class="row">
-
-                            <div class="col-md-6">
-
-                                <label for="customerid" class="control-label">
-                                    <small class="req text-danger">*</small>
-                                    Contact</label>
-                                <select name="customerid" id="customerid" class="selectpicker" data-width="100%"
-                                        data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                    <?php
-                                    $customers = $ci->utilities_model->get_customers_list();
-                                    echo "<option value='0' selected>Please select</option>";
-                                    foreach ($customers as $customerid) {
-                                        $name = $ci->utilities_model->get_customer_name_by_id($customerid);
-                                        echo "<option value='$customerid'>$name</option>";
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-
-
-                            <div class="col-md-6">
-                                <label for="remind" class="control-label">Remind me (days)</label>
-                                <select name="remind" id="remind" class="selectpicker" data-width="100%"
-                                        data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
-                                    <?php
-                                    $options = $ci->utilities_model->get_remider_options();
-                                    echo "<option value='0' selected>Please select</option>";
-                                    foreach ($options as $op) {
-                                        echo "<option value='$op'>$op</option>";
-                                    }
-                                    ?>
-                                </select>
-                                <hr/>
-                            </div>
-
-                        </div>
-                        <!-- End of div row -->
 
                         <div class="row">
                             <div class="col-md-12">
-                                <p class="bold"><?php echo _l('task_add_edit_description'); ?></p>
+                                <p class="bold">
+                                    <small class="req text-danger">*</small>
+                                    Task Description
+                                </p>
                                 <?php echo render_textarea('description', '', (isset($task) ? $task->description : ''), array('rows' => 6, 'placeholder' => _l('task_add_description'), 'data-task-ae-editor' => true, 'onclick' => (!isset($task) || isset($task) && $task->description == '' ? 'init_editor(\'.tinymce-task\',{height:200,auto_focus: true});' : '')), array(), 'no-mbot', 'tinymce-task'); ?>
                             </div>
-                        </div>
-                        <!-- End of div row -->
+                        </div> <!-- End of div row -->
+
 
                         <div class="clearfix"></div>
 
-                        <div class="row">
+                        <div class="row" style="margin-top: 15px;margin-bottom: 15px;">
                             <div class="col-md-12" id="task_err" style="color: red;"></div>
                         </div>
 
@@ -168,12 +142,10 @@ $ci->load->model('utilities_model');
 
     $(document).ready(function () {
 
-
         $("body").click(function (event) {
 
             if (event.target.id == 'add_new_task_calendar') {
 
-                var description = '';
                 var name = $('#name').val();
                 var startdate = $('#startdate').val();
                 var duedate = $('#duedate').val();
@@ -181,23 +153,23 @@ $ci->load->model('utilities_model');
                 var repeat_every = $('#repeat_every').val();
                 var customerid = $('#customerid').val();
                 var remind = $('#remind').val();
-                description = tinymce.activeEditor.getContent();
+                var description = tinymce.activeEditor.getContent();
 
+                var item = {
+                    name: name,
+                    startdate: startdate,
+                    duedate: duedate,
+                    priority: priority, repeat_every: repeat_every,
+                    customerid: customerid,
+                    remind: remind, description: description
+                };
+                console.log('Item: ' + JSON.stringify(item));
 
-                if (name == '' || startdate == '' || customerid == 0) {
+                if (name == '' || startdate == '' || duedate == '' || customerid == 0 || description == '') {
                     $('#task_err').html('Please provide required fields');
                 } // end if
                 else {
                     $('#task_err').html('');
-                    var item = {
-                        name: name,
-                        startdate: startdate,
-                        duedate: duedate,
-                        priority: priority, repeat_every: repeat_every,
-                        customerid: customerid,
-                        remind: remind, description: description
-                    };
-                    console.log('Item: ' + JSON.stringify(item));
                     var url = '/geocrm/admin/utilities/add_task_from_calendar';
                     $.post(url, {item: JSON.stringify(item)}).done(function (data) {
                         console.log(data);
@@ -205,14 +177,12 @@ $ci->load->model('utilities_model');
                         $("[data-dismiss=modal]").trigger({type: "click"});
                         $("#newEventModal").remove();
                         $('.modal-backdrop').remove();
-                        window.location.href = window.location.href;
+                        document.location.reload();
                     }); // end of post
                 } // end else
-
             }
 
         }); // end of body click event
-
     }); // end of document ready
 
 </script>

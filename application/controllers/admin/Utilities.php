@@ -17,6 +17,26 @@ class Utilities extends Admin_controller
     /**
      *
      */
+    public function delete_task()
+    {
+        $taskid = $_POST['taskid'];
+        $this->utilities_model->delete_task($taskid);
+    }
+
+
+    /**
+     *
+     */
+    public function update_calendar_task()
+    {
+        $data = $_POST;
+        $result = $this->utilities_model->update_calendar_task(json_decode($data['item']));
+        echo $result;
+    }
+
+    /**
+     *
+     */
     public function add_task_from_calendar()
     {
         $data = $_POST;

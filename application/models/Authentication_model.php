@@ -12,6 +12,31 @@ class Authentication_model extends CRM_Model
         $this->autologin();
     }
 
+    /**
+     *
+     */
+    public function finish_due_date_tasks()
+    {
+        $now = time();
+        $query = "select * from tblstafftasks where datefinished='0000-00-00 00:00:00'";
+        $result = $this->db->query($query);
+        $num = $result->num_rows();
+        if ($num > 0) {
+            foreach ($result->result() as $row) {
+                $taskid = $row->id;
+                $task_due_date = strtotime($row->duedate);
+                if ($task_due_date < $now) {
+                    $query = "update tblstafftasks set datefinished='$row->duedate', status=5 where id=$taskid";
+                    $this->db->query($query);
+                } // end if
+            } // end foreach
+        } // end if $num>0
+    }
+
+    /**
+     * @param $staffid
+     * @return mixed
+     */
     function get_current_user_role($staffid)
     {
         $query = "select * from tblstaff WHERE  staffid=$staffid";
@@ -22,6 +47,10 @@ class Authentication_model extends CRM_Model
         return $roleid;
     }
 
+    /**
+     * @param $staffid
+     * @return array
+     */
     function get_staff_side_menu_items($staffid)
     {
         $roleid = $this->get_current_user_role($staffid);
@@ -531,6 +560,10 @@ class Authentication_model extends CRM_Model
         return false;
     }
 
+    /**
+     * @param $code
+     * @return mixed
+     */
     public function get_user_by_two_factor_auth_code($code)
     {
         $this->db->where('two_factor_auth_code', $code);
@@ -538,6 +571,9 @@ class Authentication_model extends CRM_Model
         return $this->db->get('tblstaff')->row();
     }
 
+    /**
+     * @param $user
+     */
     public function two_factor_auth_login($user)
     {
         do_action('before_staff_login',
@@ -565,6 +601,10 @@ class Authentication_model extends CRM_Model
         $this->update_login_info($user->staffid, true);
     }
 
+    /**
+     * @param $code
+     * @return bool
+     */
     public function is_two_factor_code_valid($code)
     {
         $this->db->select('two_factor_auth_code_requested');
@@ -586,6 +626,10 @@ class Authentication_model extends CRM_Model
         return true;
     }
 
+    /**
+     * @param $id
+     * @return bool
+     */
     public function clear_two_factor_auth_code($id)
     {
         $this->db->where('staffid', $id);
@@ -596,6 +640,10 @@ class Authentication_model extends CRM_Model
         return true;
     }
 
+    /**
+     * @param $id
+     * @return string
+     */
     public function set_two_factor_auth_code($id)
     {
         $code = generate_two_factor_auth_key();

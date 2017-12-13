@@ -275,7 +275,7 @@ $roleid=$_SESSION['roleid'];
                            $_table_data = array(
                             '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="clients"><label></label></div>',
                             '#',
-                            //_l('clients_list_company'),
+                            'Name',
                             //_l('contact_primary'),
                             //_l('company_primary_email'),
                             //_l('clients_list_phone'),
@@ -284,12 +284,17 @@ $roleid=$_SESSION['roleid'];
                             );
 
                            foreach($_table_data as $_t){
-                            array_push($table_data,$_t);
+
+
+                               array_push($table_data,$_t);
                            } // end foreach
 
+                        $prohibited_fields=array('Building','Apartment','Floor');
                         $custom_fields = get_custom_fields('customers',array('show_on_table'=>1));
                         foreach($custom_fields as $field){
-                            array_push($table_data,$field['name']);
+                            if (!in_array($field['name'], $prohibited_fields)) {
+                                array_push($table_data, $field['name']);
+                            }
                         }
 
                            array_push($table_data, _l('customer_groups'));

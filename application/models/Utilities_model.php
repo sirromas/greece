@@ -9,6 +9,165 @@ class Utilities_model extends CRM_Model
 
     }
 
+
+    /*************************************************************************************************
+     *
+     *                                      Custom Code
+     *
+     **************************************************************************************************/
+
+
+    public function delete_task($taskid)
+    {
+        $this->delete_task_followers($taskid);
+        $this->delete_task_comments($taskid);
+        $this->delet_task_custom_fields($taskid);
+        $this->delete_task_assignees($taskid);
+        $query = "delete from tblstafftasks where id=$taskid";
+        $this->db->query($query);
+    }
+
+    /**
+     * @param $taskid
+     */
+    public function delet_task_custom_fields($taskid)
+    {
+        $query = "delete from tblcustomfieldsvalues where relid=$taskid";
+        $this->db->query($query);
+    }
+
+    /**
+     * @param $taskid
+     */
+    public function delete_task_assignees($taskid)
+    {
+        $query = "delete from tblstafftaskassignees where taskid=$taskid";
+        $this->db->query($query);
+    }
+
+
+    /**
+     * @param $taskid
+     */
+    public function delete_task_comments($taskid)
+    {
+        $query = "delete from tblstafftaskcomments where taskid=$taskid";
+        $this->db->query($query);
+    }
+
+    /**
+     * @param $taskid
+     */
+    public function delete_task_followers($taskid)
+    {
+        $query = "delete from tblstafftasksfollowers where taskid=$taskid";
+        $this->db->query($query);
+    }
+
+    /**
+     * @param $stamp
+     * @return string
+     */
+    public function get_euro_date_time_value($stamp)
+    {
+        $data = explode(' ', $stamp);
+        $date = $data[0];
+        $time = $data[1];
+        $fdate = str_replace('/', '-', $date);
+        $mdate = date('Y-m-d', strtotime($fdate));
+        $eurodate = $mdate . ' ' . $time;
+        return $eurodate;
+    }
+
+
+    /**
+     * @param $data
+     */
+    public function update_calendar_task($data)
+    {
+        $taskid = $data->taskid;
+        $name = $data->name;
+        $description = $data->description;
+        $startdate = $this->get_euro_date_time_value($data->startdate);
+        $duedate = $this->get_euro_date_time_value($data->duedate);
+        $remind = $data->remind; // custom field
+        $recurringArr = explode('-', $data->repeat_every);
+        $repeat_every = $recurringArr[0];
+        $recurring_type = $recurringArr[1];
+        $recurring = ($repeat_every == 0) ? 0 : 1;
+
+        $query = "update tblstafftasks 
+                    set name='$name', 
+                        description='$description',
+                        startdate='$startdate',
+                        duedate='$duedate',
+                        recurring_type='$recurring_type',
+                        repeat_every='$repeat_every',
+                        recurring='$recurring'      
+                        where id=$taskid";
+        echo "Query: " . $query . "<br>";
+        $this->db->query($query);
+        $this->update_task_existing_field($taskid, $remind);
+
+        if ($repeat_every > 0) {
+            $this->create_recurring_task_instances($data, $repeat_every, $recurring_type, false);
+        }
+    }
+
+    /**
+     * @param $data
+     * @param $repeat_every
+     * @param $recurring_type
+     * @param bool $new
+     */
+    public function create_recurring_task_instances($data, $repeat_every, $recurring_type, $new = true)
+    {
+        $prefix = '+' . $repeat_every . ' ' . $recurring_type;
+        $euro_start_date = $this->get_euro_date_time_value($data->startdate);
+        $euro_due_date = $this->get_euro_date_time_value($data->duedate);
+        $startdate = strtotime($euro_start_date); // unix timestamp
+        $duedate = strtotime($euro_due_date); // unix timestamp
+        $ftime = $startdate; // unix timestamp
+        while ($ftime < $duedate) {
+            if ($new == false) {
+                // Exsisting task updated ...
+                if ($ftime != $startdate) {
+                    if (date('Y-m-d', $ftime) != date('Y-m-d', $duedate)) {
+                        $data->startdate = date('Y-m-d h:i:s', $ftime);
+                        $data->duedate = date('Y-m-d h:i:s', ($ftime + 60));
+                        $data->repeat_every = '';
+                        $this->add_task_from_calendar($data);
+                    }
+                } // end if $ftime!=$startdate
+            } // end if
+            else {
+                // New task is added ....
+                if (date('Y-m-d', $ftime) != date('Y-m-d', $duedate)) {
+                    $data->startdate = date('Y-m-d h:i:s', $ftime);
+                    $data->duedate = date('Y-m-d h:i:s', ($ftime + 60));
+                    $data->repeat_every = '';
+                    $this->add_task_from_calendar($data);
+                }
+            } // end else
+            $ftime = strtotime($prefix, $ftime);
+        } // end while
+    }
+
+
+    /**
+     * @param $startdate
+     * @param $duedate
+     * @return mixed
+     */
+    public function is_task_exists($startdate, $duedate)
+    {
+        $query = "select * from tblstafftasks 
+                  where DAYOFMONTH(startdate)=DAYOFMONTH(duedate)";
+        $result = $this->db->query($query);
+        $num = $result->num_rows();
+        return $num;
+    }
+
     /**
      * @param $data
      */
@@ -21,8 +180,8 @@ class Utilities_model extends CRM_Model
         $status = 4;
         $priority = 2;
         $dateadded = date('Y-m-d h:i:s', time());
-        $startdate = $data->startdate;
-        $duedate = $data->duedate;
+        $startdate = $this->get_euro_date_time_value($data->startdate);
+        $duedate = $this->get_euro_date_time_value($data->duedate);
         $remind = $data->remind;
         $recurringArr = explode('-', $data->repeat_every);
         $repeat_every = $recurringArr[0];
@@ -72,7 +231,7 @@ class Utilities_model extends CRM_Model
                                 '$rel_id',
                                 '$rel_type',
                                 '$is_public')";
-        echo "Query: ".$query."<br>";
+        echo "Query: " . $query . "<br>";
         $this->db->query($query);
         $id = $this->db->insert_id();
 
@@ -81,7 +240,14 @@ class Utilities_model extends CRM_Model
                 $this->update_task_custom_fields($id, $remind);
             } // end if $remind > 0
             $this->add_task_assignees($id);
+
+            if ($repeat_every > 0) {
+                $this->delete_task($id);
+                $this->create_recurring_task_instances($data, $repeat_every, $recurring_type);
+            }
+
         } // end if $id > 0
+
     }
 
     /**
@@ -95,8 +261,34 @@ class Utilities_model extends CRM_Model
                     fieldid,
                     fieldto,
                     value) 
-                    values ($taskid,9,'tasks', '$value')";
+                    values ($taskid,12,'tasks', '$value')";
         $this->db->query($query);
+    }
+
+    /**
+     * @param $taskid
+     * @param $value
+     */
+    public function update_task_existing_field($taskid, $value)
+    {
+        $status = $this->is_task_custom_field_exists($taskid);
+        if ($status > 0) {
+            $query = "update tblcustomfieldsvalues 
+                        set value='$value' where relid=$taskid";
+            $this->db->query($query);
+        } // end if $status>0
+        else {
+            $this->update_task_custom_fields($taskid, $value);
+        }
+    }
+
+
+    public function is_task_custom_field_exists($taskid)
+    {
+        $query = "select * from  tblcustomfieldsvalues where relid=$taskid";
+        $result = $this->db->query($query);
+        $num = $result->num_rows();
+        return $num;
     }
 
     /**
@@ -160,7 +352,7 @@ class Utilities_model extends CRM_Model
      */
     public function get_remider_options()
     {
-        $query = "select * from tblcustomfields where id=9";
+        $query = "select * from tblcustomfields where id=12";
         $result = $this->db->query($query);
         foreach ($result->result() as $row) {
             $options = $row->options;
@@ -168,6 +360,74 @@ class Utilities_model extends CRM_Model
         $options_arr = explode(',', $options);
         return $options_arr;
     }
+
+    /**
+     * @param $taskid
+     * @return mixed
+     */
+    public function get_task_customer_id($taskid)
+    {
+        if ($taskid > 0) {
+            $query = "select * from tblstafftasks where id=$taskid";
+            $result = $this->db->query($query);
+            foreach ($result->result() as $row) {
+                $relid = $row->rel_id;
+            }
+        } // end if
+        else {
+            $relid = 0;
+        }
+        return $relid;
+    }
+
+    /**
+     * @param $taskid
+     * @return string
+     */
+    public function get_customer_reminder_options($taskid)
+    {
+        $list = "";
+        $list .= "<select name='remind' id='remind' class='selectpicker' data-width='100%'";
+        $list .= "<option value='0' selected>Please select</option>";
+
+        $query = "select * from tblcustomfields where id=12";
+        $result = $this->db->query($query);
+        foreach ($result->result() as $row) {
+            $optionsArr = explode(',', $row->options);
+        }
+
+        if ($taskid > 0) {
+            $query = "select * from tblcustomfieldsvalues 
+                  where fieldto='tasks' and 
+                        fieldid=12 and relid=$taskid";
+            $result = $this->db->query($query);
+            foreach ($result->result() as $row) {
+                $value = $row->value;
+            }
+            foreach ($optionsArr as $item) {
+                if ($item == $value) {
+                    $list .= "<option value='$item' selected>$item</option>";
+                } // end if
+                else {
+                    $list .= "<option value='$item'>$item</option>";
+                } // end else
+            } // end foreach
+        } // end if $taskid > 0
+        else {
+            $list .= "<option value='0' selected>Please select</option>";
+            foreach ($optionsArr as $item) {
+                $list .= "<option value='$item'>$item</option>";
+            } // end foreach
+        } // end else
+        $list .= "</select>";
+        return $list;
+    }
+
+    /*************************************************************************************************
+     *
+     *                                      Original Code
+     *
+     **************************************************************************************************/
 
     /**
      * Add new event
