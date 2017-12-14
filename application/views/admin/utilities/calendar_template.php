@@ -146,6 +146,7 @@ $ci->load->model('utilities_model');
 
             if (event.target.id == 'add_new_task_calendar') {
 
+
                 var name = $('#name').val();
                 var startdate = $('#startdate').val();
                 var duedate = $('#duedate').val();
@@ -180,6 +181,7 @@ $ci->load->model('utilities_model');
                         document.location.reload();
                     }); // end of post
                 } // end else
+
             }
 
         }); // end of body click event

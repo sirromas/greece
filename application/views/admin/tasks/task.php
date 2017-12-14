@@ -197,6 +197,7 @@ $ci->load->model('utilities_model');
 
     $("body").click(function (event) {
 
+
         if (event.target.id == 'add_new_task_calendar') {
 
             var taskid = $('#current_taskid').val();
@@ -243,7 +244,7 @@ $ci->load->model('utilities_model');
                 }); // end of post
             } // end else
         }
-
+        
 
     }); // end of body click event
 

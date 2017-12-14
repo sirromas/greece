@@ -6731,3 +6731,57 @@ function requestGetJSON(uri, params) {
     params.dataType = 'json';
     return requestGet(uri, params);
 }
+
+/*
+$("body").click(function (event) {
+
+    if (event.target.id == 'add_new_task_calendar') {
+
+        var taskid = $('#current_taskid').val();
+        console.log('Task id: '+taskid);
+        var name = $('#name').val();
+        var startdate = $('#startdate').val();
+        var duedate = $('#duedate').val();
+        var priority = 2;
+        var repeat_every = $('#repeat_every').val();
+        var customerid = $('#customerid').val();
+        var remind = $('#remind').val();
+        var description = tinymce.activeEditor.getContent();
+
+        var item = {
+            taskid: taskid,
+            name: name,
+            startdate: startdate,
+            duedate: duedate,
+            priority: priority, repeat_every: repeat_every,
+            customerid: customerid,
+            remind: remind, description: description
+        };
+        console.log('Item: ' + JSON.stringify(item));
+
+
+        if (name == '' || startdate == '' || duedate == '' || customerid == 0 || description == '') {
+            $('#task_err').html('Please provide required fields');
+        } // end if
+        else {
+            $('#task_err').html('');
+            if (taskid == 0) {
+                var url = '/geocrm/admin/utilities/add_task_from_calendar';
+            } // end if
+            else {
+                var url = '/geocrm/admin/utilities/update_calendar_task';
+            }
+            $.post(url, {item: JSON.stringify(item)}).done(function (data) {
+                console.log(data);
+                // Hide modal dialog
+                $("[data-dismiss=modal]").trigger({type: "click"});
+                $("#_task_modal").remove();
+                $('.modal-backdrop').remove();
+                document.location.reload();
+            }); // end of post
+        } // end else
+    }
+
+
+}); // end of body click event
+*/

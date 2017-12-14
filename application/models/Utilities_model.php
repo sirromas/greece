@@ -142,15 +142,25 @@ class Utilities_model extends CRM_Model
             } // end if
             else {
                 // New task is added ....
-                if (date('Y-m-d', $ftime) != date('Y-m-d', $duedate)) {
-                    $data->startdate = date('Y-m-d h:i:s', $ftime);
-                    $data->duedate = date('Y-m-d h:i:s', ($ftime + 60));
-                    $data->repeat_every = '';
-                    $this->add_task_from_calendar($data);
-                }
+                $data->startdate = date('Y-m-d h:i:s', $ftime);
+                $data->duedate = date('Y-m-d h:i:s', ($ftime + 60));
+                $data->repeat_every = '';
+                $this->add_task_from_calendar($data);
             } // end else
             $ftime = strtotime($prefix, $ftime);
         } // end while
+    }
+
+
+    public function days_between($datefrom, $dateto)
+    {
+        $fromday_start = mktime(0, 0, 0, date("m", $datefrom), date("d", $datefrom), date("Y", $datefrom));
+        $diff = $dateto - $datefrom;
+        $days = intval($diff / 86400); // 86400  / day
+
+        if (($datefrom - $fromday_start) + ($diff % 86400) > 86400)
+            $days++;
+        return $days;
     }
 
 
