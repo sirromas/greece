@@ -176,10 +176,10 @@ foreach ($rResult as $aRow) {
     $row = array();
 
     // Bulk actions
-    $row[] = '<div class="checkbox"><input type="checkbox" value="' . $aRow['userid'] . '"><label></label></div>';
+    //$row[] = '<div class="checkbox"><input type="checkbox" value="' . $aRow['userid'] . '"><label></label></div>';
 
     // User id
-    $row[] = $aRow['userid'];
+    //$row[] = $aRow['userid'];
     $color=$ci->clients_model->get_customer_link_color($aRow['userid']);
 
     // Company

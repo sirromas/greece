@@ -5,15 +5,9 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php
-                        $roleid=$_SESSION['roleid'];
-                        if ($roleid==0) {
-                        ?>
                         <div class="_buttons">
                         <a href="#" class="btn btn-info pull-left" data-toggle="modal" data-target="#customer_group_modal"><?php echo _l('new_customer_group'); ?></a>
                         </div>
-                        <?php } ?>
-
                     <div class="clearfix"></div>
                     <hr class="hr-panel-heading" />
                     <div class="clearfix"></div>

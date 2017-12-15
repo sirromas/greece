@@ -16,7 +16,7 @@
 <div id="header">
    <div class="hide-menu"><i class="fa fa-bars"></i></div>
    <div id="logo">
-      <?php get_company_logo(get_admin_uri().'/') ?>
+      <?php get_company_logo(get_admin_uri().'/clients') ?>
    </div>
    <nav>
       <div class="small-logo">
@@ -76,20 +76,9 @@
             </a>
             <ul class="dropdown-menu animated fadeIn">
                <li class="header-my-profile"><a href="<?php echo admin_url('profile'); ?>"><?php echo _l('nav_my_profile'); ?></a></li>
-               <li class="header-my-timesheets"><a href="<?php echo admin_url('staff/timesheets'); ?>"><?php echo _l('my_timesheets'); ?></a></li>
+               <!-- <li class="header-my-timesheets"><a href="<?php echo admin_url('staff/timesheets'); ?>"><?php echo _l('my_timesheets'); ?></a></li> -->
                <li class="header-edit-profile"><a href="<?php echo admin_url('staff/edit_profile'); ?>"><?php echo _l('nav_edit_profile'); ?></a></li>
-               <?php if(get_option('disable_language') == 0){ ?>
-               <li class="dropdown-submenu pull-left header-languages">
-                  <a href="#" tabindex="-1"><?php echo _l('language'); ?></a>
-                  <ul class="dropdown-menu dropdown-menu">
-                     <li class="<?php if($current_user->default_language == ""){echo 'active';} ?>"><a href="<?php echo admin_url('staff/change_language'); ?>"><?php echo _l('system_default_string'); ?></a></li>
-                     <?php foreach($this->perfex_base->get_available_languages() as $user_lang) { ?>
-                     <li<?php if($current_user->default_language == $user_lang){echo ' class="active"';} ?>>
-                        <a href="<?php echo admin_url('staff/change_language/'.$user_lang); ?>"><?php echo ucfirst($user_lang); ?></a>
-                        <?php } ?>
-                  </ul>
-               </li>
-               <?php } ?>
+
                <li class="header-logout">
                   <a href="#" onclick="logout(); return false;"><?php echo _l('nav_logout'); ?></a>
                </li>

@@ -446,6 +446,8 @@
    </a>
    <?php } ?>
 </div>
+
+<!--
 <h4 class="task-info-heading"><?php echo _l('task_info'); ?></h4>
 <div class="clearfix"></div>
 <h5 class="no-mtop task-info-created">
@@ -455,6 +457,8 @@
    <?php } ?>
    <small class="text-dark"><?php echo _l('task_created_at',_dt($task->dateadded)); ?></small>
 </h5>
+-->
+<br><br>
 <hr class="task-info-separator" />
 <div class="task-info task-status">
    <h5>

@@ -157,7 +157,7 @@ foreach ($rResult as $aRow) {
             'onclick' => 'edit_task(' . $aRow['id'] . '); return false'
         ));
 
-        $options .= icon_btn('#', 'pencil-square-o', 'btn-danger pull-center mleft5', array(
+        $options .= icon_btn('#', 'remove', 'btn-danger pull-center mleft5 ', array(
             'onclick' => 'delete_task(' . $aRow['id'] . '); return false'
         ));
     }

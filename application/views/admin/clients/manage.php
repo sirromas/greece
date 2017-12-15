@@ -59,11 +59,7 @@ $roleid=$_SESSION['roleid'];
                                             <li class="active"><a href="#" data-cview="all" onclick="dt_custom_view('','.table-clients',''); return false;"><?php echo _l('customers_sort_all'); ?></a>
                                             </li>
                                              <li class="divider"></li>
-                                             <li>
-                                                  <a href="#" data-cview="my_customers" onclick="dt_custom_view('my_customers','.table-clients','my_customers'); return false;">
-                                                           <?php echo _l('customers_assigned_to_me'); ?>
-                                                        </a>
-                                             </li>
+
                                             <li class="divider"></li>
                                             <?php if(count($groups) > 0){ ?>
                                             <li class="dropdown-submenu pull-left groups">
@@ -273,8 +269,6 @@ $roleid=$_SESSION['roleid'];
                            <?php
                            $table_data = array();
                            $_table_data = array(
-                            '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="clients"><label></label></div>',
-                            '#',
                             'Name',
                             //_l('contact_primary'),
                             //_l('company_primary_email'),
