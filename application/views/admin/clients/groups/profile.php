@@ -30,6 +30,7 @@
 
                 </div>
 
+                <!--
                 <div class="col-md-6">
 
                     <?php
@@ -40,7 +41,7 @@
                             array_push($selected,$group['groupid']);
                         }
                     }
-                    echo render_select('groups_in[]',$groups,array('id','name'),'customer_groups',$selected,array('multiple'=>true),array(),'','',false);
+                     // echo render_select('groups_in[]',$groups,array('id','name'),'customer_groups',$selected,array('multiple'=>true),array(),'','',false);
 
                     ?>
 
@@ -49,15 +50,22 @@
                 <div class="col-md-6">
 
                     <?php $value=( isset($client) ? $client->zip : ''); ?>
-                    <?php echo render_input( 'zip', 'client_postal_code',$value); ?>
+                    <?php // echo render_input( 'zip', 'client_postal_code',$value); ?>
 
 
                 </div>
+                -->
+
 
                 <!-- Rendering custom fields -->
                 <div class="col-md-12">
                     <?php $rel_id=( isset($client) ? $client->userid : false); ?>
-                    <?php echo render_custom_fields( 'customers',$rel_id); ?>
+                    <?php // echo render_custom_fields( 'customers',$rel_id); ?>
+                    <?php
+                    $where=array();
+                    echo render_custom_fields2( 'customers',$rel_id, $where, $groups, $customer_groups);
+
+                    ?>
                 </div>
 
 
