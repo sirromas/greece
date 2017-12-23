@@ -16,7 +16,13 @@ $ci->load->model('utilities_model');
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    <?php echo $title; ?>
+                    <?php
+
+                    $greek_title=($title=='Add new task')? 'ΠΡΟΣΘΗΚΗ ΝΕΑΣ ΕΡΓΑΣΙΑΣ':'Επεξεργασία εργασίας';
+
+                    echo strtoupper($greek_title);
+
+                    ?>
                 </h4>
             </div>
             <div class="modal-body">
@@ -52,7 +58,7 @@ $ci->load->model('utilities_model');
                         } // end else
                         ?>
                         <?php $value = (isset($task) ? $task->name : ''); ?>
-                        <?php echo render_input('name', '<small class="req text-danger">*</small> Subject', $value); ?>
+                        <?php echo render_input('name', '<small class="req text-danger">*</small> ΑΝΤΙΚΕΙΜΕΝΟ', $value); ?>
 
                     </div> <!-- end of div class="col-md-12" -->
                 </div> <!-- <div class="row">  -->
@@ -67,11 +73,11 @@ $ci->load->model('utilities_model');
                             $value = _d(date('Y-m-d h:i:s'));
                         }
                         ?>
-                        <?php echo render_datetime_input('startdate', '<small class="req text-danger">*</small> Start Date', $value); ?>
+                        <?php echo render_datetime_input('startdate', '<small class="req text-danger">*</small> ΗΜΕΡ. ΕΝΑΡΞΗΣ', $value); ?>
                     </div>
                     <div class="col-md-6">
                         <?php $value = (isset($task) ? _d($task->duedate) : ''); ?>
-                        <?php echo render_datetime_input('duedate', '<small class="req text-danger">*</small> Due Date', $value, $project_end_date_attrs); ?>
+                        <?php echo render_datetime_input('duedate', '<small class="req text-danger">*</small> ΗΜΕΡ. ΛΗΞΗΗΣ', $value, $project_end_date_attrs); ?>
                     </div>
 
                 </div> <!-- End of div class='row' -->
@@ -82,13 +88,13 @@ $ci->load->model('utilities_model');
                     <div class="col-md-6">
                         <label for="customerid" class="control-label">
                             <small class="req text-danger">*</small>
-                            Contact <?php // echo "Query string: $querytsring"; ?> </label>
+                            ΠΕΛΑΤΗΣ <?php // echo "Query string: $querytsring"; ?> </label>
                         <select name="customerid" id="customerid" class="selectpicker" data-width="100%"
                                 data-none-selected-text="<?php echo _l('dropdown_non_selected_tex'); ?>">
                             <?php
                             $customers = $ci->utilities_model->get_customers_list();
                             if ($rel_id == '') {
-                                echo "<option value='0' selected>Please select</option>";
+                                echo "<option value='0' selected>ΕΠΙΛΕΞΤΕ</option>";
                                 foreach ($customers as $customerid) {
                                     $name = $ci->utilities_model->get_customer_name_by_id($customerid);
                                     echo "<option value='$customerid'>$name</option>";
@@ -121,7 +127,7 @@ $ci->load->model('utilities_model');
                     </div>
 
                     <div class="col-md-6">
-                        <label for="remind" class="control-label">Remind me (days)</label>
+                        <label for="remind" class="control-label">ΥΠΕΝΘΥΜΙΣΗ</label>
                         <?php $taskid = (isset($task) ? $task->id : 0);
                         $reminders_select = $ci->utilities_model->get_customer_reminder_options($taskid);
                         echo $reminders_select;
@@ -168,7 +174,7 @@ $ci->load->model('utilities_model');
 
                 <p class="bold">
                     <small class="req text-danger">*</small>
-                    Task description
+                    ΠΡΟΣΘΗΚΗ ΠΕΡΙΓΡΑΦΗΣ
                 </p>
                 <?php echo render_textarea('description', '', (isset($task) ? $task->description : ''), array('rows' => 6, 'placeholder' => _l('task_add_description'), 'data-task-ae-editor' => true, 'onclick' => (!isset($task) || isset($task) && $task->description == '' ? 'init_editor(\'.tinymce-task\',{height:200,auto_focus: true});' : '')), array(), 'no-mbot', 'tinymce-task'); ?>
 

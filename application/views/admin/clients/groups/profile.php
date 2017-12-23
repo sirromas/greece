@@ -26,7 +26,7 @@
 
                     <?php $value=( isset($client) ? $client->company : ''); ?>
                     <?php $attrs = (isset($client) ? array() : array('autofocus'=>true)); ?>
-                    <?php echo render_input( 'company', 'Name',$value,'text',$attrs); ?>
+                    <?php echo render_input( 'company', 'ΟΝΟΜΑΤΕΠΩΝΥΜΟ',$value,'text',$attrs); ?>
 
                 </div>
 
@@ -63,7 +63,8 @@
                     <?php // echo render_custom_fields( 'customers',$rel_id); ?>
                     <?php
                     $where=array();
-                    echo render_custom_fields2( 'customers',$rel_id, $where, $groups, $customer_groups);
+                    $zip_value=( isset($client) ? $client->zip : '');
+                    echo render_custom_fields2( 'customers',$rel_id, $where, $groups, $customer_groups, $zip_value);
 
                     ?>
                 </div>

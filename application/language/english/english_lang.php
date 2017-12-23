@@ -4,8 +4,10 @@
 # General
 $lang['id']                   = 'ID';
 $lang['name']                 = 'Name';
-$lang['options']              = 'Options';
-$lang['submit']               = 'Save';
+//$lang['options']              = 'Options';
+$lang['options']              = 'ΕΠΙΛΟΓΕΣ';
+
+$lang['submit']               = 'ΑΠΟΘΗΚΕΥΣΗ';
 $lang['added_successfully']    = '%s added successfully.';
 $lang['updated_successfully']  = '%s updated successfully.';
 $lang['edit']                 = 'Edit %s';
@@ -13,7 +15,7 @@ $lang['add_new']              = 'Add new %s';
 $lang['deleted']              = '%s deleted';
 $lang['problem_deleting']     = 'Problem deleting %s';
 $lang['is_referenced']        = 'The ID of the %s is already using.';
-$lang['close']                = 'Close';
+$lang['close']                = 'ΚΛΕΙΣΙΜΟ';
 $lang['send']                 = 'Send';
 $lang['cancel']               = 'Cancel';
 $lang['go_back']              = 'Go Back';
@@ -37,7 +39,7 @@ $lang['invoice_adjustment']                    = 'Adjustment';
 $lang['invoice_total']                         = 'Total';
 $lang['invoice_bill_to']                       = 'Bill To';
 $lang['invoice_data_date']                     = 'Invoice Date:';
-$lang['invoice_data_duedate']                  = 'Due Date:';
+$lang['invoice_data_duedate']                  = 'ΗΜΕΡ. ΛΗΞΗΣ:';
 $lang['invoice_received_payments']             = 'Transactions';
 $lang['invoice_no_payments_found']             = 'No payments found for this invoice';
 $lang['invoice_note']                          = 'Note:';
@@ -61,12 +63,15 @@ $lang['announcement_show_my_name']    = 'Show my name';
 # Clients
 //$lang['clients']                               = 'Customers';
 $lang['clients']                               = 'Contacts';
-$lang['client']                                = 'Contact';
-$lang['new_client']                            = 'New Contact';
-$lang['client_lowercase']                      = 'Contact';
-$lang['client_delete_tooltip']                 = 'All contact data will be deleted. Contracts,tickets,notes. NOTE: If invoices found contact won\'t be deleted. You need to assign this invoices to another customer to keep the invoice number';
-$lang['client_firstname']                      = 'First Name';
-$lang['client_lastname']                       = 'Last Name';
+$lang['client']                                = 'ΠΕΛΑΤΗΣ';
+//$lang['new_client']                            = 'New Contact';
+$lang['new_client']                            = 'ΝΕΟΣ ΠΕΛΑΤΗΣ';
+
+
+$lang['client_lowercase']                      = 'ΠΕΛΑΤΗΣ';
+$lang['client_delete_tooltip']                 = 'ΠΡΟΣΟΧΗ! ΘΑ ΣΒΗΣΤΟΥΝ ΟΛΑ ΤΑ ΔΕΔΟΜΕΝΑ ΤΟΥ ΠΕΛΑΤΗ - ΔΕΝ ΥΠΑΡΧΕΙ ΤΡΟΠΟΣ ΕΠΑΝΑΦΟΡΑΣ';
+$lang['client_firstname']                      = 'ΟΝΟΜΑ';
+$lang['client_lastname']                       = 'ΕΠΙΘΕΤΟ';
 $lang['client_email']                          = 'Email';
 $lang['client_company']                        = 'Company';
 $lang['client_vat_number']                     = 'VAT Number';
@@ -81,12 +86,12 @@ $lang['login_as_client']                       = 'Login as client';
 $lang['client_invoices_tab']                   = 'Invoices';
 $lang['contracts_invoices_tab']                = 'Contracts';
 $lang['contracts_tickets_tab']                 = 'Tickets';
-$lang['contracts_notes_tab']                   = 'Notes';
-$lang['note_description']                      = 'Note description';
+$lang['contracts_notes_tab']                   = 'ΣΗΜΕΙΩΣΕΙΣ';
+$lang['note_description']                      = 'ΠΕΡΙΓΡΑΦΗ';
 $lang['client_do_not_send_welcome_email']           = 'Do not send welcome email';
-$lang['clients_notes_table_description_heading'] = 'Description';
-$lang['clients_notes_table_addedfrom_heading']   = 'Added From';
-$lang['clients_notes_table_dateadded_heading']   = 'Date Added';
+$lang['clients_notes_table_description_heading'] = 'ΠΕΡΙΓΡΑΦΗ';
+$lang['clients_notes_table_addedfrom_heading']   = 'ΠΡΟΣΤΕΘΗΚΕ ΑΠΟ';
+$lang['clients_notes_table_dateadded_heading']   = 'ΗΜΕΡΟΜΗΝΙΑ ΠΡΟΣΘ.';
 $lang['clients_list_full_name']   = 'Full Name';
 $lang['clients_list_last_login']  = 'Last Login';
 
@@ -95,16 +100,19 @@ $lang['contracts']                = 'Contracts';
 $lang['contract']                 = 'Contract';
 $lang['new_contract']             = 'New Contract';
 $lang['contract_lowercase']       = 'contract';
-$lang['contract_start_date']      = 'Start Date';
+$lang['contract_start_date']      = 'ΗΜΕΡ. ΕΝΑΡΞΗΣ';
 $lang['contract_end_date']        = 'End Date';
 $lang['contract_subject']         = 'Subject';
-$lang['contract_description']     = 'Description';
+//$lang['contract_description']     = 'Description';
+$lang['contract_description']     = 'ΠΕΡΙΓΡΑΦΗ';
+
+
 $lang['contract_subject_tooltip'] = 'Subject is also visible to contact';
-$lang['contract_client_string']   = 'Contact';
+$lang['contract_client_string']   = 'ΠΕΛΑΤΗΣ';
 $lang['contract_attach']          = 'Attach document';
-$lang['contract_list_client']     = 'Contact';
+$lang['contract_list_client']     = 'ΠΕΛΑΤΗΣ';
 $lang['contract_list_subject']    = 'Subject';
-$lang['contract_list_start_date'] = 'Start Date';
+$lang['contract_list_start_date'] = 'ΗΜΕΡ. ΕΝΑΡΞΗΣ';
 $lang['contract_list_end_date']   = 'End Date';
 
 # Currencies
@@ -211,10 +219,10 @@ $lang['invoice_reminder_send_problem']  = 'Problem sending invoice overdue remin
 $lang['invoice_overdue_reminder_sent']  = 'Invoice Overdue Reminder Successfully Sent';
 $lang['invoice_details']              = 'Invoice Details';
 $lang['invoice_view']                 = 'View Invoice';
-$lang['invoice_select_customer']      = 'Contact';
+$lang['invoice_select_customer']      = 'ΠΕΛΑΤΗΣ';
 $lang['invoice_add_edit_number']      = 'Invoice Number';
 $lang['invoice_add_edit_date']        = 'Invoice Date';
-$lang['invoice_add_edit_duedate']     = 'Due Date';
+$lang['invoice_add_edit_duedate']     = 'ΗΜΕΡ. ΛΗΞΗΣ';
 $lang['invoice_add_edit_currency']    = 'Currency';
 $lang['invoice_add_edit_client_note'] = 'Client Note';
 $lang['invoice_add_edit_admin_note']  = 'Admin Note';
@@ -231,8 +239,8 @@ $lang['invoice_send_to_client_attach_pdf']       = 'Attach Invoice PDF';
 $lang['invoice_send_to_client_preview_template'] = 'Preview Email Template';
 $lang['invoice_dt_table_heading_number']  = 'Invoice #';
 $lang['invoice_dt_table_heading_date']    = 'Date';
-$lang['invoice_dt_table_heading_client']  = 'Contact';
-$lang['invoice_dt_table_heading_duedate'] = 'Due Date';
+$lang['invoice_dt_table_heading_client']  = 'ΠΕΛΑΤΗΣ';
+$lang['invoice_dt_table_heading_duedate'] = 'ΗΜΕΡ. ΛΗΞΗΣ';
 $lang['invoice_dt_table_heading_amount']  = 'Amount';
 $lang['invoice_dt_table_heading_status']  = 'Status';
 $lang['record_payment_for_invoice']              = 'Record Payment for';
@@ -252,7 +260,7 @@ $lang['payments_table_invoicenumber_heading'] = 'Invoice #';
 $lang['payments_table_mode_heading']          = 'Payment Mode';
 $lang['payments_table_date_heading']          = 'Date';
 $lang['payments_table_amount_heading']        = 'Amount';
-$lang['payments_table_client_heading']        = 'Contact';
+$lang['payments_table_client_heading']        = 'ΠΕΛΑΤΗΣ';
 $lang['payment_not_exists']                   = 'The payment does not exists';
 $lang['payment_edit_for_invoice']     = 'Payment for Invoice';
 $lang['payment_edit_amount_received'] = 'Amount Received';
@@ -364,7 +372,7 @@ $lang['report_sales_months_all_time']      = 'All Time';
 $lang['report_sales_months_six_months']    = 'Last 6 months';
 $lang['report_sales_months_twelve_months'] = 'Last 12 months';
 $lang['reports_sales_generated_report']    = 'Generated Report';
-$lang['reports_sales_dt_customers_client']                = 'Contact';
+$lang['reports_sales_dt_customers_client']                = 'ΠΕΛΑΤΗΣ';
 $lang['reports_sales_dt_customers_total_invoices']        = 'Total Invoices';
 $lang['reports_sales_dt_items_customers_amount']          = 'Amount';
 $lang['reports_sales_dt_items_customers_amount_with_tax'] = 'Amount with Tax';
@@ -510,41 +518,53 @@ $lang['next']                       = 'next';
 # Datatables
 $lang['dt_paginate_first']          = 'First';
 $lang['dt_paginate_last']           = 'Last';
-$lang['dt_paginate_next']           = 'Next';
-$lang['dt_paginate_previous']       = 'Previous';
-$lang['dt_search']                  = 'Search...';
-$lang['dt_zero_records']            = 'No matching records found';
+$lang['dt_paginate_next']           = 'ΕΠΟΜΕΝΟ';
+$lang['dt_paginate_previous']       = 'ΠΡΟΗΓΟΥΜΕΝΟ';
+$lang['dt_search']                  = 'Αναζήτηση…';
+$lang['dt_zero_records']            = 'ΔΕΝ ΒΡΕΘΗΚΑΝ ΕΓΓΡΑΦΕΣ';
 $lang['dt_loading_records']         = 'Loading...';
 $lang['dt_length_menu']             = 'Show _MENU_ entries';
 $lang['dt_info_filtered']           = '(filtered from _MAX_ total {0})';
-$lang['dt_info_empty']              = 'Showing 0 to 0 of 0 {0}';
-$lang['dt_info']                    = 'Showing _START_ to _END_ of _TOTAL_ {0}';
+$lang['dt_info_empty']              = 'ΠΡΟΒΟΛΗ 0 ΑΠΟ  0 ΕΓΓΡΑΦΕΣ 0 {0}';
+$lang['dt_info']                    = 'ΠΡΟΒΟΛΗ _START_ ΑΠΟ _END_ ΕΓΓΡΑΦΕΣ _TOTAL_ ';
 $lang['dt_empty_table']             = 'No {0} found';
 $lang['dt_sort_ascending']          = ' activate to sort column ascending';
 $lang['dt_sort_descending']         = ' activate to sort column descending';
+
 
 # Invoice Activity Log
 $lang['user_sent_overdue_reminder'] = '%s sent invoice overdue reminder';
 
 # Weekdays
-$lang['wd_monday']    = 'Monday';
-$lang['wd_tuesday']   = 'Tuesday';
-$lang['wd_thursday']  = 'Thursday';
-$lang['wd_wednesday'] = 'Wednesday';
-$lang['wd_friday']    = 'Friday';
-$lang['wd_saturday']  = 'Saturday';
-$lang['wd_sunday']    = 'Sunday';
+$lang['wd_monday']    = 'ΔΕΥΤΕΡΑ';
+$lang['wd_tuesday']   = 'ΤΡΙΤΗ';
+$lang['wd_thursday']  = 'ΠΕΜΠΤΗ';
+$lang['wd_wednesday'] = 'ΤΕΤΑΡΤΗ';
+$lang['wd_friday']    = 'ΠΑΡΑΣΚΕΥΗ';
+$lang['wd_saturday']  = 'ΣΑΒΒΑΤΟ';
+$lang['wd_sunday']    = 'ΚΥΡΙΑΚΗ';
 
 # Admin Left Sidebar
 $lang['als_dashboard'] = 'Dashboard';
-$lang['als_clients']   = 'Contacts';
-$lang['als_regions']   = 'Regions';
-$lang['als_calendar']   = 'Calendar';
+//$lang['als_clients']   = 'Contacts';
+$lang['als_clients']   = 'ΠΕΛΑΤΕΣ';
+
+
+//$lang['als_regions']   = 'Regions';
+$lang['als_regions']   = 'ΠΕΡΙΟΧΕΣ';
+
+//$lang['als_calendar']   = 'Calendar';
+$lang['als_calendar']   = 'ΗΜΕΡΟΛΟΓΙΟ';
+
 $lang['als_leads']     = 'Leads';
 $lang['als_contracts'] = 'Contracts';
 $lang['als_sales']       = 'Sales';
 $lang['als_staff'] = 'Staff';
-$lang['als_tasks'] = 'Tasks';
+
+//$lang['als_tasks'] = 'Tasks';
+$lang['als_tasks'] = 'ΕΡΓΑΣΙΕΣ';
+
+
 $lang['als_kb']    = 'Knowledge Base';
 $lang['als_surveys']               = 'Surveys';
 $lang['als_media']                 = 'Media';
@@ -597,7 +617,7 @@ $lang['ticket_settings_updated_successfully_and_reassigned'] = 'Ticket settings 
 $lang['ticket_dt_subject']                                  = 'Subject';
 $lang['ticket_dt_department']                               = 'Department';
 $lang['ticket_dt_service']                                  = 'Service';
-$lang['ticket_dt_submitter']                                = 'Contact';
+$lang['ticket_dt_submitter']                                = 'ΠΕΛΑΤΗΣ';
 $lang['ticket_dt_status']                                   = 'Status';
 $lang['ticket_dt_priority']                                 = 'Priority';
 $lang['ticket_dt_last_reply']                               = 'Last Reply';
@@ -621,7 +641,7 @@ $lang['ticket_settings_none_assigned']            = 'None';
 $lang['ticket_status_changed_successfully']        = 'Ticket Status Changed';
 $lang['ticket_status_changed_fail']               = 'Problem Changing Ticket Status';
 $lang['ticket_staff_string']                    = 'Staff';
-$lang['ticket_client_string']                   = 'Contact';
+$lang['ticket_client_string']                   = 'ΠΕΛΑΤΗΣ';
 $lang['ticket_posted']                          = 'Posted: %s';
 $lang['ticket_access_by_department_denied']     = 'You do not have access to this ticket. This ticket belongs to department that you are not assigned.';
 
@@ -641,10 +661,10 @@ $lang['staff_dt_name']       = 'Full Name';
 $lang['staff_dt_email']      = 'Email';
 $lang['staff_dt_last_Login'] = 'Last Login';
 $lang['staff_dt_active']     = 'Active';
-$lang['staff_add_edit_firstname']             = 'First Name';
-$lang['staff_add_edit_lastname']              = 'Last Name';
-$lang['staff_add_edit_email']                 = 'Email';
-$lang['staff_add_edit_phonenumber']           = 'Phone';
+$lang['staff_add_edit_firstname']             = 'ΟΝΟΜΑ  ';
+$lang['staff_add_edit_lastname']              = 'ΕΠΙΘΕΤΟ';
+$lang['staff_add_edit_email']                 = 'EMAIL';
+$lang['staff_add_edit_phonenumber']           = 'ΤΗΛΕΦΩΝΟ';
 $lang['staff_add_edit_facebook']              = 'Facebook';
 $lang['staff_add_edit_linkedin']              = 'LinkedIn';
 $lang['staff_add_edit_skype']                 = 'Skype';
@@ -652,10 +672,12 @@ $lang['staff_add_edit_departments']           = 'Member departments';
 $lang['staff_add_edit_role']                  = 'Role';
 $lang['staff_add_edit_permissions']           = 'Permissions';
 $lang['staff_add_edit_administrator']         = 'Administrator';
-$lang['staff_add_edit_password']              = 'Password';
+$lang['staff_add_edit_password']              = 'Κωδικός πρόσβασης';
 $lang['staff_add_edit_password_note']         = 'Note: if you populate this fields, password will be changed on this member.';
 $lang['staff_add_edit_password_last_changed'] = 'Password last changed';
-$lang['staff_add_edit_notes']                 = 'Notes';
+//$lang['staff_add_edit_notes']                 = 'Notes';
+$lang['staff_add_edit_notes']                 = 'ΣΗΜΕΙΩΣΕΙΣ';
+
 $lang['staff_add_edit_note_description']      = 'Note description';
 $lang['staff_notes_table_description_heading'] = 'Note';
 $lang['staff_notes_table_addedfrom_heading']   = 'Added From';
@@ -663,12 +685,12 @@ $lang['staff_notes_table_dateadded_heading']   = 'Date Added';
 $lang['staff_admin_profile']         = 'This is admin profile';
 $lang['staff_profile_notifications'] = 'Notifications';
 $lang['staff_profile_departments']   = 'Departments';
-$lang['staff_edit_profile_image']                     = 'Profile Image';
+$lang['staff_edit_profile_image']                     = 'ΕΙΚΟΝΑ ΠΡΟΦΙΛ';
 $lang['staff_edit_profile_your_departments']          = 'Departments';
-$lang['staff_edit_profile_change_your_password']      = 'Change your password';
-$lang['staff_edit_profile_change_old_password']       = 'Old password';
-$lang['staff_edit_profile_change_new_password']       = 'New password';
-$lang['staff_edit_profile_change_repeat_new_password'] = 'Repeat new password';
+$lang['staff_edit_profile_change_your_password']      = 'ΑΛΛΑΓΗ ΚΩΔΙΚΟΥ ΠΡΟΣΒΑΣΗΣ';
+$lang['staff_edit_profile_change_old_password']       = 'ΠΑΛΑΙΟΣ ΚΩΔΙΚΟΣ';
+$lang['staff_edit_profile_change_new_password']       = 'ΝΕΟΣ ΚΩΔΙΚΟΣ';
+$lang['staff_edit_profile_change_repeat_new_password'] = 'ΕΠΑΝΑΛΗΨΗ ΝΕΟΥ ΚΩΔΙΚΟΥ';
 
 # Surveys
 $lang['new_survey']                    = 'New Survey';
@@ -721,8 +743,8 @@ $lang['survey_text_questions_results'] = 'Text questions result';
 $lang['survey_view_all_answers']       = 'View all answers';
 
 # Staff Tasks
-$lang['new_task']       = 'New Task';
-$lang['tasks']          = 'Tasks';
+$lang['new_task']       = 'ΝΕΑ ΕΡΓΑΣΙΑ';
+$lang['tasks']          = 'ΕΡΓΑΣΙΕΣ';
 $lang['task']           = 'Task';
 $lang['task_lowercase'] = 'task';
 $lang['comment_string'] = 'Comment';
@@ -733,11 +755,11 @@ $lang['task_no_assignees'] = 'No assignees for this task';
 $lang['task_no_followers'] = 'No followers for this task';
 $lang['task_list_all']            = 'All';
 $lang['task_list_not_assigned']   = 'Not Assigned';
-$lang['task_list_duedate_passed'] = 'Due Date Passed';
-$lang['tasks_dt_name']            = 'Name';
+$lang['task_list_duedate_passed'] = 'ΗΜΕΡ. ΛΗΞΗΣ Passed';
+$lang['tasks_dt_name']            = 'ΤΙΤΛΟΣ';
 $lang['task_single_priority']               = 'Priority';
-$lang['task_single_start_date']             = 'Start Date';
-$lang['task_single_due_date']               = 'Due Date';
+$lang['task_single_start_date']             = 'ΗΜΕΡ. ΕΝΑΡΞΗΣ';
+$lang['task_single_due_date']               = 'ΗΜΕΡ. ΛΗΞΗΣ';
 $lang['task_single_finished']               = 'Finished';
 $lang['task_single_mark_as_complete']       = 'Mark as complete';
 $lang['task_single_edit']                   = 'Edit';
@@ -753,9 +775,9 @@ $lang['task_priority_low']         = 'Low';
 $lang['task_priority_medium']      = 'Medium';
 $lang['task_priority_high']        = 'High';
 $lang['task_priority_urgent']      = 'Urgent';
-$lang['task_add_edit_start_date']  = 'Start Date';
-$lang['task_add_edit_due_date']    = 'Due Date';
-$lang['task_add_edit_description'] = 'Task Description';
+$lang['task_add_edit_start_date']  = 'ΗΜΕΡ. ΕΝΑΡΞΗΣ';
+$lang['task_add_edit_due_date']    = 'ΗΜΕΡ. ΛΗΞΗΣ';
+$lang['task_add_edit_description'] = 'ΠΕΡΙΓΡΑΦΗ';
 
 # Taxes
 $lang['new_tax']       = 'New Tax';
@@ -801,7 +823,7 @@ $lang['utility_activity_log_dt_description']        = 'Description';
 $lang['utility_activity_log_dt_date']               = 'Date';
 $lang['utility_activity_log_dt_staff']              = 'Staff';
 $lang['utility_calendar_new_event_title']           = 'Add new event';
-$lang['utility_calendar_new_event_start_date']      = 'Start Date';
+$lang['utility_calendar_new_event_start_date']      = 'ΗΜΕΡ. ΕΝΑΡΞΗΣ';
 $lang['utility_calendar_new_event_end_date']        = 'End Date';
 $lang['utility_calendar_new_event_make_public']     = 'Public Event';
 $lang['utility_calendar_event_added_successfully']   = 'New event added successfully';
@@ -809,10 +831,12 @@ $lang['utility_calendar_event_deleted_successfully'] = 'Event deleted';
 $lang['utility_calendar_new_event_placeholder']     = 'Event title';
 
 # Navigation
-$lang['nav_notifications']          = 'Notifications';
+//$lang['nav_notifications']          = 'Notifications';
+$lang['nav_notifications']          = 'Ειδοποιήσεις';
+
 $lang['nav_my_profile']             = 'My Profile';
-$lang['nav_edit_profile']           = 'Edit Profile';
-$lang['nav_logout']                 = 'Logout';
+$lang['nav_edit_profile']           = 'ΕΠΕΞΕΡΓΑΣΙΑ ΠΡΟΦΙΛ';
+$lang['nav_logout']                 = 'ΑΠΟΣΥΝΔΕΣΗ';
 $lang['nav_no_notifications']       = 'No notifications found';
 $lang['nav_view_all_notifications'] = 'View all notifications';
 $lang['nav_notifications_tooltip']  = 'View Notifications';
@@ -823,7 +847,7 @@ $lang['clients_copyright'] = 'Copyright %s';
 # Contracts
 $lang['clients_contracts']               = 'Contracts';
 $lang['clients_contracts_dt_subject']    = 'Subject';
-$lang['clients_contracts_dt_start_date'] = 'Start Date';
+$lang['clients_contracts_dt_start_date'] = 'ΗΜΕΡ. ΕΝΑΡΞΗΣ';
 $lang['clients_contracts_dt_end_date']   = 'End Date';
 
 # Home
@@ -835,7 +859,7 @@ $lang['clients_invoice_html_btn_download'] = 'Download';
 $lang['clients_my_invoices']        = 'Invoices';
 $lang['clients_invoice_dt_number']  = 'Invoice #';
 $lang['clients_invoice_dt_date']    = 'Date';
-$lang['clients_invoice_dt_duedate'] = 'Due Date';
+$lang['clients_invoice_dt_duedate'] = 'ΗΜΕΡ. ΛΗΞΗΣ';
 $lang['clients_invoice_dt_amount']  = 'Amount';
 $lang['clients_invoice_dt_status']  = 'Status';
 
@@ -1010,7 +1034,10 @@ $lang['invoice_html_amount']                     = 'Amount';
 # Version 1.0.2
 # DataTables
 $lang['dt_button_column_visibility']  = 'Visibility';
-$lang['dt_button_reload']             = 'Reload';
+
+//$lang['dt_button_reload']             = 'Reload';
+$lang['dt_button_reload']             = 'ΕΠΑΝΑΦΟΡΤΩΣΗ';
+
 $lang['dt_button_excel']              = 'Excel';
 $lang['dt_button_csv']                = 'CSV';
 $lang['dt_button_pdf']                = 'PDF';
@@ -1077,7 +1104,7 @@ $lang['settings_sales_heading_estimates']                           = 'Estimates
 $lang['settings_sales_cron_invoice_heading']                        = 'Invoice';
 
 # Tasks
-$lang['tasks_dt_datestart'] = 'Start Date';
+$lang['tasks_dt_datestart'] = 'ΗΜΕΡ. ΕΝΑΡΞΗΣ';
 
 # Invoice General
 $lang['invoice_discount'] = 'Discount';
@@ -1089,18 +1116,18 @@ $lang['settings_estimate_auto_convert_to_invoice_on_client_accept']   = 'Auto co
 $lang['settings_exclude_estimate_from_client_area_with_draft_status'] = 'Exclude estimates with draft status from contactc area';
 
 # Months
-$lang['January']   = 'January';
-$lang['February']  = 'February';
-$lang['March']     = 'March';
-$lang['April']     = 'April';
-$lang['May']       = 'May';
-$lang['June']      = 'June';
-$lang['July']      = 'July';
-$lang['August']    = 'August';
-$lang['September'] = 'September';
-$lang['October']   = 'October';
-$lang['November']  = 'November';
-$lang['December']  = 'December';
+$lang['January']   = 'ΙΑΝΟΥΑΡΙΟΣ';
+$lang['February']  = 'ΦΕΒΡΟΥΑΡΙΟΣ';
+$lang['March']     = 'ΜΑΡΤΙΟΣ';
+$lang['April']     = 'ΑΠΡΙΛΙΟΣ';
+$lang['May']       = 'ΜΑΪΟΣ';
+$lang['June']      = 'ΙΟΥΝΙΟΣ';
+$lang['July']      = 'ΙΟΥΛΙΟΣ';
+$lang['August']    = 'ΑΥΓΟΥΣΤΟΣ';
+$lang['September'] = 'ΣΕΠΤΕΜΒΡΙΟΣ';
+$lang['October']   = 'ΟΚΤΩΒΡΙΟΣ';
+$lang['November']  = 'ΝΟΕΜΒΡΙΟΣ';
+$lang['December']  = 'ΔΕΚΕΜΒΡΙΟΣ';
 
 # Time ago function translate
 $lang['time_ago_just_now']  = 'Just now';
@@ -1126,7 +1153,7 @@ $lang['view_estimate']                      = 'View estimate';
 $lang['estimate_sent_to_client_success']    = 'The estimate is sent successfully to the client';
 $lang['estimate_sent_to_client_fail']       = 'Problem while sending the estimate';
 $lang['estimate_view']                      = 'View estimate';
-$lang['estimate_select_customer']           = 'Contact';
+$lang['estimate_select_customer']           = 'ΠΕΛΑΤΗΣ';
 $lang['estimate_add_edit_number']           = 'Estimate Number';
 $lang['estimate_add_edit_date']             = 'Estimate Date';
 $lang['estimate_add_edit_expirydate']       = 'Expiry Date';
@@ -1148,7 +1175,7 @@ $lang['estimate_send_to_client_attach_pdf']       = 'Attach estimate PDF';
 $lang['estimate_send_to_client_preview_template'] = 'Preview Email Template';
 $lang['estimate_dt_table_heading_number']     = 'Estimate #';
 $lang['estimate_dt_table_heading_date']       = 'Date';
-$lang['estimate_dt_table_heading_client']     = 'Contact';
+$lang['estimate_dt_table_heading_client']     = 'ΠΕΛΑΤΗΣ';
 $lang['estimate_dt_table_heading_expirydate'] = 'Expiry Date';
 $lang['estimate_dt_table_heading_amount']     = 'Amount';
 $lang['estimate_dt_table_heading_status']     = 'Status';
@@ -1193,7 +1220,8 @@ $lang['clients_estimate_invoiced_successfully']  = 'Thank you for accepting the 
 $lang['clients_estimate_accepted_not_invoiced'] = 'Thank you for accepting this estimate';
 $lang['clients_estimate_declined']              = 'Estimate declined. You can accept the estimate any time before expiry date';
 $lang['clients_estimate_failed_action']         = 'Failed to take action on this estimate';
-$lang['client_add_edit_profile']                = 'Profile';
+//$lang['client_add_edit_profile']                = 'Profile';
+$lang['client_add_edit_profile']                = 'ΣΤΟΙΧΕΙΑ';
 
 # Custom Fields
 $lang['custom_field']                          = 'Custom field';
@@ -1314,8 +1342,8 @@ $lang['contract_renewal_deleted']             = 'Renewal successfully deleted';
 $lang['contract_renewal_delete_fail']         = 'Failed to delete contract renewal. Contact administrator';
 $lang['contract_renewal_new_value'] = 'New Contract Value: %s';
 $lang['contract_renewal_old_value'] = 'Old Contract Value: %s';
-$lang['contract_renewal_new_start_date'] = 'New Start Date: %s';
-$lang['contract_renewal_old_start_date'] = 'Old Contract Start Date was: %s';
+$lang['contract_renewal_new_start_date'] = 'New ΗΜΕΡ. ΕΝΑΡΞΗΣ: %s';
+$lang['contract_renewal_old_start_date'] = 'Old Contract ΗΜΕΡ. ΕΝΑΡΞΗΣ was: %s';
 $lang['contract_renewal_new_end_date'] = 'New End Date: %s';
 $lang['contract_renewal_old_end_date'] = 'Old Contract End Date was: %s';
 $lang['contract_attachment']           = 'Attachment';
@@ -1338,7 +1366,7 @@ $lang['goal']                                          = 'Goal';
 $lang['goals_tracking']                                = 'Goals Tracking';
 $lang['new_goal']                                      = 'New Goal';
 $lang['goal_lowercase']                                = 'goal';
-$lang['goal_start_date']                               = 'Start Date';
+$lang['goal_start_date']                               = 'ΗΜΕΡ. ΕΝΑΡΞΗΣ';
 $lang['goal_end_date']                                 = 'End Date';
 $lang['goal_subject']                                  = 'Subject';
 $lang['goal_description']                              = 'Description';
@@ -1390,7 +1418,7 @@ $lang['dt_expense_description']                                      = 'Descript
 $lang['expense']                                                     = 'Expense';
 $lang['expenses']                                                    = 'Expenses';
 $lang['expense_lowercase']                                           = 'expense';
-$lang['expense_add_edit_customer']                                   = 'Contact';
+$lang['expense_add_edit_customer']                                   = 'ΠΕΛΑΤΗΣ';
 $lang['expense_add_edit_note']                                       = 'Note';
 $lang['expense_add_edit_date']                                       = 'Expense Date';
 $lang['expense_add_edit_amount']                                     = 'Amount';
@@ -1403,7 +1431,7 @@ $lang['expense_dt_table_heading_category']                           = 'Category
 $lang['expense_dt_table_heading_amount']                             = 'Amount';
 $lang['expense_dt_table_heading_date']                               = 'Date';
 $lang['expense_dt_table_heading_reference_no']                       = 'Reference #';
-$lang['expense_dt_table_heading_customer']                           = 'Contact';
+$lang['expense_dt_table_heading_customer']                           = 'ΠΕΛΑΤΗΣ';
 $lang['expense_dt_table_heading_payment_mode']                       = 'Payment Mode';
 $lang['expense_converted_to_invoice']                                = 'Expense successfully converted to invoice';
 $lang['expense_converted_to_invoice_fail']                           = 'Failed to convert this expense to invoice check error log.';
@@ -1423,7 +1451,7 @@ $lang['expense_copy']                                                = 'Copy';
 $lang['expense_invoice_not_created']                                 = 'Invoice Not Created';
 $lang['expense_billed']                                              = 'Billed';
 $lang['expense_not_billed']                                          = 'Invoice Not Paid';
-$lang['expense_customer']                                            = 'Contact';
+$lang['expense_customer']                                            = 'ΠΕΛΑΤΗΣ';
 $lang['expense_note']                                                = 'Note:';
 $lang['expense_date']                                                = 'Date:';
 $lang['expense_ref_noe']                                             = 'Ref #:';
@@ -1497,7 +1525,7 @@ $lang['is_invoiced_estimate_delete_error'] = 'This estimate is invoiced. You can
 
 # Customers & Invoices / Estimates
 $lang['ship_to']                  = 'Ship to';
-$lang['customer_profile_details'] = 'Contact Details';
+$lang['customer_profile_details'] = 'ΣΤΟΙΧΕΙΑ ΠΕΛΑΤΗ';
 $lang['billing_shipping']         = 'Billing & Shipping';
 $lang['billing_address']          = 'Billing Address';
 $lang['shipping_address']         = 'Shipping Address';
@@ -1522,12 +1550,12 @@ $lang['customer_attachments_file']                             = 'File';
 $lang['client_send_set_password_email']                        = 'Send SET password email';
 $lang['customer_billing_same_as_profile']                      = 'Same as contact Info';
 $lang['customer_billing_copy']                                 = 'Copy Billing Address';
-$lang['customer_map']                                          = 'Map';
+$lang['customer_map']                                          = 'ΧΑΡΤΗΣ';
 $lang['set_password_email_sent_to_client']                     = 'Email to set password is successfully sent to contact';
 $lang['set_password_email_sent_to_client_and_profile_updated'] = 'Profile updated and email to set password is successfully sent to contact';
 $lang['customer_attachments']                                  = 'Files';
-$lang['customer_longitude']                                    = 'Longitude (Google Maps)';
-$lang['customer_latitude']                                     = 'Latitude (Google Maps)';
+$lang['customer_longitude']                                    = 'ΓΕΩΓΡΑΦΙΚΟ ΜΗΚΟΣ';
+$lang['customer_latitude']                                     = 'ΓΕΩΓΡΑΦΙΚΟ ΠΛΑΤΟΣ';
 
 # Authentication
 $lang['admin_auth_set_password']          = 'Password';
@@ -1605,7 +1633,7 @@ $lang['show_customer_reminders_on_calendar'] = 'Contact Reminders';
 $lang['copy_custom_fields_convert_to_customer']                      = 'Copy custom fields to contact profile';
 $lang['copy_custom_fields_convert_to_customer_help']                 = 'If any of the following custom fields do not exists for customer will be auto created with the same name otherwise only the value will be copied from the lead profile.';
 $lang['lead_profile']                                                = 'Profile';
-$lang['lead_is_client']                                              = 'Contact';
+$lang['lead_is_client']                                              = 'ΠΕΛΑΤΗΣ';
 $lang['leads_email_integration_folder_no_encryption']                = 'No Encryption';
 $lang['leads_email_integration']                                     = 'Email Integration';
 $lang['leads_email_active']                                          = 'Active';
@@ -1673,7 +1701,9 @@ $lang['more']                  = 'More';
 $lang['add_item']              = 'Add Item';
 $lang['goto_admin_area']       = 'Go to admin area';
 $lang['delete']                = 'Delete %s';
-$lang['welcome_top']           = 'Welcome %s';
+//$lang['welcome_top']           = 'Welcome %s';
+$lang['welcome_top']           = 'ΚΑΛΩΣ ΗΡΘΑΤΕ %s';
+
 
 # Customers
 $lang['customer_permissions']         = 'Permissions';
@@ -1786,7 +1816,7 @@ $lang['proposals_leads_related']                = 'Leads Related';
 $lang['proposals_customers_related']            = 'Contacts Related';
 $lang['proposal_related']                       = 'Related';
 $lang['proposal_for_lead']                      = 'Lead';
-$lang['proposal_for_customer']                  = 'Contact';
+$lang['proposal_for_customer']                  = 'ΠΕΛΑΤΗΣ';
 $lang['proposal']                               = 'Proposal';
 $lang['proposal_lowercase']                     = 'proposal';
 $lang['proposals']                              = 'Proposals';
@@ -1853,27 +1883,26 @@ $lang['task_view_description']                = 'Description';
 
 # Customer Groups
 //$lang['customer_group_add_heading']  = 'Add New Customer Group';
-$lang['customer_group_add_heading']  = 'Add New Region';
-
+$lang['customer_group_add_heading']  = 'ΝΕΑ ΠΕΡΙΟΧΗ';
 
 //$lang['customer_group_edit_heading'] = 'Edit Customer Group';
-$lang['customer_group_edit_heading'] = 'Edit Region';
+$lang['customer_group_edit_heading'] = 'Επεξεργασία περιοχής';
 
 //$lang['new_customer_group']          = 'New Customer Group';
-$lang['new_customer_group']          = 'New Region';
+$lang['new_customer_group']          = 'ΝΕΑ ΠΕΡΙΟΧΗ';
 
-$lang['customer_group_name']         = 'Name';
-$lang['customer_group_color']         = 'Color';
-$lang['customer_group_description']   = 'Description';
+$lang['customer_group_name']         = 'ΠΕΡΙΟΧΗ';
+$lang['customer_group_color']         = 'ΧΡΩΜΑ';
+$lang['customer_group_description']   = 'ΠΕΡΙΓΡΑΦΗ';
 
 //$lang['customer_groups']             = 'Groups';
-$lang['customer_groups']             = 'Region';
+$lang['customer_groups']             = 'ΠΕΡΙΟΧΗ';
 
 //$lang['customer_group']              = 'Customer Group';
-$lang['customer_group']              = 'Region';
+$lang['customer_group']              = 'ΠΕΡΙΟΧΗ';
 
 //$lang['customer_group_lowercase']    = 'customer group';
-$lang['customer_group_lowercase']    = 'region';
+$lang['customer_group_lowercase']    = 'ΠΕΡΙΟΧΗ';
 
 
 $lang['customer_have_invoices_by']       = 'Contains invoices by status %s';
@@ -1990,7 +2019,7 @@ $lang['not_estimate_status_updated'] = 'Estimate Status Updated: From: %s to %s'
 $lang['not_goal_message_success'] = 'Congratulations! We achieved new goal.<br /> Goal Type: %s
 <br />Goal Achievement: %s
 <br />Total Achievement: %s
-<br />Start Date: %s
+<br />ΗΜΕΡ. ΕΝΑΡΞΗΣ: %s
 <br />End Date: %s';
 $lang['not_assigned_lead_to_you'] = 'assigned lead %s to you';
 $lang['not_lead_activity_assigned_to'] = '%s assigned to %s';
@@ -2054,7 +2083,8 @@ $lang['invoice_activity_payment_made_by_staff'] = 'recorded payment from total <
 $lang['invoice_activity_added_attachment'] = 'Added attachment';
 
 # Navigation
-$lang['top_search_placeholder'] = 'Search...';
+//$lang['top_search_placeholder'] = 'Search...';
+$lang['top_search_placeholder'] = 'Αναζήτηση…';
 
 # Staff
 $lang['staff_profile_inactive_account'] = 'This staff member account is inactive';
@@ -2095,9 +2125,9 @@ $lang['settings_show_tax_per_item'] = 'Show TAX per item';
 # Reports
 $lang['report_sales_months_three_months'] = 'Last 3 months';
 $lang['report_invoice_number'] = 'Invoice #';
-$lang['report_invoice_customer'] = 'Contact';
+$lang['report_invoice_customer'] = 'ΠΕΛΑΤΗΣ';
 $lang['report_invoice_date'] = 'Date';
-$lang['report_invoice_duedate'] = 'Due Date';
+$lang['report_invoice_duedate'] = 'ΗΜΕΡ. ΛΗΞΗΣ';
 $lang['report_invoice_amount'] = 'Amount';
 $lang['report_invoice_amount_with_tax'] = 'Amount with tax';
 $lang['report_invoice_amount_open'] = 'Amount open';
@@ -2138,8 +2168,11 @@ $lang['zip_estimates'] = 'Zip Estimates';
 $lang['zip_payments'] = 'Zip Payments';
 $lang['setup_help'] = 'Help';
 $lang['clients_list_company'] = 'Company';
-$lang['dt_button_export'] = 'Export';
+
+//$lang['dt_button_export'] = 'Export';
+$lang['dt_button_export'] = 'ΕΞΑΓΩΓΗ';
 $lang['dt_entries'] = 'entries';
+
 $lang['invoice_total_paid'] = 'Total Paid';
 $lang['invoice_amount_due'] = 'Amount Due';
 
@@ -2154,7 +2187,7 @@ $lang['leads_sort_by_lastcontact'] = 'Last Contact';
 
 # Tasks
 $lang['task_comment_added'] = 'Comment successfully added';
-$lang['task_duedate'] = 'Due Date';
+$lang['task_duedate'] = 'ΗΜΕΡ. ΛΗΞΗΣ';
 $lang['task_view_comments'] = 'Comments';
 $lang['task_comment_updated'] = 'Comment updated';
 $lang['task_visible_to_client'] = 'Visible to contact';
@@ -2192,7 +2225,7 @@ $lang['invoice_estimate_sent_to_email'] = 'Email to';
 $lang['estimate_table_hours_heading'] = 'Hours';
 
 # General
-$lang['is_customer_indicator'] = 'Contact';
+$lang['is_customer_indicator'] = 'ΠΕΛΑΤΗΣ';
 $lang['print']            = 'Print';
 $lang['customer_permission_projects']            = 'Projects';
 $lang['no_timers_found']            = 'No started timers found';
@@ -2237,8 +2270,8 @@ $lang['project_files']            = 'Files';
 $lang['project_activity']            = 'Activity';
 $lang['project_name']            = 'Project Name';
 $lang['project_description']            = 'Description';
-$lang['project_customer']            = 'Contact';
-$lang['project_start_date']            = 'Start Date';
+$lang['project_customer']            = 'ΠΕΛΑΤΗΣ';
+$lang['project_start_date']            = 'ΗΜΕΡ. ΕΝΑΡΞΗΣ';
 $lang['project_datecreated']            = 'Date Created';
 $lang['project_deadline']            = 'Deadline';
 $lang['project_billing_type']            = 'Billing Type';
@@ -2395,7 +2428,7 @@ $lang['task_billed_cant_start_timer'] = 'Task billed. Timer cant be start';
 $lang['invoice_task_billable_timers_found'] = 'Started timers found';
 $lang['project_timesheet_not_updated'] = 'Timesheet not affected';
 $lang['project_invoice_task_no_timers_found'] = 'No timers found for this task';
-$lang['invoice_project_tasks_not_started'] = 'Not yet started | Start Date: %s';
+$lang['invoice_project_tasks_not_started'] = 'Not yet started | ΗΜΕΡ. ΕΝΑΡΞΗΣ: %s';
 $lang['invoice_project_see_billed_tasks'] = 'See tasks that will be billed on this invoice';
 $lang['invoice_project_all_billable_tasks_marked_as_finished'] = 'All billed tasks will be marked as finished';
 $lang['invoice_project_nothing_to_bill'] = 'No tasks to bill. Feel free to add whatever you want in the invoice items.';
@@ -2445,7 +2478,7 @@ $lang['estimate_reminders'] = 'Reminders';
 $lang['invoice_reminders'] = 'Reminders';
 $lang['estimate_notes'] = 'Notes';
 $lang['estimate_add_note'] = 'Add Note';
-$lang['dropdown_non_selected_tex'] = 'Nothing selected';
+$lang['dropdown_non_selected_tex'] = 'ΔΕΝ ΕΧΕΙ ΕΠΙΛΕΓΕΙ ΤΙΠΟΤΑ';
 $lang['auto_close_ticket_after'] = 'Auto close ticket after (Hours)';
 $lang['event_description'] = 'Description';
 $lang['delete_event'] = 'Delete';
@@ -2455,7 +2488,7 @@ $lang['receive_notification_on_new_ticket_help'] = 'All staff members which belo
 $lang['event_updated'] = 'Event updated successfully';
 $lang['customer_contacts'] = 'Contacts';
 $lang['new_contact'] = 'New Contact';
-$lang['contact'] = 'Contact';
+$lang['contact'] = 'ΠΕΛΑΤΗΣ';
 $lang['contact_lowercase'] = 'contact';
 $lang['contact_primary'] = 'Primary Contact';
 $lang['contact_position'] = 'Position';
@@ -2499,7 +2532,7 @@ $lang['file_failed_to_write_to_disk'] = 'Failed to write file to disk.';
 $lang['file_php_extension_blocked'] = 'A PHP extension stopped the file upload.';
 $lang['calendar_expand'] = 'expand';
 $lang['view_pdf'] = 'View PDF';
-$lang['expense_repeat_every'] = 'Repeat every';
+$lang['expense_repeat_every'] = 'ΕΠΑΝΑΛΗΨΗ ΚΑΘΕ';
 
 # Version 1.1.2
 $lang['leads_switch_to_kanban'] = 'Switch to kan ban';
@@ -2562,7 +2595,10 @@ $lang['expense_paid_via'] = 'Paid Via %s';
 $lang['item_as_expense'] = '[Expense]';
 $lang['show_help_on_setup_menu'] = 'Show help menu item on setup menu';
 $lang['customers_summary_total'] = 'Total Contacts';
-$lang['filter_by'] = 'Filter by';
+
+//$lang['filter_by'] = 'Filter by';
+$lang['filter_by'] = 'Ταξινόμηση ανα';
+
 $lang['re_captcha'] = 'reCAPTCHA';
 $lang['recaptcha_site_key'] = 'Site key';
 $lang['recaptcha_secret_key'] = 'Secret key';
@@ -2646,7 +2682,7 @@ $lang['default_pipeline_sort'] = 'Default pipeline sort';
 $lang['not_goal_message_failed'] = 'We failed to achieve goal!<br /> Goal Type: %s
 <br />Goal Achievement: %s
 <br />Total Achievement: %s
-<br />Start Date: %s
+<br />ΗΜΕΡ. ΕΝΑΡΞΗΣ: %s
 <br />End Date: %s';
 $lang['toggle_full_view'] = 'Toggle full view';
 $lang['not_estimate_invoice_deleted'] = 'deleted the created invoice';
@@ -2767,7 +2803,10 @@ $lang['leads_converted_to_client'] = 'Converted Leads';
 $lang['task_assigned_from'] = 'This task is assigned to you by %s';
 $lang['auto_check_for_new_notifications'] = 'Auto check for new notifications (Seconds - Set 0 to disable)';
 $lang['recurring_ends_on'] = 'Ends On (Leave blank for never)';
-$lang['new_note'] = 'New Note';
+
+//$lang['new_note'] = 'New Note';
+$lang['new_note'] = 'ΝΕΑ ΣΗΜΕΙΩΣΗ';
+
 $lang['my_tickets_assigned'] = 'Tickets assigned to me';
 $lang['filter_by_assigned'] = 'By Assigned Member';
 $lang['staff_stats_total_logged_time'] = 'Total Logged Time';
@@ -2923,7 +2962,10 @@ $lang['survey_send_notice'] = 'Emails will be send via CRON JOB per hour.';
 
 # Version 1.2.8
 $lang['show_transactions_on_invoice_pdf'] = 'Show invoice payments (transactions) on PDF';
-$lang['bulk_actions'] = 'Bulk Actions';
+
+//$lang['bulk_actions'] = 'Bulk Actions';
+$lang['bulk_actions'] = 'ΜΑΖΙΚΗ ΕΠΕΞ.';
+
 $lang['additional_filters'] = 'Additional Filters';
 $lang['expenses_available_to_bill'] = 'Expenses available to bill';
 $lang['bulk_action_customers_groups_warning'] = 'If you do not select any group all groups assigned to the selected contacts will be removed.';
@@ -3129,7 +3171,7 @@ $lang['estimate_due_after'] = 'Estimate Due After (days)';
 
 # Version 1.6.0
 $lang['my_timesheets'] = 'My Timesheets';
-$lang['today'] = 'Today';
+$lang['today'] = 'ΣΗΜΕΡΑ';
 $lang['open_in_dropbox'] = 'Open In Dropbox';
 $lang['show_primary_contact'] = 'Show primary contact full name on %s';
 $lang['view_members_timesheets'] = 'View all timesheets';
@@ -3147,7 +3189,7 @@ $lang['tags'] = 'Tags';
 $lang['tag'] = 'Tag';
 $lang['customer_map_notice'] = 'Add longitude and latitude in the contact profile to show the map here';
 $lang['default_view'] = 'Default View';
-$lang['day'] = 'Day';
+$lang['day'] = 'ΗΜΕΡΑ';
 $lang['agenda'] = 'Agenda';
 $lang['timesheet_tags'] = 'Timesheet Tags';
 $lang['show_more'] = 'Show more';
@@ -3312,7 +3354,7 @@ $lang['task_created_at'] = 'Created at %s';
 $lang['hide_notified_reminders_from_calendar'] = 'Hide notified reminders from calendar';
 $lang['last_active'] = 'Last Active';
 $lang['open_ticket'] = 'Open Ticket';
-$lang['task_add_description'] = 'Add Description';
+$lang['task_add_description'] = 'ΠΕΡΙΓΡΑΦΗ ΕΡΓΑΣΙΑΣ';
 $lang['project_setting_create_tasks'] = 'create tasks';
 $lang['project_setting_edit_tasks'] = 'edit tasks (only tasks created from contact)';
 

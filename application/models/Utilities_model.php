@@ -398,7 +398,7 @@ class Utilities_model extends CRM_Model
     {
         $list = "";
         $list .= "<select name='remind' id='remind' class='selectpicker' data-width='100%'";
-        $list .= "<option value='0' selected>Please select</option>";
+        $list .= "<option value='0' selected>ΕΠΙΛΕΞΤΕ</option>";
 
         $query = "select * from tblcustomfields where id=12";
         $result = $this->db->query($query);
@@ -424,7 +424,7 @@ class Utilities_model extends CRM_Model
             } // end foreach
         } // end if $taskid > 0
         else {
-            $list .= "<option value='0' selected>Please select</option>";
+            $list .= "<option value='0' selected>ΕΠΙΛΕΞΤΕ</option>";
             foreach ($optionsArr as $item) {
                 $list .= "<option value='$item'>$item</option>";
             } // end foreach

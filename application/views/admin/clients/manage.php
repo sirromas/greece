@@ -269,7 +269,7 @@ $roleid=$_SESSION['roleid'];
                            <?php
                            $table_data = array();
                            $_table_data = array(
-                            'Name',
+                            'ΟΝΟΜΑΤΕΠΩΝΥΜΟ',
                             //_l('contact_primary'),
                             //_l('company_primary_email'),
                             //_l('clients_list_phone'),
@@ -283,7 +283,7 @@ $roleid=$_SESSION['roleid'];
                                array_push($table_data,$_t);
                            } // end foreach
 
-                        $prohibited_fields=array('Building','Apartment','Floor');
+                        $prohibited_fields=array('ΚΤΗΡΙΟ','ΔΙΑΜΕΡΙΣΜΑ','ΟΡΟΦΟΣ');
                         $custom_fields = get_custom_fields('customers',array('show_on_table'=>1));
                         foreach($custom_fields as $field){
                             if (!in_array($field['name'], $prohibited_fields)) {

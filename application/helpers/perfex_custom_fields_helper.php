@@ -210,7 +210,7 @@ function render_custom_fields($belongs_to, $rel_id = false, $where = array())
 }
 
 
-function get_profile_custom_fields($groups, $customer_groups)
+function get_profile_custom_fields($groups, $customer_groups, $zip_value)
 {
     $list = "";
 
@@ -223,8 +223,8 @@ function get_profile_custom_fields($groups, $customer_groups)
 
     $list .= "<div class='col-md-6'>
            <div class='form-group' app-field-wrapper='zip'>
-           <label for='zip' class='control-label'>Zip Code</label>
-           <input type='text' id='zip' name='zip' class='form-control' value='7457476' aria-invalid='false'>
+           <label for='zip' class='control-label'>Τ.Κ.</label>
+           <input type='text' id='zip' name='zip' class='form-control' value='$zip_value' aria-invalid='false'>
            </div>
            </div>";
 
@@ -236,7 +236,7 @@ function get_profile_custom_fields($groups, $customer_groups)
 }
 
 
-function render_custom_fields2($belongs_to, $rel_id = false, $where = array(), $groups, $customer_groups)
+function render_custom_fields2($belongs_to, $rel_id = false, $where = array(), $groups, $customer_groups, $zip_value)
 {
 
     $CI =& get_instance();
@@ -263,8 +263,8 @@ function render_custom_fields2($belongs_to, $rel_id = false, $where = array(), $
             echo "</pre><br>";
             */
 
-            if ($field['name'] == 'Building') {
-                $fields_html .= get_profile_custom_fields($groups, $customer_groups);
+            if ($field['name'] == 'ΚΤΗΡΙΟ') {
+                $fields_html .= get_profile_custom_fields($groups, $customer_groups, $zip_value);
             }
 
             $field['name'] = _l('cf_translate_' . $field['slug'], '', false) != 'cf_translate_' . $field['slug'] ? _l('cf_translate_' . $field['slug'], '', false) : $field['name'];

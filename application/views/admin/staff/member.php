@@ -48,11 +48,13 @@
                </ul>
                <div class="tab-content">
                   <div role="tabpanel" class="tab-pane active" id="tab_staff_profile">
-                     <div class="checkbox checkbox-primary">
+                     <!--
+                      <div class="checkbox checkbox-primary">
                         <input type="checkbox" value="1" name="two_factor_auth_enabled" id="two_factor_auth_enabled"<?php if(isset($member) && $member->two_factor_auth_enabled == 1){echo ' checked';} ?>>
                         <label for="two_factor_auth_enabled"><i class="fa fa-question-circle" data-toggle="tooltip" data-title="<?php echo _l('two_factor_authentication_info'); ?>"></i>
                         <?php echo _l('enable_two_factor_authentication'); ?></label>
                      </div>
+
                      <div class="is-not-staff<?php if(isset($member) && $member->admin == 1){ echo ' hide'; }?>">
                         <div class="checkbox checkbox-primary">
                            <?php
@@ -68,6 +70,7 @@
                         </div>
                         <hr />
                      </div>
+                     -->
                      <?php if((isset($member) && $member->profile_image == NULL) || !isset($member)){ ?>
                      <div class="form-group">
                         <label for="profile_image" class="profile-image"><?php echo _l('staff_edit_profile_image'); ?></label>
@@ -93,7 +96,9 @@
                      <?php echo render_input('lastname','staff_add_edit_lastname',$value); ?>
                      <?php $value = (isset($member) ? $member->email : ''); ?>
                      <?php echo render_input('email','staff_add_edit_email',$value,'email',array('autocomplete'=>'off')); ?>
-                     <div class="form-group">
+
+                      <!--
+                      <div class="form-group">
                         <label for="hourly_rate"><?php echo _l('staff_hourly_rate'); ?></label>
                         <div class="input-group">
                            <input type="number" name="hourly_rate" value="<?php if(isset($member)){echo $member->hourly_rate;} else {echo 0;} ?>" id="hourly_rate" class="form-control">
@@ -102,9 +107,13 @@
                            </span>
                         </div>
                      </div>
+                      -->
+
                      <?php $value = (isset($member) ? $member->phonenumber : ''); ?>
                      <?php echo render_input('phonenumber','staff_add_edit_phonenumber',$value); ?>
-                     <div class="form-group">
+
+                      <!--
+                      <div class="form-group">
                         <label for="facebook" class="control-label"><i class="fa fa-facebook"></i> <?php echo _l('staff_add_edit_facebook'); ?></label>
                         <input type="text" class="form-control" name="facebook" value="<?php if(isset($member)){echo $member->facebook;} ?>">
                      </div>
@@ -133,11 +142,13 @@
                            <?php } ?>
                         </select>
                      </div>
+                      -->
                      <?php } ?>
                      <i class="fa fa-question-circle" data-toggle="tooltip" data-title="<?php echo _l('staff_email_signature_help'); ?>"></i>
                      <?php $value = (isset($member) ? $member->email_signature : ''); ?>
                      <?php echo render_textarea('email_signature','settings_email_signature',$value); ?>
-                     <div class="form-group">
+                      <!--
+                      <div class="form-group">
                         <label for="direction"><?php echo _l('document_direction'); ?></label>
                         <select class="selectpicker" data-none-selected-text="<?php echo _l('system_default_string'); ?>" data-width="100%" name="direction" id="direction">
                            <option value="" <?php if(isset($member) && empty($member->direction)){echo 'selected';} ?>></option>
@@ -145,6 +156,8 @@
                            <option value="rtl" <?php if(isset($member) && $member->direction == 'rtl'){echo 'selected';} ?>>RTL</option>
                         </select>
                      </div>
+                      -->
+
                      <div class="form-group">
                         <?php if(count($departments) > 0){ ?>
                         <label for="departments"><?php echo _l('staff_add_edit_departments'); ?></label>

@@ -4,7 +4,7 @@ $table_data = array(
     _l('tasks_dt_name'),
     _l('tasks_dt_datestart'),
     _l('task_duedate'),
-    _l('Contact'),
+    ΠΕΛΑΤΗΣ
    // _l('tasks_list_priority'),
    // _l('task_status')
     );
