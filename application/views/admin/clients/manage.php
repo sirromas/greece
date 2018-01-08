@@ -318,7 +318,7 @@ $roleid=$_SESSION['roleid'];
         CustomersServerParams['exclude_inactive'] = '[name="exclude_inactive"]:checked';
 
         var headers_clients = $('.table-clients').find('th');
-        var not_sortable_clients = (headers_clients.length - 1);
+        var not_sortable_clients = (headers_clients.length - 2);
         var tAPI = initDataTable('.table-clients', admin_url + 'clients/table', [not_sortable_clients, 0], [not_sortable_clients, 0], CustomersServerParams,<?php echo do_action('customers_table_default_order', json_encode(array(2, 'ASC'))); ?>);
         $('input[name="exclude_inactive"]').on('change', function () {
             tAPI.ajax.reload();

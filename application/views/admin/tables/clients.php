@@ -225,6 +225,13 @@ foreach ($rResult as $aRow) {
 
     $prohibited_columns=array('cvalue_4','cvalue_5','cvalue_6');
 
+    /*
+    echo "<pre>";
+    print_r($customFieldsColumns);
+    echo "</pre><br>";
+    */
+
+
     // Custom fields add values
     foreach($customFieldsColumns as $customFieldColumn){
 
